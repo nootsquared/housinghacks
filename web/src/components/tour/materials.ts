@@ -18,7 +18,7 @@ function hash(str: string) {
   return h >>> 0
 }
 
-function shade(hex: string, k: number) {
+export function shade(hex: string, k: number) {
   const c = new THREE.Color(hex)
   const hsl = { h: 0, s: 0, l: 0 }
   c.getHSL(hsl)
@@ -94,4 +94,31 @@ export function floorTexture(material: string, color: string, accent?: string) {
 
 export function fabricTint(hex: string, k = 1) {
   return shade(hex, k)
+}
+
+let ring: THREE.CanvasTexture | null = null
+
+export function ringTexture() {
+  if (ring) return ring
+  const size = 256
+  const cv = document.createElement("canvas")
+  cv.width = cv.height = size
+  const g = cv.getContext("2d")!
+  const c = size / 2
+  const halo = g.createRadialGradient(c, c, c * 0.55, c, c, c)
+  halo.addColorStop(0, "rgba(0,0,0,0.16)")
+  halo.addColorStop(1, "rgba(0,0,0,0)")
+  g.fillStyle = halo
+  g.fillRect(0, 0, size, size)
+  g.beginPath()
+  g.arc(c, c, c * 0.62, 0, Math.PI * 2)
+  g.fillStyle = "rgba(255,255,255,0.22)"
+  g.fill()
+  g.lineWidth = c * 0.09
+  g.strokeStyle = "rgba(255,255,255,0.95)"
+  g.stroke()
+  ring = new THREE.CanvasTexture(cv)
+  ring.colorSpace = THREE.SRGBColorSpace
+  ring.anisotropy = 8
+  return ring
 }

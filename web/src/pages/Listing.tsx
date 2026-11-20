@@ -17,6 +17,7 @@ export default function ListingPage() {
   const { data: scene } = useScene(id, listing?.tour === "generated")
   const [mode, setMode] = useState<TourMode>("dollhouse")
   const [current, setCurrent] = useState(0)
+  const [atPhoto, setAtPhoto] = useState(true)
   const views = useMemo(() => {
     if (!scene) return []
     const ok = new Set(scene.rooms.filter((r) => r.model || r.mesh).map((r) => r.id))
@@ -26,19 +27,23 @@ export default function ListingPage() {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (!views.length || mode !== "walk") return
-      if (e.key === "ArrowRight") setCurrent((c) => (c + 1) % views.length)
-      if (e.key === "ArrowLeft") setCurrent((c) => (c - 1 + views.length) % views.length)
+      const step = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0
+      if (step) {
+        setCurrent((c) => (atPhoto ? (c + step + views.length) % views.length : c))
+        setAtPhoto(true)
+      }
       if (e.key === "Escape") setMode("dollhouse")
     }
     window.addEventListener("keydown", onKey)
     return () => window.removeEventListener("keydown", onKey)
-  }, [views, mode])
+  }, [views, mode, atPhoto])
 
   if (loading) return null
   if (!listing) return <NotFound />
 
   const go = (i: number) => {
     setCurrent(i)
+    setAtPhoto(true)
     setMode("walk")
   }
 
@@ -54,7 +59,19 @@ export default function ListingPage() {
           />
         )}
         {listing.tour === "generated" && scene && (
-          <Tour scene={scene} views={views} mode={mode} current={current} onSelectView={go} />
+          <Tour
+            scene={scene}
+            views={views}
+            mode={mode}
+            current={current}
+            atPhoto={atPhoto}
+            onSelectView={go}
+            onFreeMove={() => setAtPhoto(false)}
+            onEnterWalk={() => {
+              setAtPhoto(false)
+              setMode("walk")
+            }}
+          />
         )}
         {listing.tour === "insufficient" && <Insufficient listing={listing} />}
 
@@ -71,7 +88,11 @@ export default function ListingPage() {
               size="sm"
               variant="outline"
               value={mode}
-              onValueChange={(v) => v && setMode(v as TourMode)}
+              onValueChange={(v) => {
+                if (!v) return
+                if (v === "walk") setAtPhoto(true)
+                setMode(v as TourMode)
+              }}
               className="pointer-events-auto bg-card/95 backdrop-blur"
             >
               <ToggleGroupItem value="dollhouse">Overview</ToggleGroupItem>
@@ -82,8 +103,8 @@ export default function ListingPage() {
 
         {listing.tour === "generated" && scene && (
           <>
-            <ViewStrip id={listing.id} views={views} current={mode === "walk" ? current : -1} onSelect={go} />
-            {mode === "walk" && views[current] && <SourcePhoto id={listing.id} view={views[current]} />}
+            <ViewStrip id={listing.id} views={views} current={mode === "walk" && atPhoto ? current : -1} onSelect={go} />
+            {mode === "walk" && atPhoto && views[current] && <SourcePhoto id={listing.id} view={views[current]} />}
           </>
         )}
       </main>
