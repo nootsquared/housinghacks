@@ -111,3 +111,28 @@
     font-variant-numeric: tabular-nums;
     }
 }
+.map-pill {
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--foreground);
+  font: 500 12px/1.2 var(--font-sans);
+  font-variant-numeric: tabular-nums;
+  box-shadow: 0 0 0 1px var(--border), 0 1px 3px oklch(0 0 0 / 0.12);
+  transition: background-color 120ms, color 120ms, transform 120ms;
+  cursor: pointer;
+}
+.map-pill[data-tour="insufficient"] {
+  color: var(--muted-foreground);
+}
+.map-pill:hover,
+.map-pill[data-active] {
+  background: var(--primary);
+  color: var(--primary-foreground);
+  transform: scale(1.06);
+  z-index: 2;
+}
+.maplibregl-ctrl-group {
+  border-radius: var(--radius) !important;
+  box-shadow: 0 0 0 1px var(--border) !important;
+}
