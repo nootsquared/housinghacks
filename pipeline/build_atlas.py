@@ -1,7 +1,7 @@
 """Turn scraped listings and OSM data into what the atlas map loads.
 
-Outputs atlas/public/atlas.json and atlas/public/noise/{day,night,game}.png.
-Run with: uv run --project pipeline python tools/build_atlas.py
+Outputs public/atlas.json and public/noise/{day,night,game}.png.
+Run with: uv run --project pipeline python pipeline/build_atlas.py
 """
 
 import json
@@ -15,9 +15,9 @@ from PIL import Image
 from scipy.signal import fftconvolve
 
 REPO = Path(__file__).resolve().parents[1]
-DATA = REPO / "atlas" / "data"
-PUBLIC = REPO / "atlas" / "public"
-CURATED = REPO / "web" / "public" / "data" / "index.json"
+DATA = REPO / "data"
+PUBLIC = REPO / "public"
+CURATED = REPO / "viewer" / "public" / "data" / "index.json"
 
 S, W, N, E = 42.238, -83.785, 42.320, -83.652
 CELL = 12.0

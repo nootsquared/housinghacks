@@ -1,6 +1,6 @@
 """Pull every Ann Arbor rental from property managers' public AppFolio pages.
 
-Writes atlas/data/listings.json. Only manager-run pages are read, no aggregators.
+Writes data/listings.json. Only manager-run pages are read, no aggregators.
 """
 
 import html
@@ -22,7 +22,7 @@ MANAGERS = {
     "howardhanna": "Howard Hanna",
 }
 
-OUT = Path(__file__).resolve().parents[1] / "atlas" / "data" / "listings.json"
+OUT = Path(__file__).resolve().parents[1] / "data" / "listings.json"
 UA = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"}
 
 

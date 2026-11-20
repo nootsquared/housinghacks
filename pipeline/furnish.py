@@ -24,7 +24,7 @@ from scipy.spatial import cKDTree
 from cutout import detect, matte, square_on_white
 
 ROOT = Path(__file__).resolve().parent.parent
-WEB = ROOT / "web" / "public" / "data"
+WEB = ROOT / "viewer" / "public" / "data"
 WORK = ROOT / "pipeline" / "out"
 SHAPE_PY = ROOT / "pipeline" / "third_party" / "hunyuan3d-mlx" / ".venv" / "bin" / "python"
 

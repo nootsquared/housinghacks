@@ -41,7 +41,7 @@ def plan_sheet(work: Path, sheet: Path):
     plan, rooms = work / "plan.json", work / "rooms_prelayout.json"
     if not plan.exists():
         return
-    args = ["python3", str(ROOT / "tools" / "plan_view.py"), str(rooms), str(plan), "--out", str(sheet)]
+    args = ["python3", str(ROOT / "pipeline" / "plan_view.py"), str(rooms), str(plan), "--out", str(sheet)]
     if (work / "doors.json").exists():
         args += ["--doors", str(work / "doors.json")]
     subprocess.run(args, check=False, capture_output=True)
@@ -49,8 +49,8 @@ def plan_sheet(work: Path, sheet: Path):
 
 def iso_sheet(lid: str, sheet: Path):
     url = f"http://localhost:5173/l/{lid}"
-    subprocess.run(["node", str(ROOT / "tools" / "shot.mjs"), url, str(sheet), "wait=5000", "shot"],
-                   cwd=ROOT / "tools", check=False, capture_output=True)
+    subprocess.run(["node", str(ROOT / "pipeline" / "shot.mjs"), url, str(sheet), "wait=5000", "shot"],
+                   cwd=ROOT / "pipeline", check=False, capture_output=True)
 
 
 def run(lid: str, auto=False, force=False, sheets=True):

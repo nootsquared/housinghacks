@@ -13,7 +13,7 @@ from recreate import recreate, wall_decals, wall_fills
 from shell import Cam, build_shell, ransac_plane
 
 ROOT = Path(__file__).resolve().parent.parent
-WEB = ROOT / "web" / "public" / "data"
+WEB = ROOT / "viewer" / "public" / "data"
 CAM_HEIGHT = 1.4
 GRID_W = 192
 FLIP = np.diag([1.0, -1.0, -1.0])

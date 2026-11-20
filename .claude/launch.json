@@ -2,13 +2,13 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "web",
+      "name": "viewer",
       "runtimeExecutable": "npm",
       "runtimeArgs": [
         "run",
         "dev",
         "--prefix",
-        "web",
+        "viewer",
         "--",
         "--port",
         "5173"
@@ -16,13 +16,11 @@
       "port": 5173
     },
     {
-      "name": "atlas",
+      "name": "app",
       "runtimeExecutable": "npm",
       "runtimeArgs": [
         "run",
         "dev",
-        "--prefix",
-        "atlas",
         "--",
         "--port",
         "3000"

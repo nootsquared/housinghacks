@@ -289,7 +289,7 @@ def detect_doors(listing_dir: Path, run_dirs: list[Path], rooms_json: Path) -> d
     rooms = json.loads(Path(rooms_json).read_text())
     runs = {Path(r).name: Path(r) for r in run_dirs}
     lid = json.loads((Path(listing_dir) / "listing.json").read_text())["id"]
-    shell_dir = Path(__file__).resolve().parent.parent / "web" / "public" / "data" / lid / "shell"
+    shell_dir = Path(__file__).resolve().parent.parent / "viewer" / "public" / "data" / lid / "shell"
     result = {}
     for room in rooms:
         if not room.get("shell") or room["id"] not in runs:

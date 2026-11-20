@@ -3,7 +3,7 @@ import path from "node:path"
 
 export const runtime = "nodejs"
 
-const ROOT = path.resolve(process.cwd(), "../web/public/data")
+const ROOT = path.resolve(process.cwd(), "viewer/public/data")
 
 const TYPES: Record<string, string> = {
   ".jpg": "image/jpeg",

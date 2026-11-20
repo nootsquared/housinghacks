@@ -7,7 +7,7 @@ from PIL import Image, ImageOps
 
 ROOT = Path(__file__).resolve().parent.parent
 LISTINGS = ROOT / "data" / "listings"
-WEB = ROOT / "web" / "public" / "data"
+WEB = ROOT / "viewer" / "public" / "data"
 MAX_SIDE = 1600
 
 

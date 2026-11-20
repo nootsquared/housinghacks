@@ -1,7 +1,7 @@
 """Fetch OpenStreetMap noise sources and building outlines for central Ann Arbor.
 
-noise  -> atlas/data/osm_noise.json
-build  -> atlas/data/osm_buildings.json (outlines around each scraped listing)
+noise  -> data/osm_noise.json
+build  -> data/osm_buildings.json (outlines around each scraped listing)
 """
 
 import json
@@ -11,7 +11,7 @@ import urllib.parse
 import urllib.request
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1] / "atlas" / "data"
+ROOT = Path(__file__).resolve().parents[1] / "data"
 API = "https://overpass-api.de/api/interpreter"
 BBOX = (42.235, -83.80, 42.315, -83.67)
 
