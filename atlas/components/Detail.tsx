@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import { groupKey } from "@/components/MapCanvas"
 import { Section, Segmented, Tag } from "@/components/ui"
 import { cn } from "@/lib/cn"
@@ -18,12 +18,18 @@ type Props = {
   onScene: (s: Scene) => void
   onClose: () => void
   onSelect: (id: string) => void
-  onTour: () => void
   onShowNoise: () => void
 }
 
-export function Detail({ listing: l, atlas, scene, me, onScene, onClose, onSelect, onTour, onShowNoise }: Props) {
+export function Detail({ listing: l, atlas, scene, me, onScene, onClose, onSelect, onShowNoise }: Props) {
   const [photo, setPhoto] = useState<number | null>(null)
+  const [model, setModel] = useState(false)
+  const scroller = useRef<HTMLDivElement>(null)
+  const viewer = l.tour ? (l.tour.kind === "generated" ? `${l.tour.url}?embed=1` : (l.tour.matterport ?? l.tour.url)) : null
+  const open3d = () => {
+    setModel(true)
+    scroller.current?.scrollTo({ top: 0, behavior: "smooth" })
+  }
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -45,6 +51,7 @@ export function Detail({ listing: l, atlas, scene, me, onScene, onClose, onSelec
   return (
     <div className="fade-in fixed inset-0 z-50 flex justify-center bg-black/70 backdrop-blur-sm" onMouseDown={onClose}>
       <div
+        ref={scroller}
         className="rise-in scroll-thin relative my-4 w-full max-w-[1120px] overflow-y-auto rounded-lg border border-line-strong bg-bg shadow-[0_40px_120px_rgba(0,0,0,0.7)]"
         onMouseDown={(e) => e.stopPropagation()}
       >
@@ -69,30 +76,51 @@ export function Detail({ listing: l, atlas, scene, me, onScene, onClose, onSelec
           </a>
         </header>
 
-        <div className="grid h-[400px] grid-cols-4 grid-rows-2 gap-1.5 p-1.5">
-          {shots.map((src, i) => (
+        {model && viewer ? (
+          <div className="relative h-[520px] p-1.5">
+            <iframe
+              src={viewer}
+              title={`3D model of ${l.street}`}
+              className="size-full rounded-md border-0 bg-[#efede8]"
+              allow="fullscreen; xr-spatial-tracking"
+            />
             <button
-              key={src}
               type="button"
-              onClick={() => setPhoto(i)}
-              className={cn(
-                "group relative overflow-hidden bg-raised",
-                i === 0 ? "col-span-2 row-span-2 rounded-l-md" : "",
-                i === 2 && "rounded-tr-md",
-                i === 4 && "rounded-br-md",
-                shots.length === 1 && "col-span-4 rounded-md",
-              )}
+              onClick={() => setModel(false)}
+              className="absolute top-4 left-4 h-8 rounded-md border border-line-strong bg-bg/90 px-3 text-[12.5px] text-muted backdrop-blur hover:text-text"
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={proxy(src, i === 0 ? "large" : "medium")} alt="" className="size-full object-cover transition-opacity group-hover:opacity-85" />
-              {i === shots.length - 1 && l.photos.length > shots.length && (
-                <span className="absolute right-3 bottom-3 rounded-md bg-bg/85 px-2.5 py-1.5 text-[12px] font-medium backdrop-blur">
-                  See all {l.photos.length} photos
-                </span>
-              )}
+              Back to photos
             </button>
-          ))}
-        </div>
+            <p className="pointer-events-none absolute right-4 bottom-4 rounded-md bg-bg/85 px-2.5 py-1.5 font-mono text-[10.5px] text-faint backdrop-blur">
+              DRAG TO ORBIT · SCROLL TO ZOOM
+            </p>
+          </div>
+        ) : (
+          <div className="grid h-[400px] grid-cols-4 grid-rows-2 gap-1.5 p-1.5">
+            {shots.map((src, i) => (
+              <button
+                key={src}
+                type="button"
+                onClick={() => setPhoto(i)}
+                className={cn(
+                  "group relative overflow-hidden bg-raised",
+                  i === 0 ? "col-span-2 row-span-2 rounded-l-md" : "",
+                  i === 2 && "rounded-tr-md",
+                  i === 4 && "rounded-br-md",
+                  shots.length === 1 && "col-span-4 rounded-md",
+                )}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={proxy(src, i === 0 ? "large" : "medium")} alt="" className="size-full object-cover transition-opacity group-hover:opacity-85" />
+                {i === shots.length - 1 && l.photos.length > shots.length && (
+                  <span className="absolute right-3 bottom-3 rounded-md bg-bg/85 px-2.5 py-1.5 text-[12px] font-medium backdrop-blur">
+                    See all {l.photos.length} photos
+                  </span>
+                )}
+              </button>
+            ))}
+          </div>
+        )}
 
         <div className="grid grid-cols-1 gap-6 px-6 pt-6 pb-10 lg:grid-cols-[minmax(0,1fr)_320px]">
           <div className="min-w-0 space-y-5">
@@ -192,7 +220,7 @@ export function Detail({ listing: l, atlas, scene, me, onScene, onClose, onSelec
               {l.tour && (
                 <button
                   type="button"
-                  onClick={onTour}
+                  onClick={open3d}
                   className="mt-5 h-10 w-full rounded-lg bg-accent text-[14px] font-medium text-bg transition-opacity hover:opacity-90"
                 >
                   Walk through in 3D
