@@ -44,6 +44,9 @@ def noise():
   nwr["amenity"="fire_station"]{b};
   nwr["name"~"(Alpha|Beta|Gamma|Delta|Epsilon|Zeta|Theta|Iota|Kappa|Lambda|Sigma|Tau|Phi|Chi|Psi|Omega) (Alpha|Beta|Gamma|Delta|Epsilon|Zeta|Eta|Theta|Iota|Kappa|Lambda|Mu|Nu|Xi|Pi|Rho|Sigma|Tau|Upsilon|Phi|Chi|Psi|Omega)"]{b};
   nwr["building"~"^(fraternity|sorority)$"]{b};
+  nwr["landuse"="construction"]{b};
+  nwr["building"="construction"]{b};
+  way["highway"="construction"]{b};
 );
 out geom tags;
 """

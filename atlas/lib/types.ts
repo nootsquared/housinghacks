@@ -1,7 +1,7 @@
 export type Scene = "day" | "night" | "game"
 
 export type NoiseSource = {
-  group: "traffic" | "rail" | "crossing" | "bars" | "greek" | "stadium" | "helicopter" | "fire"
+  group: "traffic" | "rail" | "crossing" | "bars" | "greek" | "stadium" | "helicopter" | "fire" | "construction"
   label: string
   db: number
 }

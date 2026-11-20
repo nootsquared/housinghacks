@@ -45,7 +45,7 @@ export function shortAvailability(l: Listing) {
 }
 
 export const SCENES: { id: Scene; label: string; hint: string }[] = [
-  { id: "day", label: "Weekday", hint: "Traffic, trains, helicopters" },
+  { id: "day", label: "Weekday", hint: "Traffic, trains, construction" },
   { id: "night", label: "Weekend night", hint: "Bars, Greek row, late traffic" },
   { id: "game", label: "Game day", hint: "Stadium crowd and game traffic" },
 ]

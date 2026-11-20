@@ -42,6 +42,7 @@ BAR_DB = 74
 GREEK_DB = 72
 HELI_DB = 84
 FIRE_DB = 70
+BUILD_DB = 76
 VENUES = {
     "Michigan Stadium": 128,
     "Crisler Center": 104,
@@ -50,9 +51,9 @@ VENUES = {
 }
 
 SCENES = {
-    "day": {"traffic": 0, "rail": 0, "crossing": 0, "helicopter": 0, "fire": 0},
-    "night": {"traffic": ROAD_NIGHT, "rail": -2, "crossing": 0, "bars": 0, "greek": 0, "helicopter": -4, "fire": -2},
-    "game": {"traffic": 3, "rail": 0, "crossing": 0, "bars": 2, "greek": 4, "helicopter": 0, "fire": 0, "stadium": 0},
+    "day": {"traffic": 0, "rail": 0, "crossing": 0, "helicopter": 0, "fire": 0, "construction": 0},
+    "night": {"traffic": ROAD_NIGHT, "rail": -2, "crossing": 0, "bars": 0, "greek": 0, "helicopter": -4, "fire": -2, "construction": -14},
+    "game": {"traffic": 3, "rail": 0, "crossing": 0, "bars": 2, "greek": 4, "helicopter": 0, "fire": 0, "stadium": 0, "construction": -6},
 }
 
 FLOOR_DB = 42
@@ -127,6 +128,10 @@ def sources():
         elif tags.get("aeroway") == "helipad":
             la, ln = center(el)
             out.append(("helicopter", "UMMC hospital helipad", la, ln, 10 ** (HELI_DB / 10)))
+        elif tags.get("landuse") == "construction" or tags.get("building") == "construction" or tags.get("highway") == "construction":
+            la, ln = center(el)
+            label = name or ("Road work" if tags.get("highway") else "Construction site")
+            out.append(("construction", label, la, ln, 10 ** (BUILD_DB / 10)))
         elif tags.get("amenity") == "fire_station":
             la, ln = center(el)
             out.append(("fire", name or "Fire station", la, ln, 10 ** (FIRE_DB / 10)))
@@ -470,7 +475,7 @@ def main():
     ]
     sources_out = []
     for group, label, la, ln, _ in srcs:
-        if group in ("bars", "greek", "stadium", "helicopter", "crossing", "fire"):
+        if group in ("bars", "greek", "stadium", "helicopter", "crossing", "fire", "construction"):
             sources_out.append({"group": group, "label": label, "lat": round(la, 6), "lng": round(ln, 6)})
     out = {
         "listings": listings,
