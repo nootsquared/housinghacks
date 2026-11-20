@@ -2,6 +2,8 @@
 
 import { useEffect, useMemo, useRef, useState } from "react"
 import { groupKey } from "@/components/MapCanvas"
+
+const VIEWER = process.env.NEXT_PUBLIC_VIEWER_URL ?? "http://localhost:5173"
 import { Section, Segmented, Tag } from "@/components/ui"
 import { cn } from "@/lib/cn"
 import { availability, bathsLabel, bedsLabel, loudness, petsAllowed, proxy, SCENES, sqftLabel, usd } from "@/lib/format"
@@ -25,7 +27,7 @@ export function Detail({ listing: l, atlas, scene, me, onScene, onClose, onSelec
   const [photo, setPhoto] = useState<number | null>(null)
   const [model, setModel] = useState(false)
   const scroller = useRef<HTMLDivElement>(null)
-  const viewer = l.tour ? (l.tour.kind === "generated" ? `${l.tour.url}?embed=1` : (l.tour.matterport ?? l.tour.url)) : null
+  const viewer = l.tour ? (l.tour.kind === "generated" ? `${VIEWER}/l/${l.id}?embed=1` : (l.tour.matterport ?? l.tour.url)) : null
   const open3d = () => {
     setModel(true)
     scroller.current?.scrollTo({ top: 0, behavior: "smooth" })
