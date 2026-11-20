@@ -118,6 +118,7 @@ export type Surface = {
 }
 
 export type Shell = {
+  floorTurn?: number
   x: [number, number]
   z: [number, number]
   height: number

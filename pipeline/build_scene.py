@@ -6,6 +6,7 @@ import numpy as np
 from PIL import Image, ImageOps
 
 from fuse import fuse_room, write_mesh
+from layout import lay_out
 from recreate import recreate, wall_fills
 from shell import Cam, build_shell, ransac_plane
 
@@ -327,20 +328,6 @@ def room_from_run(listing_dir, room, out, views, labels):
             "c_lo": c_lo, "c_hi": c_hi}
 
 
-def place(rooms, gap=0.8, row_width=14.0):
-    x = z = row_h = 0.0
-    offsets = []
-    for r in rooms:
-        (x0, x1), (z0, z1), _ = r["box"]
-        w, d = x1 - x0, z1 - z0
-        if x > 0 and x + w > row_width:
-            x, z, row_h = 0.0, z + row_h + gap, 0.0
-        offsets.append(np.array([x - x0, 0, z - z0]))
-        x += w + gap
-        row_h = max(row_h, d)
-    return offsets
-
-
 def shift_shell(shell, off):
     shell = json.loads(json.dumps(shell))
     shell["x"] = [shell["x"][0] + off[0], shell["x"][1] + off[0]]
@@ -386,7 +373,7 @@ def build(listing_dir: Path, rooms: list[dict], out: Path):
         for pv in r["pending"]:
             views.append(pv)
     infer_floors(built)
-    offsets = place(built)
+    offsets = lay_out(built)
     scene_views, scene_rooms = [], []
     all_min, all_max = np.full(3, np.inf), np.full(3, -np.inf)
     (out / "depth").mkdir(exist_ok=True)
@@ -415,7 +402,7 @@ def build(listing_dir: Path, rooms: list[dict], out: Path):
             "confidence": "measured" if len(vids) > 1 else "estimated", "views": vids, "scaleSource": room["scale_note"],
         }
         if r["shell"]:
-            entry["shell"] = shift_shell(r["shell"], off)
+            entry["shell"] = {**shift_shell(r["shell"], off), "floorTurn": r.get("turn", 0)}
         if r["model"]:
             entry["model"] = shift_model(r["model"], off)
         if r["fused"]:
@@ -468,7 +455,8 @@ if __name__ == "__main__":
         meta = spec.get(r.name, {})
         rooms.append({"id": r.name, "type": meta.get("type", r.name.rsplit("-", 1)[0]), "run": r.resolve(),
                       "shell": meta.get("shell", True), "fixed_label": meta.get("label"),
-                      "outside": set(meta.get("outside", []))})
+                      "outside": set(meta.get("outside", [])),
+                      "turn": meta.get("turn"), "at": meta.get("at")})
     rooms = labels_for(rooms)
     for r in rooms:
         if r.get("fixed_label"):

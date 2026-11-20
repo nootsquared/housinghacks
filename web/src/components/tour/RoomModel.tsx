@@ -193,8 +193,10 @@ export function FilledShell({ room, base, mode }: { room: Room; base: string; mo
     const t = loader.load(`${base}/${file}`)
     t.colorSpace = THREE.SRGBColorSpace
     t.flipY = false
+    t.center.set(0.5, 0.5)
+    t.rotation = ((room.shell?.floorTurn ?? 0) * Math.PI) / 2
     return t
-  }, [base, model])
+  }, [base, model, room.shell?.floorTurn])
   if (!shell || !model) return null
   const [x0, x1] = shell.x
   const [z0, z1] = shell.z
