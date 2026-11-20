@@ -29,6 +29,8 @@ const SOURCE_COLORS: Record<string, string> = {
   construction: "#ffb020",
 }
 
+export const DEMO_ID = "exhibit-a2-2bed-2bath"
+
 export const groupKey = (l: Listing) => (l.building != null ? `b${l.building}` : `p${l.lat.toFixed(5)},${l.lng.toFixed(5)}`)
 
 export default function MapCanvas(props: Props) {
@@ -190,7 +192,7 @@ export default function MapCanvas(props: Props) {
     if (!loaded || !map?.getSource("homes")) return
     const groups = new Map<string, Listing[]>()
     for (const l of props.listings) {
-      const key = groupKey(l)
+      const key = l.id === DEMO_ID ? DEMO_ID : groupKey(l)
       const list = groups.get(key) ?? []
       list.push(l)
       groups.set(key, list)
@@ -234,6 +236,7 @@ export default function MapCanvas(props: Props) {
       node.type = "button"
       node.className = "pin"
       node.innerHTML = label
+      node.toggleAttribute("data-demo", key === DEMO_ID)
       const entry = { node, ids: sorted.map((u) => u.id), marker: null as unknown as maplibregl.Marker }
       node.onmouseenter = () => live.current.onHover(entry.ids[0])
       node.onmouseleave = () => live.current.onHover(null)
@@ -299,14 +302,15 @@ export default function MapCanvas(props: Props) {
       const isHov = !!hoveredId && pin.ids.includes(hoveredId)
       pin.node.toggleAttribute("data-active", isSel)
       pin.node.toggleAttribute("data-hover", isHov)
-      pin.marker.getElement().style.zIndex = isSel ? "5" : isHov ? "4" : "1"
+      pin.marker.getElement().style.zIndex = pin.ids.includes(DEMO_ID) ? "6" : isSel ? "5" : isHov ? "4" : "1"
     })
   }
 
   function declutter(map: maplibregl.Map) {
     const { selectedId, hoveredId } = live.current
     const entries = [...pins.current.values()]
-    const priority = (ids: string[]) => (selectedId && ids.includes(selectedId) ? 2 : hoveredId && ids.includes(hoveredId) ? 1 : 0)
+    const priority = (ids: string[]) =>
+      ids.includes(DEMO_ID) ? 3 : selectedId && ids.includes(selectedId) ? 2 : hoveredId && ids.includes(hoveredId) ? 1 : 0
     entries.sort((a, b) => priority(b.ids) - priority(a.ids) || b.ids.length - a.ids.length)
     const placed: { x: number; y: number }[] = []
     for (const pin of entries) {

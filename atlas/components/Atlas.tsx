@@ -4,9 +4,9 @@ import dynamic from "next/dynamic"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { Detail } from "@/components/Detail"
 import { FilterBar, DEFAULT_FILTERS } from "@/components/FilterBar"
+import { DEMO_ID } from "@/components/MapCanvas"
 import { MapControls } from "@/components/MapControls"
 import { Results } from "@/components/Results"
-import { TourOverlay } from "@/components/TourOverlay"
 import { has, petsAllowed } from "@/lib/format"
 import type { Atlas as AtlasData, Bounds, Filters, Listing, Scene, Sort } from "@/lib/types"
 
@@ -22,7 +22,6 @@ export default function Atlas() {
   const [noise, setNoise] = useState<Scene | null>(null)
   const [lastScene, setLastScene] = useState<Scene>("day")
   const [tilt, setTilt] = useState(true)
-  const [tour, setTour] = useState<Listing | null>(null)
   const [me, setMe] = useState<{ lat: number; lng: number } | null>(null)
 
   useEffect(() => {
@@ -37,6 +36,7 @@ export default function Atlas() {
     if (!atlas) return []
     const q = filters.query.trim().toLowerCase()
     return atlas.listings.filter((l) => {
+      if (l.id === DEMO_ID) return true
       if (q && !`${l.address} ${l.area} ${l.manager} ${l.title ?? ""}`.toLowerCase().includes(q)) return false
       if (filters.minPrice != null && l.rent < filters.minPrice) return false
       if (filters.maxPrice != null && l.rent > filters.maxPrice) return false
@@ -130,14 +130,12 @@ export default function Atlas() {
           onScene={(s) => toggleNoise(s)}
           onClose={close}
           onSelect={setSelectedId}
-          onTour={() => setTour(selected)}
           onShowNoise={() => {
             toggleNoise(scene)
             close()
           }}
         />
       )}
-      {tour && <TourOverlay listing={tour} onClose={() => setTour(null)} />}
     </div>
   )
 }

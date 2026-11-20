@@ -136,6 +136,17 @@ input[type="range"]::-webkit-slider-thumb {
   color: #55555c;
 }
 
+.pin[data-demo] {
+  background: #e5484d;
+  border-color: rgba(255, 255, 255, 0.35);
+  color: #fff;
+  box-shadow: 0 0 0 3px rgba(229, 72, 77, 0.28), 0 6px 18px rgba(0, 0, 0, 0.5);
+}
+
+.pin[data-demo]::after {
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
 .source-tag {
   border-radius: 4px;
   background: rgba(10, 10, 11, 0.85);
