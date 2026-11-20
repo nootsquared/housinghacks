@@ -16,9 +16,8 @@ type Props = {
   onSelect: (id: string | null) => void
   onHover: (id: string | null) => void
   onBounds: (bounds: Bounds) => void
+  onLocate?: (at: { lat: number; lng: number }) => void
 }
-
-const SATELLITE = "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
 
 const SOURCE_COLORS: Record<string, string> = {
   bars: "#f08a4b",
@@ -27,77 +26,10 @@ const SOURCE_COLORS: Record<string, string> = {
   helicopter: "#69b7ff",
   crossing: "#e8d36a",
   fire: "#ff7a6b",
+  construction: "#ffb020",
 }
 
 export const groupKey = (l: Listing) => (l.building != null ? `b${l.building}` : `p${l.lat.toFixed(5)},${l.lng.toFixed(5)}`)
-
-function style(): maplibregl.StyleSpecification {
-  return {
-    version: 8,
-    glyphs: "https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf",
-    sources: {
-      satellite: {
-        type: "raster",
-        tiles: [SATELLITE],
-        tileSize: 256,
-        maxzoom: 19,
-        attribution: "Imagery © Esri, Maxar, Earthstar Geographics",
-      },
-      omt: { type: "vector", url: "https://tiles.openfreemap.org/planet" },
-    },
-    layers: [
-      { id: "bg", type: "background", paint: { "background-color": "#0a0a0b" } },
-      {
-        id: "satellite",
-        type: "raster",
-        source: "satellite",
-        paint: { "raster-saturation": -0.25, "raster-brightness-max": 0.78, "raster-contrast": 0.08 },
-      },
-      {
-        id: "roads-major",
-        type: "line",
-        source: "omt",
-        "source-layer": "transportation",
-        filter: ["in", ["get", "class"], ["literal", ["motorway", "trunk", "primary", "secondary"]]],
-        paint: {
-          "line-color": "rgba(255,255,255,0.16)",
-          "line-width": ["interpolate", ["linear"], ["zoom"], 12, 0.6, 17, 2],
-        },
-      },
-      {
-        id: "road-labels",
-        type: "symbol",
-        source: "omt",
-        "source-layer": "transportation_name",
-        minzoom: 14,
-        layout: {
-          "symbol-placement": "line",
-          "text-field": ["coalesce", ["get", "name:en"], ["get", "name"]],
-          "text-font": ["Noto Sans Regular"],
-          "text-size": ["interpolate", ["linear"], ["zoom"], 14, 10, 18, 13],
-          "text-letter-spacing": 0.02,
-        },
-        paint: { "text-color": "rgba(255,255,255,0.82)", "text-halo-color": "rgba(0,0,0,0.75)", "text-halo-width": 1.2 },
-      },
-      {
-        id: "place-labels",
-        type: "symbol",
-        source: "omt",
-        "source-layer": "place",
-        filter: ["in", ["get", "class"], ["literal", ["suburb", "neighbourhood", "quarter"]]],
-        maxzoom: 15,
-        layout: {
-          "text-field": ["coalesce", ["get", "name:en"], ["get", "name"]],
-          "text-font": ["Noto Sans Bold"],
-          "text-size": 11,
-          "text-transform": "uppercase",
-          "text-letter-spacing": 0.12,
-        },
-        paint: { "text-color": "rgba(255,255,255,0.6)", "text-halo-color": "rgba(0,0,0,0.7)", "text-halo-width": 1 },
-      },
-    ],
-  }
-}
 
 export default function MapCanvas(props: Props) {
   const ref = useRef<HTMLDivElement>(null)
@@ -113,7 +45,7 @@ export default function MapCanvas(props: Props) {
     maplibregl.setWorkerUrl("/maplibre-gl-worker.mjs")
     const map = new maplibregl.Map({
       container: ref.current,
-      style: style(),
+      style: "https://tiles.openfreemap.org/styles/liberty",
       center: [-83.7395, 42.2765],
       zoom: 14.6,
       pitch: 55,
@@ -122,6 +54,14 @@ export default function MapCanvas(props: Props) {
       attributionControl: { compact: true },
     })
     map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), "bottom-right")
+    const locate = new maplibregl.GeolocateControl({
+      positionOptions: { enableHighAccuracy: true },
+      trackUserLocation: true,
+      showUserLocation: true,
+      fitBoundsOptions: { maxZoom: 15 },
+    })
+    map.addControl(locate, "bottom-right")
+    locate.on("geolocate", (e) => live.current.onLocate?.({ lat: e.coords.latitude, lng: e.coords.longitude }))
     const emitBounds = () => {
       const b = map.getBounds()
       live.current.onBounds({ west: b.getWest(), south: b.getSouth(), east: b.getEast(), north: b.getNorth() })
@@ -139,7 +79,7 @@ export default function MapCanvas(props: Props) {
           layout: { visibility: "none" },
           paint: { "raster-opacity": 0.82, "raster-resampling": "linear", "raster-fade-duration": 200 },
         },
-        "roads-major",
+        map.getStyle().layers.find((l) => l.type === "symbol")?.id,
       )
       map.addSource("homes", { type: "geojson", data: empty(), promoteId: "id" })
       map.addLayer({
@@ -229,6 +169,11 @@ export default function MapCanvas(props: Props) {
       })
       setLoaded((n) => n + 1)
       emitBounds()
+      navigator.geolocation?.getCurrentPosition(
+        (pos) => live.current.onLocate?.({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
+        () => {},
+      )
+      locate.trigger()
     })
     mapRef.current = map
     const pinMap = pins.current

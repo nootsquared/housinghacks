@@ -12,6 +12,7 @@ const SOURCES = [
   ["#d36fd8", "Greek houses"],
   ["#69b7ff", "Hospital helipad"],
   ["#e5625c", "Stadium and arenas"],
+  ["#ffb020", "Construction"],
 ] as const
 
 export function MapControls({
@@ -58,7 +59,7 @@ export function MapControls({
       </div>
 
       {noise && (
-        <div className="rise-in absolute bottom-3 left-3 z-10 w-[300px] rounded-xl border border-line-strong bg-bg/90 p-4 shadow-[0_20px_50px_rgba(0,0,0,0.5)] backdrop-blur-md">
+        <div className="rise-in absolute bottom-3 left-3 z-10 w-[300px] rounded-md border border-line-strong bg-bg/90 p-4 shadow-[0_20px_50px_rgba(0,0,0,0.5)] backdrop-blur-md">
           <div className="flex items-baseline justify-between">
             <p className="text-[13px] font-medium">Modeled noise</p>
             <p className="font-mono text-[10.5px] text-faint">dB(A) · TYPICAL HOUR</p>

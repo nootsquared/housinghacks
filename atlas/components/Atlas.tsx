@@ -23,6 +23,7 @@ export default function Atlas() {
   const [lastScene, setLastScene] = useState<Scene>("day")
   const [tilt, setTilt] = useState(true)
   const [tour, setTour] = useState<Listing | null>(null)
+  const [me, setMe] = useState<{ lat: number; lng: number } | null>(null)
 
   useEffect(() => {
     fetch("/atlas.json")
@@ -95,6 +96,7 @@ export default function Atlas() {
               onSelect={setSelectedId}
               onHover={setHoveredId}
               onBounds={setBounds}
+              onLocate={setMe}
             />
           )}
           <MapControls noise={noise} onNoise={toggleNoise} tilt={tilt} onTilt={setTilt} />
@@ -124,6 +126,7 @@ export default function Atlas() {
           listing={selected}
           atlas={atlas}
           scene={scene}
+          me={me}
           onScene={(s) => toggleNoise(s)}
           onClose={close}
           onSelect={setSelectedId}
