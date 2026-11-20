@@ -352,42 +352,9 @@ function Getting({ listing: l, me }: { listing: Listing; me: Me }) {
     const bus = walkMinutes(stops[0].m) + Math.round(m / 400) + 4
     return { ...d, m, walk, bus, mode: walk > 25 ? "bus" : "walk" }
   })
-  const pts = [...stops.map((s) => ({ ...s, kind: "stop" as const })), ...places.filter((p) => p.m < 2200).map((p) => ({ ...p, kind: "place" as const }))]
-  const reach = Math.max(...pts.map((p) => p.m), 300)
-  const W = 300
-  const H = 230
-  const kx = 111320 * Math.cos((l.lat * Math.PI) / 180)
-  const proj = (lat: number, lng: number) => {
-    const dx = (lng - l.lng) * kx
-    const dy = (lat - l.lat) * 110540
-    const d = Math.hypot(dx, dy) || 1
-    const r = Math.sqrt(d / reach)
-    return { x: W / 2 + (dx / d) * r * (W / 2 - 40), y: H / 2 - (dy / d) * r * (H / 2 - 24) }
-  }
   return (
     <Section title="Getting around" aside={<span className="font-mono text-[11px] text-faint">WALK · BUS</span>}>
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-[300px_minmax(0,1fr)]">
-        <svg viewBox={`0 0 ${W} ${H}`} className="w-full rounded-md border border-line bg-bg">
-          {[0.33, 0.66, 1].map((r) => (
-            <ellipse key={r} cx={W / 2} cy={H / 2} rx={(W / 2 - 34) * r} ry={(H / 2 - 22) * r} fill="none" stroke="rgba(255,255,255,0.05)" />
-          ))}
-          {pts.map((p) => {
-            const q = proj(p.lat, p.lng)
-            return (
-              <g key={p.name}>
-                <line x1={W / 2} y1={H / 2} x2={q.x} y2={q.y} stroke={p.kind === "stop" ? "rgba(120,190,255,0.55)" : "rgba(255,255,255,0.22)"} strokeDasharray={p.kind === "stop" ? "" : "3 3"} />
-                <circle cx={q.x} cy={q.y} r={p.kind === "stop" ? 3.5 : 3} fill={p.kind === "stop" ? "#78beff" : "#d9d9d9"} />
-                {p.kind === "stop" && (
-                  <text x={q.x + 6} y={q.y + 3} fontSize="9" fill="rgba(160,205,255,0.9)">
-                    {walkMinutes(p.m)} min
-                  </text>
-                )}
-                <title>{p.name}</title>
-              </g>
-            )
-          })}
-          <circle cx={W / 2} cy={H / 2} r={6} fill="#ededed" stroke="#1b1b1b" strokeWidth={2} />
-        </svg>
+      <div>
         <div className="min-w-0">
           <ul className="divide-y divide-line">
             {places.map((p) => (
