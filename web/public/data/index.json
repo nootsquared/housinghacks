@@ -1,1 +1,1336 @@
-[{"id": "test-room8", "name": "Sample room (VGGT demo set)", "address": "x", "lat": 42.28, "lng": -83.74, "area": "Test", "unit": "", "beds": 1, "baths": 1, "sqft": null, "rent": null, "rentBasis": "total", "available": null, "leaseTerm": null, "utilities": [], "amenities": [], "parking": null, "matterport": null, "floorplan": null, "photos": [{"file": "views/v00.jpg", "caption": null}, {"file": "views/v01.jpg", "caption": null}, {"file": "views/v02.jpg", "caption": null}, {"file": "views/v03.jpg", "caption": null}, {"file": "views/v04.jpg", "caption": null}, {"file": "views/v05.jpg", "caption": null}, {"file": "views/v06.jpg", "caption": null}, {"file": "views/v07.jpg", "caption": null}], "source": {"url": "", "manager": "test", "accessed": "2026-11-20"}, "cover": "views/v00.jpg", "tour": "generated"}]
+[
+ {
+  "id": "1364-geddes-unit-1",
+  "name": "1364 Geddes Ave, Unit 1",
+  "address": "1364 Geddes Ave, Ann Arbor, MI 48104",
+  "lat": 42.2771346,
+  "lng": -83.730789,
+  "area": "Central Campus",
+  "unit": "3 bed / 1 bath apartment, unit 1",
+  "beds": 3,
+  "baths": 1,
+  "sqft": 910,
+  "rent": 4050,
+  "rentBasis": "total",
+  "available": "8/19/27",
+  "leaseTerm": null,
+  "utilities": [
+   "water",
+   "trash",
+   "recycling"
+  ],
+  "amenities": [
+   "furnished",
+   "onsite laundry",
+   "dishwasher",
+   "disposal",
+   "wall unit A/C",
+   "onsite parking"
+  ],
+  "parking": "Onsite parking available",
+  "matterport": null,
+  "floorplan": "floorplan.jpg",
+  "photos": [
+   {
+    "file": "photos/01.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/02.jpg",
+    "caption": null
+   }
+  ],
+  "source": {
+   "url": "https://crmgmtinc.appfolio.com/listings/detail/dab86ba6-f673-4640-be17-3981bb430003",
+   "manager": "Campus Realty (CR Management)",
+   "accessed": "2026-11-20"
+  },
+  "notes": "JUNK / graceful-failure demo. The gallery has 3 images: one exterior, one kitchen and one dimensioned floor plan (saved as floorplan.jpg), so only 2 real photos remain. The page counter says 4; one gallery item is not an image. The listing says the renovated bathroom is 'not pictured, but shown in 3D tour', but no 3D tour link appears on the public page. Tenant pays electric, gas and Wi-Fi.",
+  "cover": "photos/01.jpg",
+  "tour": "insufficient"
+ },
+ {
+  "id": "328-catherine-st",
+  "name": "328 Catherine St",
+  "address": "328 Catherine St, Ann Arbor, MI 48104",
+  "lat": 42.2830827,
+  "lng": -83.7452746,
+  "area": "Kerrytown",
+  "unit": "6 bed / 2 bath house",
+  "beds": 6,
+  "baths": 2,
+  "sqft": null,
+  "rent": 7050,
+  "rentBasis": "total",
+  "available": "8/27/27 (waitlist only)",
+  "leaseTerm": null,
+  "utilities": [],
+  "amenities": [
+   "two kitchens",
+   "granite countertops",
+   "stainless steel appliances",
+   "dishwasher",
+   "laundry",
+   "third-floor family room",
+   "free on-site parking",
+   "cats and dogs allowed"
+  ],
+  "parking": "Free on-site (off-street) parking",
+  "matterport": null,
+  "floorplan": null,
+  "photos": [
+   {
+    "file": "photos/01.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/02.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/03.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/04.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/05.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/06.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/07.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/08.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/09.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/10.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/11.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/12.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/13.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/14.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/15.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/16.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/17.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/18.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/19.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/20.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/21.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/22.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/23.jpg",
+    "caption": null
+   }
+  ],
+  "source": {
+   "url": "https://oldtownrealty.appfolio.com/listings/detail/39453ecc-0511-426e-a7b6-5c83fb1536bc",
+   "manager": "Old Town Realty",
+   "accessed": "2026-11-20"
+  },
+  "notes": "Three-story house that fits up to 8 people. The photos show the house occupied, with tenants' furniture and belongings. Security deposit $10,575.",
+  "cover": "photos/01.jpg",
+  "tour": "insufficient"
+ },
+ {
+  "id": "334-catherine-st",
+  "name": "334 Catherine St",
+  "address": "334 Catherine St, Ann Arbor, MI 48104",
+  "lat": 42.2830805,
+  "lng": -83.7451771,
+  "area": "Kerrytown",
+  "unit": "7 bed / 2 bath house",
+  "beds": 7,
+  "baths": 2,
+  "sqft": null,
+  "rent": 8225,
+  "rentBasis": "total",
+  "available": "8/27/27 (waitlist only)",
+  "leaseTerm": null,
+  "utilities": [],
+  "amenities": [
+   "two kitchens (remodeled primary)",
+   "dishwasher",
+   "onsite laundry",
+   "third-floor common space",
+   "free on-site parking",
+   "cats and dogs allowed"
+  ],
+  "parking": "Free on-site (off-street) parking",
+  "matterport": null,
+  "floorplan": null,
+  "photos": [
+   {
+    "file": "photos/01.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/02.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/03.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/04.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/05.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/06.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/07.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/08.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/09.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/10.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/11.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/12.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/13.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/14.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/15.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/16.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/17.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/18.jpg",
+    "caption": null
+   }
+  ],
+  "source": {
+   "url": "https://oldtownrealty.appfolio.com/listings/detail/b2ef9a9e-417e-4f5e-a25a-4a0cad62e4de",
+   "manager": "Old Town Realty",
+   "accessed": "2026-11-20"
+  },
+  "notes": "Three-story house near Kerrytown and the Medical Campus. The listing says '*Updated Photos Coming Soon*', so the current photos may be older and show the house mostly empty. Security deposit $12,337.50.",
+  "cover": "photos/01.jpg",
+  "tour": "insufficient"
+ },
+ {
+  "id": "406-e-jefferson-st",
+  "name": "406 East Jefferson St",
+  "address": "406 E Jefferson St, Ann Arbor, MI 48104",
+  "lat": 42.2760009,
+  "lng": -83.7438521,
+  "area": "Central Campus",
+  "unit": "7 bed / 2 bath house",
+  "beds": 7,
+  "baths": 2,
+  "sqft": 3000,
+  "rent": 8715,
+  "rentBasis": "total",
+  "available": "5/21/27",
+  "leaseTerm": "2027-2028 lease term, flexible move-in, May start preferred",
+  "utilities": [
+   "trash"
+  ],
+  "amenities": [
+   "in-unit laundry",
+   "two remodeled kitchens",
+   "two dishwashers",
+   "limited on-site parking",
+   "open-plan third floor"
+  ],
+  "parking": "Limited on-site parking",
+  "matterport": null,
+  "floorplan": "floorplan.jpg",
+  "photos": [
+   {
+    "file": "photos/01.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/02.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/03.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/04.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/05.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/06.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/07.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/08.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/09.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/10.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/11.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/12.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/13.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/14.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/15.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/16.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/17.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/18.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/19.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/20.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/21.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/22.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/23.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/24.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/25.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/26.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/27.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/28.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/29.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/30.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/31.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/32.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/33.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/34.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/35.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/36.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/37.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/38.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/39.jpg",
+    "caption": null
+   }
+  ],
+  "source": {
+   "url": "https://oldtownrealty.appfolio.com/listings/detail/9803e865-625a-4fb3-b89d-1215bfacde0d",
+   "manager": "Old Town Realty",
+   "accessed": "2026-11-20"
+  },
+  "notes": "Gallery image 5 is a floor plan, saved as floorplan.jpg and left out of photos. The listing also embeds a Zillow 3D Home tour (not Matterport) of the same house: https://www.zillow.com/view-imx/c0ddcc8b-96a7-48e7-8584-db76caa6f4ae . It could serve as a third accuracy check. Listing says it fits 8 to 9 people; recycling and lawn care are also included. Security deposit $13,072.50.",
+  "cover": "photos/01.jpg",
+  "tour": "insufficient"
+ },
+ {
+  "id": "411-n-state-unit-2",
+  "name": "411 N State St #2",
+  "address": "411 N State St, Ann Arbor, MI 48104",
+  "lat": 42.2842259,
+  "lng": -83.7413033,
+  "area": "Kerrytown",
+  "unit": "6 bed / 3 bath upper-level duplex, unit #2",
+  "beds": 6,
+  "baths": 3,
+  "sqft": null,
+  "rent": 7995,
+  "rentBasis": "total",
+  "available": "5/21/27",
+  "leaseTerm": "2027-2028 lease term, May start required",
+  "utilities": [
+   "heat (gas)",
+   "water"
+  ],
+  "amenities": [
+   "granite countertops",
+   "dishwasher",
+   "free on-site parking",
+   "free shared laundry",
+   "cats allowed"
+  ],
+  "parking": "Free on-site parking",
+  "matterport": null,
+  "floorplan": null,
+  "photos": [
+   {
+    "file": "photos/01.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/02.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/03.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/04.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/05.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/06.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/07.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/08.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/09.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/10.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/11.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/12.jpg",
+    "caption": null
+   }
+  ],
+  "source": {
+   "url": "https://oldtownrealty.appfolio.com/listings/detail/f7533ddd-cb91-48e9-970c-8042b2e73765",
+   "manager": "Old Town Realty",
+   "accessed": "2026-11-20"
+  },
+  "notes": "Bi-level upper unit of a duplex in the Old Fourth Ward, near Kerrytown. Security deposit $11,992.50.",
+  "cover": "photos/01.jpg",
+  "tour": "insufficient"
+ },
+ {
+  "id": "428-hamilton-pl",
+  "name": "428 Hamilton Place",
+  "address": "428 Hamilton Pl, Ann Arbor, MI 48104",
+  "lat": 42.2768765,
+  "lng": -83.745431,
+  "area": "Central Campus",
+  "unit": "9 bed / 3 bath house",
+  "beds": 9,
+  "baths": 3,
+  "sqft": null,
+  "rent": 9990,
+  "rentBasis": "total",
+  "available": "8/27/27 (waitlist only)",
+  "leaseTerm": null,
+  "utilities": [],
+  "amenities": [
+   "three kitchens",
+   "dishwashers (2 kitchens)",
+   "central air conditioning",
+   "washer/dryer in basement",
+   "on-site parking",
+   "cats and small dogs allowed"
+  ],
+  "parking": "On-site parking available",
+  "matterport": null,
+  "floorplan": null,
+  "photos": [
+   {
+    "file": "photos/01.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/02.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/03.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/04.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/05.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/06.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/07.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/08.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/09.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/10.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/11.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/12.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/13.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/14.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/15.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/16.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/17.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/18.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/19.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/20.jpg",
+    "caption": null
+   }
+  ],
+  "source": {
+   "url": "https://oldtownrealty.appfolio.com/listings/detail/d9b3f30e-067b-4eda-83ce-13f0ea24400c",
+   "manager": "Old Town Realty",
+   "accessed": "2026-11-20"
+  },
+  "notes": "Three-story house between Main St and State St, two blocks from the Michigan Union. Maximum occupancy is 12. Security deposit $14,985. Photos are wide-angle, apparently phone shots.",
+  "cover": "photos/01.jpg",
+  "tour": "insufficient"
+ },
+ {
+  "id": "903-dewey-ave",
+  "name": "903 Dewey Ave",
+  "address": "903 Dewey Ave, Ann Arbor, MI 48104",
+  "lat": 42.2659652,
+  "lng": -83.73779,
+  "area": "South Campus",
+  "unit": "6 bed / 2 bath house",
+  "beds": 6,
+  "baths": 2,
+  "sqft": 1800,
+  "rent": 7170,
+  "rentBasis": "total",
+  "available": "5/21/27",
+  "leaseTerm": "2027-2028 lease term, May start required",
+  "utilities": [
+   "trash"
+  ],
+  "amenities": [
+   "in-unit laundry (free)",
+   "central air conditioning",
+   "dishwasher",
+   "finished basement with second living room",
+   "covered front porch",
+   "free on-site parking"
+  ],
+  "parking": "Large rear lot for about 4 to 6 vehicles",
+  "matterport": null,
+  "floorplan": null,
+  "photos": [
+   {
+    "file": "photos/01.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/02.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/03.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/04.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/05.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/06.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/07.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/08.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/09.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/10.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/11.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/12.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/13.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/14.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/15.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/16.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/17.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/18.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/19.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/20.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/21.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/22.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/23.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/24.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/25.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/26.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/27.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/28.jpg",
+    "caption": null
+   },
+   {
+    "file": "photos/29.jpg",
+    "caption": null
+   }
+  ],
+  "source": {
+   "url": "https://oldtownrealty.appfolio.com/listings/detail/bd22df34-10b2-4e88-b621-fc9c8aae08d7",
+   "manager": "Old Town Realty",
+   "accessed": "2026-11-20"
+  },
+  "notes": "Three finished levels with two bedrooms on each. Recycling and lawn care are also included. Security deposit $10,755.",
+  "cover": "photos/01.jpg",
+  "tour": "insufficient"
+ },
+ {
+  "id": "939-greenwood-ave",
+  "name": "939 Greenwood Ave",
+  "address": "939 Greenwood Ave, Ann Arbor, MI 48104",
+  "lat": 42.2696551,
+  "lng": -83.7370968,
+  "area": "South Campus",
+  "unit": "6 bed / 3 bath house",
+  "beds": 6,
+  "baths": 3,
+  "sqft": null,
+  "rent": 8250,
+  "rentBasis": "total",
+  "available": "8/27/27 (27-28 waitlist only)",
+  "leaseTerm": null,
+  "utilities": [],
+  "amenities": [
+   "dishwasher",
+   "washer/dryer (basement)",
+   "central air conditioning",
+   "off-street parking",
+   "two refrigerators",
+   "bonus room",
+   "furnished as-is",
+   "cats allowed"
+  ],
+  "parking": "Driveway parking for 2 to 3 cars",
+  "matterport": null,
+  "floorplan": "floorplan.jpg",
+  "photos": [
+   {
+    "file": "photos/01.jpg",
+    "caption": null,
+    "room": "dining",
+    "kind": "interior"
+   },
+   {
+    "file": "photos/02.jpg",
+    "caption": null,
+    "room": null,
+    "kind": "exterior"
+   },
+   {
+    "file": "photos/03.jpg",
+    "caption": null,
+    "room": "hallway",
+    "kind": "interior"
+   },
+   {
+    "file": "photos/04.jpg",
+    "caption": null,
+    "room": "hallway",
+    "kind": "interior"
+   },
+   {
+    "file": "photos/05.jpg",
+    "caption": null,
+    "room": "bathroom",
+    "kind": "interior"
+   },
+   {
+    "file": "photos/06.jpg",
+    "caption": null,
+    "room": "dining",
+    "kind": "interior"
+   },
+   {
+    "file": "photos/07.jpg",
+    "caption": null,
+    "room": "living",
+    "kind": "interior"
+   },
+   {
+    "file": "photos/08.jpg",
+    "caption": null,
+    "room": "living",
+    "kind": "interior"
+   },
+   {
+    "file": "photos/09.jpg",
+    "caption": null,
+    "room": "kitchen",
+    "kind": "interior"
+   },
+   {
+    "file": "photos/10.jpg",
+    "caption": null,
+    "room": "kitchen",
+    "kind": "interior"
+   },
+   {
+    "file": "photos/11.jpg",
+    "caption": null,
+    "room": "hallway",
+    "kind": "interior"
+   },
+   {
+    "file": "photos/12.jpg",
+    "caption": null,
+    "room": "bedroom",
+    "kind": "interior"
+   },
+   {
+    "file": "photos/13.jpg",
+    "caption": null,
+    "room": "bedroom",
+    "kind": "interior"
+   },
+   {
+    "file": "photos/14.jpg",
+    "caption": null,
+    "room": "bedroom",
+    "kind": "interior"
+   },
+   {
+    "file": "photos/15.jpg",
+    "caption": null,
+    "room": "bedroom",
+    "kind": "interior"
+   },
+   {
+    "file": "photos/16.jpg",
+    "caption": null,
+    "room": "bedroom",
+    "kind": "interior"
+   },
+   {
+    "file": "photos/17.jpg",
+    "caption": null,
+    "room": "hallway",
+    "kind": "interior"
+   },
+   {
+    "file": "photos/18.jpg",
+    "caption": null,
+    "room": "bathroom",
+    "kind": "interior"
+   },
+   {
+    "file": "photos/19.jpg",
+    "caption": null,
+    "room": "bathroom",
+    "kind": "interior"
+   },
+   {
+    "file": "photos/20.jpg",
+    "caption": null,
+    "room": "hallway",
+    "kind": "interior"
+   },
+   {
+    "file": "photos/21.jpg",
+    "caption": null,
+    "room": "bedroom",
+    "kind": "interior"
+   },
+   {
+    "file": "photos/22.jpg",
+    "caption": null,
+    "room": "bedroom",
+    "kind": "interior"
+   },
+   {
+    "file": "photos/23.jpg",
+    "caption": null,
+    "room": "hallway",
+    "kind": "interior"
+   },
+   {
+    "file": "photos/24.jpg",
+    "caption": null,
+    "room": "living",
+    "kind": "interior"
+   },
+   {
+    "file": "photos/25.jpg",
+    "caption": null,
+    "room": "living",
+    "kind": "interior"
+   },
+   {
+    "file": "photos/26.jpg",
+    "caption": null,
+    "room": "bedroom",
+    "kind": "interior"
+   },
+   {
+    "file": "photos/27.jpg",
+    "caption": null,
+    "room": "bedroom",
+    "kind": "interior"
+   },
+   {
+    "file": "photos/28.jpg",
+    "caption": null,
+    "room": "hallway",
+    "kind": "interior"
+   },
+   {
+    "file": "photos/29.jpg",
+    "caption": null,
+    "room": "hallway",
+    "kind": "interior"
+   },
+   {
+    "file": "photos/30.jpg",
+    "caption": null,
+    "room": "hallway",
+    "kind": "interior"
+   },
+   {
+    "file": "photos/31.jpg",
+    "caption": null,
+    "room": "bathroom",
+    "kind": "interior"
+   },
+   {
+    "file": "photos/32.jpg",
+    "caption": null,
+    "room": "bedroom",
+    "kind": "interior"
+   },
+   {
+    "file": "photos/33.jpg",
+    "caption": null,
+    "room": "bedroom",
+    "kind": "interior"
+   },
+   {
+    "file": "photos/34.jpg",
+    "caption": null,
+    "room": "bedroom",
+    "kind": "interior"
+   },
+   {
+    "file": "photos/35.jpg",
+    "caption": null,
+    "room": "bedroom",
+    "kind": "interior"
+   },
+   {
+    "file": "photos/36.jpg",
+    "caption": null,
+    "room": "bedroom",
+    "kind": "interior"
+   },
+   {
+    "file": "photos/37.jpg",
+    "caption": null,
+    "room": "bedroom",
+    "kind": "interior"
+   },
+   {
+    "file": "photos/38.jpg",
+    "caption": null,
+    "room": "bathroom",
+    "kind": "interior"
+   }
+  ],
+  "source": {
+   "url": "https://oldtownrealty.appfolio.com/listings/detail/315863b9-0457-4bac-801f-b10d2bc45f8e",
+   "manager": "Old Town Realty",
+   "accessed": "2026-11-20"
+  },
+  "notes": "Three-story house. Gallery image 3 is a dimensioned floor plan (3 floors plus basement), saved as floorplan.jpg and left out of photos. Security deposit $12,375. Listing says the house is furnished as-is.",
+  "cover": "photos/01.jpg",
+  "tour": "insufficient"
+ },
+ {
+  "id": "exhibit-a2-2bed-2bath",
+  "name": "Exhibit A2 Apartments",
+  "address": "212 S 4th Ave, Ann Arbor, MI 48104",
+  "lat": 42.2799468,
+  "lng": -83.747463,
+  "area": "Downtown",
+  "unit": "2 bed / 2 bath floorplan (Matterport is unit #506)",
+  "beds": 2,
+  "baths": 2,
+  "sqft": 700,
+  "rent": 3300,
+  "rentBasis": "total",
+  "available": "Available (\"Starting at $3,300/month\")",
+  "leaseTerm": "9 to 12 month",
+  "utilities": [],
+  "amenities": [
+   "in-unit washer & dryer",
+   "dishwasher",
+   "disposal",
+   "microwave",
+   "stainless steel appliances",
+   "stone countertops",
+   "high ceilings",
+   "kitchen island*",
+   "walk-in closets*",
+   "patio or balcony*",
+   "wood-style flooring",
+   "ceiling fans",
+   "smart locks",
+   "linen closet",
+   "cats and dogs allowed (fees)"
+  ],
+  "parking": null,
+  "matterport": "https://my.matterport.com/show/?m=GhioHXRab5a",
+  "floorplan": "floorplan.jpg",
+  "photos": [
+   {
+    "file": "photos/01.jpg",
+    "caption": "Apartment interior with large windows, a sleek kitchen island, and a stylish living area featuring a TV and dining table."
+   },
+   {
+    "file": "photos/02.jpg",
+    "caption": "Kitchen with stainless steel appliances, light color cabinetry, and a large window offering city views."
+   },
+   {
+    "file": "photos/03.jpg",
+    "caption": "Apartment interior with a sleek couch, kitchen area, and large windows showcasing a vibrant sunset."
+   },
+   {
+    "file": "photos/04.jpg",
+    "caption": "Kitchen with stainless steel appliances, including a microwave and refrigerator, and large window with city view."
+   },
+   {
+    "file": "photos/05.jpg",
+    "caption": "Apartment kitchen featuring sleek cabinetry, stainless steel appliances, and large windows with city views."
+   },
+   {
+    "file": "photos/06.jpg",
+    "caption": "Bright apartment with large windows, a stylish sitting area, dining table, and contemporary furnishings."
+   },
+   {
+    "file": "photos/07.jpg",
+    "caption": "Apartment kitchen featuring sleek light color cabinets, stainless steel appliances, and a dining area with yellow chairs."
+   },
+   {
+    "file": "photos/08.jpg",
+    "caption": "Apartment interior featuring a sleek sofa, dining table, and stylish kitchen with contemporary decor."
+   },
+   {
+    "file": "photos/09.jpg",
+    "caption": "Apartment interior featuring a neutral sofa, dining area with yellow chairs, and large windows with city views."
+   },
+   {
+    "file": "photos/10.jpg",
+    "caption": "Apartment living room with large windows, city view, stylish sofa, TV, and contemporary decor."
+   },
+   {
+    "file": "photos/11.jpg",
+    "caption": "Bright apartment interior featuring a laundry area with stacked washer and dryer, leading to a cozy bedroom."
+   },
+   {
+    "file": "photos/12.jpg",
+    "caption": "Bright apartment interior featuring a blue accent wall, furnishings, and a stylish mirror in a welcoming layout."
+   },
+   {
+    "file": "photos/13.jpg",
+    "caption": "Cozy apartment bedroom featuring a blue accent wall, a queen bed, decor, and a stylish mirror and lamp."
+   },
+   {
+    "file": "photos/14.jpg",
+    "caption": "Cozy bedroom featuring a green headboard, colorful bedding, decor, and a vibrant blue accent wall."
+   },
+   {
+    "file": "photos/15.jpg",
+    "caption": "Apartment bedroom featuring a light color bed, bright blue accent walls, and an open closet space."
+   },
+   {
+    "file": "photos/16.jpg",
+    "caption": "Apartment bedroom featuring a bright green upholstered headboard, light color pillows, and stylish dark and light color wall art."
+   },
+   {
+    "file": "photos/17.jpg",
+    "caption": "Bathroom featuring a sleek vanity, backlit mirror, and decor with neutral tones."
+   },
+   {
+    "file": "photos/18.jpg",
+    "caption": "Bathroom featuring a glass shower with marble tiles and freshly hung light color towels."
+   },
+   {
+    "file": "photos/19.jpg",
+    "caption": "Bathroom featuring a glass shower, marble accents, sleek vanity, and ambient lighting for a bright, clean look."
+   },
+   {
+    "file": "photos/20.jpg",
+    "caption": "Bright bedroom with a large window showcasing a view of the city, featuring decor and neutral tones."
+   },
+   {
+    "file": "photos/21.jpg",
+    "caption": "Cozy bedroom with a blue accent wall, a light color bed, and closet doors, featuring decor."
+   },
+   {
+    "file": "photos/22.jpg",
+    "caption": "Bright bedroom featuring a large window with city views, decor, and an open doorway to a bathroom."
+   },
+   {
+    "file": "photos/23.jpg",
+    "caption": "Bright bedroom with large windows showcasing a sunset, featuring decor and an adjoining bathroom view."
+   }
+  ],
+  "source": {
+   "url": "https://www.exhibita2.com/floorplans/two-bedroom/2-bedroom-2bath",
+   "manager": "Cabrio Properties (Exhibit A2 Apartments, RentVision site)",
+   "accessed": "2026-11-20"
+  },
+  "notes": "Floorplan-level listing, not a single unit. The page links a Matterport titled 'Unit #506 - 2 Bed/2 Bath' and describes the gallery as interior photos of the 2-Bedroom/2 Bath floorplan; the photos are probably of the same model unit, but the page does not say so. Square footage: the description says 700 sq ft, the spec line says 700 to 950 sq ft across units. Residents pay electricity, internet ($30/mo per person) and water/sewer ($50/mo per person). Amenities marked * are 'available for select units'. Captions are the site's image alt text. Floorplan is a 3D-rendered diagram with no dimensions.",
+  "cover": "photos/01.jpg",
+  "tour": "generated"
+ },
+ {
+  "id": "university-towers-apt-g",
+  "name": "University Towers, Apartment G",
+  "address": "536 S Forest Ave, Ann Arbor, MI 48104",
+  "lat": 42.2752587,
+  "lng": -83.7335091,
+  "area": "South Campus",
+  "unit": "Apartment G floorplan, 2 bed / 1 bath (photos of units 802 and 1015)",
+  "beds": 2,
+  "baths": 1,
+  "sqft": null,
+  "rent": 2998,
+  "rentBasis": "total",
+  "available": null,
+  "leaseTerm": null,
+  "utilities": [],
+  "amenities": [
+   "kitchen with breakfast bar",
+   "double-sink vanity"
+  ],
+  "parking": null,
+  "matterport": "https://my.matterport.com/show/?m=1pNEvCqdWLo",
+  "floorplan": "floorplan.jpg",
+  "photos": [
+   {
+    "file": "photos/01.jpg",
+    "caption": "Unit 802 (from filename)"
+   },
+   {
+    "file": "photos/02.jpg",
+    "caption": "Unit 1015 (from filename)"
+   },
+   {
+    "file": "photos/03.jpg",
+    "caption": "Unit 1015 (from filename)"
+   },
+   {
+    "file": "photos/04.jpg",
+    "caption": "Unit 802 (from filename)"
+   },
+   {
+    "file": "photos/05.jpg",
+    "caption": "Unit 802 (from filename)"
+   },
+   {
+    "file": "photos/06.jpg",
+    "caption": "Unit 1015 (from filename)"
+   },
+   {
+    "file": "photos/07.jpg",
+    "caption": "Unit 1015 (from filename)"
+   },
+   {
+    "file": "photos/08.jpg",
+    "caption": "Unit 802 (from filename)"
+   },
+   {
+    "file": "photos/09.jpg",
+    "caption": "Unit 802 (from filename)"
+   },
+   {
+    "file": "photos/10.jpg",
+    "caption": "Unit 1015 (from filename)"
+   },
+   {
+    "file": "photos/11.jpg",
+    "caption": "Unit 802 (from filename)"
+   }
+  ],
+  "source": {
+   "url": "https://u-towers.com/apartment-g-photo-gallery/",
+   "manager": "University Towers (u-towers.com)",
+   "accessed": "2026-11-20"
+  },
+  "notes": "Accuracy cross-check. The site has two Matterport tours for this floorplan: unit 802 (https://my.matterport.com/show/?m=1pNEvCqdWLo, stored above) and unit 1015 (https://my.matterport.com/show/?m=RhxxmG65eUX). The gallery mixes photos of units 802 (6 photos) and 1015 (5 photos); each caption gives the unit from the image filename. For a same-unit comparison, use only the unit 802 photos against the 802 tour. The site's shared lobby and studio stock images were left out. Rent is $2,998/mo for the apartment ($749.50 each for 4 people, $1,499 each for 2), and the site notes that apartments are assigned at management's discretion. Bath count (1, double vanity) is read off floorplan.jpg, an undimensioned furnished diagram from u-towers.com/floor-plans. Building: 536 S Forest Ave (South University area).",
+  "cover": "photos/01.jpg",
+  "tour": "matterport"
+ }
+]

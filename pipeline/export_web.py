@@ -21,10 +21,10 @@ def save_photo(src: Path, dst: Path):
 
 
 def tour_kind(listing: dict, out: Path) -> str:
-    if listing.get("matterport"):
-        return "matterport"
     if (out / "scene.json").exists():
         return "generated"
+    if listing.get("matterport"):
+        return "matterport"
     return "insufficient"
 
 
