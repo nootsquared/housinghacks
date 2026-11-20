@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { Link, useParams } from "react-router-dom"
 import { ArrowLeft, ExternalLink } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -8,7 +8,7 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { TourBadge } from "@/components/TourBadge"
 import { Tour, type TourMode } from "@/components/tour/Tour"
 import { asset, money, useListing, useScene } from "@/lib/data"
-import type { Listing, Scene } from "@/lib/types"
+import type { Listing, View } from "@/lib/types"
 import { cn } from "@/lib/utils"
 
 export default function ListingPage() {
@@ -17,17 +17,22 @@ export default function ListingPage() {
   const { data: scene } = useScene(id, listing?.tour === "generated")
   const [mode, setMode] = useState<TourMode>("dollhouse")
   const [current, setCurrent] = useState(0)
+  const views = useMemo(() => {
+    if (!scene) return []
+    const ok = new Set(scene.rooms.filter((r) => r.model || r.mesh).map((r) => r.id))
+    return scene.views.filter((v) => ok.has(v.room))
+  }, [scene])
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (!scene || mode !== "walk") return
-      if (e.key === "ArrowRight") setCurrent((c) => (c + 1) % scene.views.length)
-      if (e.key === "ArrowLeft") setCurrent((c) => (c - 1 + scene.views.length) % scene.views.length)
+      if (!views.length || mode !== "walk") return
+      if (e.key === "ArrowRight") setCurrent((c) => (c + 1) % views.length)
+      if (e.key === "ArrowLeft") setCurrent((c) => (c - 1 + views.length) % views.length)
       if (e.key === "Escape") setMode("dollhouse")
     }
     window.addEventListener("keydown", onKey)
     return () => window.removeEventListener("keydown", onKey)
-  }, [scene, mode])
+  }, [views, mode])
 
   if (loading) return null
   if (!listing) return <NotFound />
@@ -49,7 +54,7 @@ export default function ListingPage() {
           />
         )}
         {listing.tour === "generated" && scene && (
-          <Tour id={listing.id} scene={scene} mode={mode} current={current} onSelectView={go} />
+          <Tour scene={scene} views={views} mode={mode} current={current} onSelectView={go} />
         )}
         {listing.tour === "insufficient" && <Insufficient listing={listing} />}
 
@@ -76,7 +81,10 @@ export default function ListingPage() {
         </div>
 
         {listing.tour === "generated" && scene && (
-          <ViewStrip id={listing.id} scene={scene} current={mode === "walk" ? current : -1} onSelect={go} />
+          <>
+            <ViewStrip id={listing.id} views={views} current={mode === "walk" ? current : -1} onSelect={go} />
+            {mode === "walk" && views[current] && <SourcePhoto id={listing.id} view={views[current]} />}
+          </>
         )}
       </main>
       <Details listing={listing} />
@@ -84,21 +92,30 @@ export default function ListingPage() {
   )
 }
 
+function SourcePhoto({ id, view }: { id: string; view: View }) {
+  return (
+    <figure className="absolute top-16 left-4 w-56 overflow-hidden rounded-lg bg-card shadow-sm ring-1 ring-border">
+      <img src={asset(id, view.file)} alt="" className="aspect-[4/3] w-full object-cover" />
+      <figcaption className="px-2.5 py-1.5 text-[11px] text-muted-foreground">Listing photo from this spot</figcaption>
+    </figure>
+  )
+}
+
 function ViewStrip({
   id,
-  scene,
+  views,
   current,
   onSelect,
 }: {
   id: string
-  scene: Scene
+  views: View[]
   current: number
   onSelect: (i: number) => void
 }) {
   return (
     <div className="absolute inset-x-0 bottom-0 flex justify-center p-4">
       <div className="flex max-w-full gap-1.5 overflow-x-auto rounded-xl bg-card/95 p-1.5 shadow-sm ring-1 ring-border backdrop-blur">
-        {scene.views.map((v, i) => (
+        {views.map((v, i) => (
           <button
             key={v.id}
             onClick={() => onSelect(i)}

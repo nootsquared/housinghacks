@@ -67,6 +67,44 @@ export type Room = {
   confidence: "measured" | "estimated" | "inferred"
   views: string[]
   shell?: Shell
+  model?: RoomModel
+  mesh?: RoomMesh
+}
+
+export type RoomMesh = {
+  file: string
+  triangles: number
+  segments: { view: string | null; start: number; count: number }[]
+}
+
+export type Opening = {
+  wall: WallId
+  kind: "door" | "window"
+  from: number
+  to: number
+  bottom: number
+  top: number
+  frame?: string
+}
+
+export type WallId = "n" | "s" | "e" | "w"
+
+export type Furniture = {
+  kind: string
+  center: Vec3
+  size: Vec3
+  color: string
+  accent?: string
+  evidence: number
+}
+
+export type RoomModel = {
+  fills?: Partial<Record<WallId | "floor", string>>
+  walls: Record<WallId, string>
+  wallColor: string
+  floor: { material: "wood" | "carpet" | "tile"; color: string; accent?: string; evidence: number }
+  openings: Opening[]
+  furniture: Furniture[]
 }
 
 export type Surface = {
