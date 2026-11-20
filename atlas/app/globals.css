@@ -1,16 +1,16 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #0a0a0b;
-  --surface: #121214;
-  --raised: #18181b;
-  --hover: #1f1f23;
+  --bg: #1b1b1b;
+  --surface: #212121;
+  --raised: #282828;
+  --hover: #2f2f2f;
   --line: rgba(255, 255, 255, 0.07);
   --line-strong: rgba(255, 255, 255, 0.13);
   --text: #ededed;
   --muted: #8f8f96;
   --faint: #5c5c63;
-  --accent: #f4b860;
+  --accent: #e8e3d9;
 }
 
 @theme inline {
@@ -89,7 +89,7 @@ input[type="range"]::-webkit-slider-thumb {
   position: relative;
   border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 6px;
-  background: rgba(14, 14, 16, 0.92);
+  background: rgba(33, 33, 33, 0.94);
   color: var(--text);
   padding: 3px 7px 4px;
   font: 600 12px/1.15 var(--font-geist), sans-serif;

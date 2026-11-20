@@ -120,7 +120,7 @@ export function Check({ checked, onChange, children }: { checked: boolean; onCha
 
 export function Section({ title, aside, children, className }: { title: string; aside?: ReactNode; children: ReactNode; className?: string }) {
   return (
-    <section className={cn("rounded-xl border border-line bg-surface", className)}>
+    <section className={cn("rounded-md border border-line bg-surface", className)}>
       <header className="flex items-center justify-between gap-3 border-b border-line px-5 py-3">
         <h3 className="text-[13px] font-medium">{title}</h3>
         {aside}

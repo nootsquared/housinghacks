@@ -27,7 +27,7 @@ export function Results(props: Props) {
   useEffect(() => setLimit(PAGE), [props.listings])
 
   return (
-    <aside className="flex w-[min(720px,48vw)] shrink-0 flex-col border-l border-line bg-bg">
+    <aside className="flex w-[min(720px,48vw)] shrink-0 flex-col border-l border-line">
       <div className="flex items-end justify-between gap-4 px-5 pt-5 pb-4">
         <div>
           <h1 className="text-[20px] font-semibold tracking-[-0.025em]">Ann Arbor rentals</h1>
@@ -53,7 +53,7 @@ export function Results(props: Props) {
       </div>
       <div className="scroll-thin min-h-0 flex-1 overflow-y-auto px-5 pb-6">
         {props.listings.length === 0 ? (
-          <div className="rounded-xl border border-dashed border-line-strong px-6 py-12 text-center">
+          <div className="rounded-md border border-dashed border-line-strong px-6 py-12 text-center">
             <p className="text-[14px]">Nothing here matches.</p>
             <p className="mt-1 text-[13px] text-muted">Zoom out on the map or loosen a filter.</p>
             <button
@@ -123,7 +123,7 @@ function Card({
       onMouseEnter={() => onHover(l.id)}
       onMouseLeave={() => onHover(null)}
       className={cn(
-        "group block w-full overflow-hidden rounded-xl border bg-surface text-left transition-colors",
+        "group block w-full overflow-hidden rounded-md border bg-surface text-left transition-colors",
         hovered ? "border-text/30" : "border-line hover:border-line-strong",
       )}
     >

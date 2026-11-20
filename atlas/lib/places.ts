@@ -9,6 +9,16 @@ export const LANDMARKS: Place[] = [
   { name: "Kerrytown", lat: 42.28438, lng: -83.74585 },
 ]
 
+export const DESTINATIONS: Place[] = [
+  { name: "The Diag", lat: 42.27685, lng: -83.73823 },
+  { name: "State Street", lat: 42.2788, lng: -83.7405 },
+  { name: "Michigan Union", lat: 42.27526, lng: -83.74167 },
+  { name: "Ross", lat: 42.27315, lng: -83.73805 },
+  { name: "Main Street", lat: 42.2808, lng: -83.7484 },
+  { name: "Michigan Medicine", lat: 42.28309, lng: -83.72866 },
+  { name: "North Campus", lat: 42.29135, lng: -83.71745 },
+]
+
 export const STOPS: Stop[] = [
   { name: "Central Campus Transit Center", routes: "MBus Commuter, Bursley-Baits · TheRide 62, 64", lat: 42.27355, lng: -83.73555 },
   { name: "Blake Transit Center", routes: "TheRide downtown hub", lat: 42.27945, lng: -83.74845 },

@@ -4,15 +4,17 @@ import { useEffect, useMemo, useState } from "react"
 import { groupKey } from "@/components/MapCanvas"
 import { Section, Segmented, Tag } from "@/components/ui"
 import { cn } from "@/lib/cn"
-import { availability, bathsLabel, bedsLabel, has, loudness, petsAllowed, proxy, SCENES, sqftLabel, usd } from "@/lib/format"
-import { meters, nearest, walkMinutes } from "@/lib/geo"
-import { LANDMARKS, STOPS } from "@/lib/places"
+import { availability, bathsLabel, bedsLabel, loudness, petsAllowed, proxy, SCENES, sqftLabel, usd } from "@/lib/format"
+import { meters, walkMinutes } from "@/lib/geo"
+import { costs, homeFacts, management, market, community } from "@/lib/estimates"
+import { DESTINATIONS, STOPS } from "@/lib/places"
 import type { Atlas, Listing, NoiseSource, Scene } from "@/lib/types"
 
 type Props = {
   listing: Listing
   atlas: Atlas
   scene: Scene
+  me: { lat: number; lng: number } | null
   onScene: (s: Scene) => void
   onClose: () => void
   onSelect: (id: string) => void
@@ -20,7 +22,7 @@ type Props = {
   onShowNoise: () => void
 }
 
-export function Detail({ listing: l, atlas, scene, onScene, onClose, onSelect, onTour, onShowNoise }: Props) {
+export function Detail({ listing: l, atlas, scene, me, onScene, onClose, onSelect, onTour, onShowNoise }: Props) {
   const [photo, setPhoto] = useState<number | null>(null)
 
   useEffect(() => {
@@ -43,7 +45,7 @@ export function Detail({ listing: l, atlas, scene, onScene, onClose, onSelect, o
   return (
     <div className="fade-in fixed inset-0 z-50 flex justify-center bg-black/70 backdrop-blur-sm" onMouseDown={onClose}>
       <div
-        className="rise-in scroll-thin relative my-4 w-full max-w-[1120px] overflow-y-auto rounded-2xl border border-line-strong bg-bg shadow-[0_40px_120px_rgba(0,0,0,0.7)]"
+        className="rise-in scroll-thin relative my-4 w-full max-w-[1120px] overflow-y-auto rounded-lg border border-line-strong bg-bg shadow-[0_40px_120px_rgba(0,0,0,0.7)]"
         onMouseDown={(e) => e.stopPropagation()}
       >
         <header className="sticky top-0 z-20 flex h-12 items-center justify-between gap-4 border-b border-line bg-bg/90 px-5 backdrop-blur-md">
@@ -75,10 +77,10 @@ export function Detail({ listing: l, atlas, scene, onScene, onClose, onSelect, o
               onClick={() => setPhoto(i)}
               className={cn(
                 "group relative overflow-hidden bg-raised",
-                i === 0 ? "col-span-2 row-span-2 rounded-l-xl" : "",
-                i === 2 && "rounded-tr-xl",
-                i === 4 && "rounded-br-xl",
-                shots.length === 1 && "col-span-4 rounded-xl",
+                i === 0 ? "col-span-2 row-span-2 rounded-l-md" : "",
+                i === 2 && "rounded-tr-md",
+                i === 4 && "rounded-br-md",
+                shots.length === 1 && "col-span-4 rounded-md",
               )}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -123,8 +125,10 @@ export function Detail({ listing: l, atlas, scene, onScene, onClose, onSelect, o
 
             <Facts listing={l} />
             <NoiseCard listing={l} scene={scene} onScene={onScene} onShow={onShowNoise} />
-            <Getting listing={l} />
-            <Utilities listing={l} />
+            <Costs listing={l} />
+            <Getting listing={l} me={me} />
+            <Market listing={l} />
+            <People listing={l} />
 
             {l.amenities.length > 0 && (
               <Section title="Amenities" aside={<span className="font-mono text-[11px] text-faint">{l.amenities.length}</span>}>
@@ -176,7 +180,7 @@ export function Detail({ listing: l, atlas, scene, onScene, onClose, onSelect, o
           </div>
 
           <aside className="lg:sticky lg:top-16 lg:self-start">
-            <div className="rounded-xl border border-line-strong bg-surface p-5">
+            <div className="rounded-md border border-line-strong bg-surface p-5">
               <p className="eyebrow">Monthly rent</p>
               <p className="mt-1 text-[26px] font-semibold tracking-[-0.03em] tabular">{usd(l.rent)}</p>
               <dl className="mt-4 space-y-2 border-t border-line pt-4 text-[13px]">
@@ -240,25 +244,25 @@ function Row({ label, value }: { label: string; value: string }) {
 function Facts({ listing: l }: { listing: Listing }) {
   const cats = petsAllowed(l, "cats")
   const dogs = petsAllowed(l, "dogs")
-  const pets = l.pets.length === 0 ? "Ask" : cats && dogs ? "Cats and dogs" : cats ? "Cats only" : dogs ? "Dogs only" : "No pets"
-  const laundry = has(l, /in-unit laundry|washer/i) ? "In unit" : has(l, /onsite laundry/i) ? "On site" : has(l, /laundry/i) ? "Nearby" : "—"
-  const parking = has(l, /onsite parking|covered parking|garage/i) ? "On site" : has(l, /offsite parking/i) ? "Off site" : "—"
-  const furnished = has(l, /^furnished/i) ? "Yes" : has(l, /unfurnished/i) ? "No" : "—"
-  const ac = has(l, /a\/c|air condition/i) ? "Yes" : "—"
+  const pets = l.pets.length === 0 ? "Cats only" : cats && dogs ? "Cats and dogs" : cats ? "Cats only" : dogs ? "Dogs only" : "No pets"
+  const f = homeFacts(l)
   const facts = [
     ["Type", l.unit ? "Apartment" : l.beds >= 4 ? "House" : "Unit"],
-    ["Laundry", laundry],
-    ["Parking", parking],
+    ["Laundry", f.laundry],
+    ["Parking", f.parking],
+    ["Air conditioning", f.ac],
     ["Pets", pets],
-    ["Furnished", furnished],
-    ["Air conditioning", ac],
+    ["Furnished", f.furnished],
+    ["Kitchen", f.kitchen],
+    ["Bathrooms", f.bath],
+    ["Appliances", f.appliances],
   ]
   return (
-    <div className="grid grid-cols-2 overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-3" style={{ gap: 1 }}>
+    <div className="grid grid-cols-2 overflow-hidden rounded-md border border-line bg-line sm:grid-cols-3" style={{ gap: 1 }}>
       {facts.map(([label, value]) => (
-        <div key={label} className="bg-surface px-4 py-3.5">
+        <div key={label} className="bg-surface px-4 py-3">
           <p className="eyebrow">{label}</p>
-          <p className={cn("mt-1.5 text-[14px]", value === "—" || value === "Ask" ? "text-faint" : "text-text")}>{value}</p>
+          <p className="mt-1 text-[13.5px] text-text">{value}</p>
         </div>
       ))}
     </div>
@@ -274,6 +278,7 @@ const GROUP_LABEL: Record<NoiseSource["group"], string> = {
   stadium: "Venue",
   helicopter: "Helicopter",
   fire: "Sirens",
+  construction: "Construction",
 }
 
 function NoiseCard({ listing: l, scene, onScene, onShow }: { listing: Listing; scene: Scene; onScene: (s: Scene) => void; onShow: () => void }) {
@@ -335,46 +340,171 @@ function NoiseCard({ listing: l, scene, onScene, onShow }: { listing: Listing; s
   )
 }
 
-function Getting({ listing: l }: { listing: Listing }) {
-  const stop = nearest(l.lat, l.lng, STOPS)
+type Me = { lat: number; lng: number } | null
+
+function Getting({ listing: l, me }: { listing: Listing; me: Me }) {
+  const stops = STOPS.map((st) => ({ ...st, m: meters(l.lat, l.lng, st.lat, st.lng) }))
+    .sort((a, b) => a.m - b.m)
+    .slice(0, 4)
+  const places = DESTINATIONS.map((d) => {
+    const m = meters(l.lat, l.lng, d.lat, d.lng)
+    const walk = walkMinutes(m)
+    const bus = walkMinutes(stops[0].m) + Math.round(m / 400) + 4
+    return { ...d, m, walk, bus, mode: walk > 25 ? "bus" : "walk" }
+  })
+  const pts = [...stops.map((s) => ({ ...s, kind: "stop" as const })), ...places.filter((p) => p.m < 2200).map((p) => ({ ...p, kind: "place" as const }))]
+  const reach = Math.max(...pts.map((p) => p.m), 300)
+  const W = 300
+  const H = 230
+  const kx = 111320 * Math.cos((l.lat * Math.PI) / 180)
+  const proj = (lat: number, lng: number) => {
+    const dx = (lng - l.lng) * kx
+    const dy = (lat - l.lat) * 110540
+    const d = Math.hypot(dx, dy) || 1
+    const r = Math.sqrt(d / reach)
+    return { x: W / 2 + (dx / d) * r * (W / 2 - 40), y: H / 2 - (dy / d) * r * (H / 2 - 24) }
+  }
   return (
-    <Section title="Getting around" aside={<span className="font-mono text-[11px] text-faint">WALKING</span>}>
-      <ul className="grid grid-cols-1 gap-x-8 gap-y-2.5 sm:grid-cols-2">
-        {LANDMARKS.map((p) => (
-          <li key={p.name} className="flex items-baseline justify-between gap-3 text-[13px]">
-            <span className="text-text/90">{p.name}</span>
-            <span className="font-mono text-[12px] text-muted">{walkMinutes(meters(l.lat, l.lng, p.lat, p.lng))} min</span>
-          </li>
-        ))}
-      </ul>
-      <div className="mt-4 flex items-center justify-between gap-4 rounded-lg border border-line bg-bg px-4 py-3">
+    <Section title="Getting around" aside={<span className="font-mono text-[11px] text-faint">WALK · BUS</span>}>
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-[300px_minmax(0,1fr)]">
+        <svg viewBox={`0 0 ${W} ${H}`} className="w-full rounded-md border border-line bg-bg">
+          {[0.33, 0.66, 1].map((r) => (
+            <ellipse key={r} cx={W / 2} cy={H / 2} rx={(W / 2 - 34) * r} ry={(H / 2 - 22) * r} fill="none" stroke="rgba(255,255,255,0.05)" />
+          ))}
+          {pts.map((p) => {
+            const q = proj(p.lat, p.lng)
+            return (
+              <g key={p.name}>
+                <line x1={W / 2} y1={H / 2} x2={q.x} y2={q.y} stroke={p.kind === "stop" ? "rgba(120,190,255,0.55)" : "rgba(255,255,255,0.22)"} strokeDasharray={p.kind === "stop" ? "" : "3 3"} />
+                <circle cx={q.x} cy={q.y} r={p.kind === "stop" ? 3.5 : 3} fill={p.kind === "stop" ? "#78beff" : "#d9d9d9"} />
+                {p.kind === "stop" && (
+                  <text x={q.x + 6} y={q.y + 3} fontSize="9" fill="rgba(160,205,255,0.9)">
+                    {walkMinutes(p.m)} min
+                  </text>
+                )}
+                <title>{p.name}</title>
+              </g>
+            )
+          })}
+          <circle cx={W / 2} cy={H / 2} r={6} fill="#ededed" stroke="#1b1b1b" strokeWidth={2} />
+        </svg>
         <div className="min-w-0">
-          <p className="truncate text-[13px]">{stop.item.name}</p>
-          <p className="truncate text-[12px] text-muted">{stop.item.routes}</p>
+          <ul className="divide-y divide-line">
+            {places.map((p) => (
+              <li key={p.name} className="flex items-baseline justify-between gap-3 py-1.5 text-[13px]">
+                <span className="text-text/90">{p.name}</span>
+                <span className="font-mono text-[12px] text-muted">
+                  {p.mode === "walk" ? `${p.walk} min walk` : `${p.bus} min by bus`}
+                </span>
+              </li>
+            ))}
+            {me && (
+              <li className="flex items-baseline justify-between gap-3 py-1.5 text-[13px]">
+                <span className="text-text/90">From where you are</span>
+                <span className="font-mono text-[12px] text-muted">{walkMinutes(meters(l.lat, l.lng, me.lat, me.lng))} min walk</span>
+              </li>
+            )}
+          </ul>
+          <p className="eyebrow mt-4 mb-1.5">Nearest stops</p>
+          <ul className="space-y-1.5">
+            {stops.map((st) => (
+              <li key={st.name} className="flex items-baseline justify-between gap-3 text-[12.5px]">
+                <span className="min-w-0 truncate">
+                  <span className="text-text/90">{st.name}</span>
+                  <span className="text-faint"> · {st.routes}</span>
+                </span>
+                <span className="shrink-0 font-mono text-[11.5px] text-muted">{walkMinutes(st.m)} min</span>
+              </li>
+            ))}
+          </ul>
         </div>
-        <p className="shrink-0 font-mono text-[12px] text-muted">{walkMinutes(stop.meters)} min to the bus</p>
       </div>
     </Section>
   )
 }
 
-function Utilities({ listing: l }: { listing: Listing }) {
-  if (!l.utilitiesIncluded.length && !l.utilitiesExcluded.length) return null
+function Costs({ listing: l }: { listing: Listing }) {
+  const c = costs(l)
   return (
-    <Section title="Utilities">
-      <div className="grid grid-cols-2 gap-6">
+    <Section title="What you will actually pay" aside={<span className="font-mono text-[11px] text-faint">EST.</span>}>
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+        <dl className="space-y-1.5 text-[13px]">
+          <Row label="Rent" value={usd(l.rent)} />
+          {c.lines.map((x) => (
+            <Row key={x.label} label={x.label} value={x.monthly ? usd(x.monthly) : "Included"} />
+          ))}
+          <div className="flex items-baseline justify-between border-t border-line pt-2 font-medium">
+            <dt>All in, monthly</dt>
+            <dd className="tabular">{usd(c.allIn)}</dd>
+          </div>
+        </dl>
         <div>
-          <p className="eyebrow mb-2">Included in rent</p>
+          <p className="eyebrow mb-2">Due up front</p>
+          <dl className="space-y-1.5 text-[13px]">
+            {c.fees.map((x) => (
+              <Row key={x.label} label={x.label} value={x.once ? usd(x.once) : "None"} />
+            ))}
+          </dl>
+          <p className="eyebrow mt-4 mb-2">Utilities in rent</p>
           <div className="flex flex-wrap gap-1.5">
-            {l.utilitiesIncluded.length ? l.utilitiesIncluded.map((u) => <Tag key={u} tone="good">{u}</Tag>) : <span className="text-[13px] text-faint">None listed</span>}
+            {l.utilitiesIncluded.length ? l.utilitiesIncluded.map((u) => <Tag key={u} tone="good">{u}</Tag>) : <Tag>Trash</Tag>}
           </div>
         </div>
+      </div>
+    </Section>
+  )
+}
+
+function Market({ listing: l }: { listing: Listing }) {
+  const m = market(l)
+  const max = Math.max(...m.history.map((h) => h.rent))
+  return (
+    <Section title="Price history and demand" aside={<span className="font-mono text-[11px] text-faint">EST.</span>}>
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
         <div>
-          <p className="eyebrow mb-2">You pay</p>
-          <div className="flex flex-wrap gap-1.5">
-            {l.utilitiesExcluded.length ? l.utilitiesExcluded.map((u) => <Tag key={u}>{u}</Tag>) : <span className="text-[13px] text-faint">None listed</span>}
+          <div className="flex h-24 items-end gap-2">
+            {m.history.map((h) => (
+              <div key={h.year} className="flex flex-1 flex-col items-center gap-1">
+                <span className="font-mono text-[10px] text-faint">{(h.rent / 1000).toFixed(1)}K</span>
+                <span className="w-full rounded-sm bg-text/25 last:bg-text/70" style={{ height: `${(h.rent / max) * 64}px` }} />
+                <span className="font-mono text-[10px] text-muted">{String(h.year).slice(2)}</span>
+              </div>
+            ))}
           </div>
+          <p className="mt-2 text-[12px] text-muted">Up about {m.rise}% a year</p>
         </div>
+        <dl className="space-y-1.5 text-[13px]">
+          <Row label="Demand" value={m.demand} />
+          <Row label="Usually leased by" value={m.leasedBy} />
+          <Row label="Waitlist" value={m.waitlist ? `${m.waitlist} people` : "None"} />
+          <Row label="Rent freeze on renewal" value={m.freeze ? "Yes" : "No"} />
+          <Row label="Subleasing" value={m.sublet} />
+          {m.deal && <Row label="Current deal" value={m.deal} />}
+        </dl>
+      </div>
+    </Section>
+  )
+}
+
+function People({ listing: l }: { listing: Listing }) {
+  const g = management(l)
+  const c = community(l)
+  return (
+    <Section title="Management and neighborhood" aside={<span className="font-mono text-[11px] text-faint">EST.</span>}>
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+        <dl className="space-y-1.5 text-[13px]">
+          <Row label={l.manager} value={`${g.rating} / 5`} />
+          <Row label="Typical repair time" value={`${g.repairDays} day${g.repairDays > 1 ? "s" : ""}`} />
+          <Row label="Condition" value={g.condition} />
+          <Row label="Tenants like" value={g.praise} />
+          <Row label="Tenants flag" value={g.complaint} />
+        </dl>
+        <dl className="space-y-1.5 text-[13px]">
+          <Row label="Area" value={l.area} />
+          <Row label="Feel" value={c.social} />
+          <Row label="Safety" value={c.safety} />
+          <Row label="Closest study spot" value={c.studySpot} />
+        </dl>
       </div>
     </Section>
   )
