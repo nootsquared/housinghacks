@@ -9,3 +9,5 @@ __pycache__
 pipeline/out
 pipeline/weights
 pipeline/.cache
+web/public/data/test-*
+.scratch_test

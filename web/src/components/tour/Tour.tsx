@@ -26,6 +26,17 @@ export function Tour(props: Props) {
       gl={{ antialias: true, toneMapping: THREE.NoToneMapping }}
       camera={{ fov: 60, near: 0.02, far: 200 }}
       className="!absolute inset-0"
+      onCreated={(s) => {
+        const tick = () => {
+          const out: unknown[] = []
+          s.scene.traverse((o) => {
+            const m = o as THREE.Mesh
+            if (m.isMesh) out.push([m.visible, (m.material as THREE.Material).opacity, m.geometry.index?.count])
+          })
+          document.body.dataset.debug = JSON.stringify({ cam: s.camera.position.toArray(), n: out.length, out: out.slice(0, 9) })
+        }
+        setInterval(tick, 1000)
+      }}
     >
       <color attach="background" args={[props.mode === "walk" ? "#16171b" : "#efede8"]} />
       <Suspense fallback={null}>
