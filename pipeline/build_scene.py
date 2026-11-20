@@ -411,6 +411,26 @@ def arrange(listing_dir, listing, built):
     return offsets, doorways
 
 
+def apply_surfaces(scene, shell_dir):
+    from surfaces import listing_surfaces
+
+    rooms = [r for r in scene["rooms"] if r.get("model") and (shell_dir / f"{r['id']}-floor.jpg").exists()]
+    found = listing_surfaces(shell_dir, [r["id"] for r in rooms], [r["type"] for r in rooms], shell_dir)
+    dry = next((v["floor"] for k, v in found.items() if v.get("floor")), None)
+    for r in scene["rooms"]:
+        m = r.get("model")
+        if not m:
+            continue
+        got = found.get(r["id"], {})
+        floor = got.get("floor") or dry
+        if floor:
+            m["floor"] = {**m["floor"], "material": floor["material"], "color": floor["color"],
+                          "tile": f"shell/{floor['tile']}", "size": floor["size"]}
+        for w, paint in got.get("walls", {}).items():
+            if paint:
+                m["walls"][w] = paint["color"]
+
+
 def build(listing_dir: Path, rooms: list[dict], out: Path):
     listing = json.loads((listing_dir / "listing.json").read_text())
     out.mkdir(parents=True, exist_ok=True)
@@ -469,6 +489,7 @@ def build(listing_dir: Path, rooms: list[dict], out: Path):
         "cameraHeight": round(cam_h, 3),
         "floorArea": round(sum(r["size"][0] * r["size"][2] for r in scene_rooms if r.get("model")) * 10.764),
     }
+    apply_surfaces(scene, out / "shell")
     (out / "scene.json").write_text(json.dumps(scene, indent=1))
     return scene
 
