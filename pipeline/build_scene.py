@@ -6,7 +6,8 @@ import numpy as np
 from PIL import Image, ImageOps
 
 from fuse import fuse_room, write_mesh
-from layout import lay_out
+from layout import turn_room
+from plan import solve
 from recreate import recreate, wall_fills
 from shell import Cam, build_shell, ransac_plane
 
@@ -361,6 +362,42 @@ def infer_floors(built, weak=0.6):
             m["floor"] = {**best, "evidence": 0.0, "inferred": "matched to best seen floor"}
 
 
+def dump_rooms(built, path):
+    rooms = []
+    for r in built:
+        m = r.get("model") or {}
+        rooms.append({
+            "id": r["room"]["id"], "type": r["room"]["type"], "box": r["box"], "shell": bool(r.get("shell")),
+            "openings": m.get("openings", []), "walls": m.get("walls"),
+            "views": [{"id": pv["vid"], "photo": pv["rel"], "C": np.round(pv["C"], 3).tolist(),
+                       "forward": np.round(-pv["Rc2w"][:, 2], 3).tolist(), "fov": round(pv["fov"], 2)} for pv in r["pending"]],
+        })
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(rooms, indent=1))
+
+
+def arrange(listing_dir, listing, built):
+    from doors import detect_doors
+
+    work = ROOT / "pipeline" / "out" / listing["id"]
+    dump_rooms(built, work / "rooms_prelayout.json")
+    doors = detect_doors(listing_dir, [r["room"]["run"] for r in built], work / "rooms_prelayout.json")
+    (work / "doors.json").write_text(json.dumps(doors, indent=1))
+    prior_path = listing_dir / "floorplan_prior.json"
+    prior = json.loads(prior_path.read_text()) if prior_path.exists() else None
+    rooms = json.loads((work / "rooms_prelayout.json").read_text())
+    sol = solve(rooms, doors, listing.get("sqft"), prior)
+    (work / "plan.json").write_text(json.dumps(sol, indent=1))
+    offsets = []
+    for r in built:
+        p = sol[r["room"]["id"]]
+        if "box" in p:
+            r["box"] = p["box"]
+        turn_room(r, p["turn"])
+        offsets.append(np.array(p["offset"], float))
+    return offsets
+
+
 def build(listing_dir: Path, rooms: list[dict], out: Path):
     listing = json.loads((listing_dir / "listing.json").read_text())
     out.mkdir(parents=True, exist_ok=True)
@@ -373,7 +410,7 @@ def build(listing_dir: Path, rooms: list[dict], out: Path):
         for pv in r["pending"]:
             views.append(pv)
     infer_floors(built)
-    offsets = lay_out(built)
+    offsets = arrange(listing_dir, listing, built)
     scene_views, scene_rooms = [], []
     all_min, all_max = np.full(3, np.inf), np.full(3, -np.inf)
     (out / "depth").mkdir(exist_ok=True)

@@ -7,20 +7,20 @@
    "type": "living",
    "label": "Living and kitchen",
    "center": [
-    2.8,
+    0.532,
     1.432,
-    2.448
+    -0.004
    ],
    "size": [
-    5.6,
+    4.896,
     2.863,
-    4.896
+    5.6
    ],
    "yaw": 0,
    "offset": [
-    2.8039,
     0.0,
-    2.9803
+    0.0,
+    0.0
    ],
    "confidence": "measured",
    "views": [
@@ -38,24 +38,24 @@
    "scaleSource": "metric depth",
    "shell": {
     "x": [
-     0.0,
-     5.600000000000005
+     -1.915756849455995,
+     2.9802906038102064
     ],
     "z": [
-     0.0,
-     4.896047453266201
+     -2.8039271104005943,
+     2.7960728895994107
     ],
     "height": 2.8632631449220214,
     "surfaces": [],
     "wallColor": "#d8d8dc",
-    "floorTurn": 3
+    "floorTurn": 2
    },
    "model": {
     "walls": {
-     "e": "#cfcdca",
-     "w": "#d3d1cd",
-     "n": "#d2d7e3",
-     "s": "#cfd0d3"
+     "s": "#cfcdca",
+     "n": "#d3d1cd",
+     "e": "#d2d7e3",
+     "w": "#cfd0d3"
     },
     "wallColor": "#cfd0d3",
     "floor": {
@@ -66,10 +66,10 @@
     },
     "openings": [
      {
-      "wall": "n",
+      "wall": "e",
       "kind": "window",
-      "from": 0.17,
-      "to": 5.34,
+      "from": -2.634,
+      "to": 2.536,
       "bottom": 0.473,
       "top": 2.738,
       "source": "appearance",
@@ -80,14 +80,14 @@
      {
       "kind": "counter",
       "center": [
-       0.3,
+       0.655,
        0.909,
-       2.325
+       -2.504
       ],
       "size": [
-       0.6,
+       1.65,
        1.819,
-       1.65
+       0.6
       ],
       "color": "#d9d1c8",
       "evidence": 0.814,
@@ -96,14 +96,14 @@
      {
       "kind": "sofa",
       "center": [
-       3.575,
+       1.255,
        0.291,
-       1.725
+       0.771
       ],
       "size": [
-       0.95,
+       1.65,
        0.581,
-       1.65
+       0.95
       ],
       "color": "#575654",
       "evidence": 1.0,
@@ -112,14 +112,14 @@
      {
       "kind": "table",
       "center": [
-       4.525,
+       1.33,
        0.159,
-       1.65
+       1.721
       ],
       "size": [
-       0.55,
+       0.5,
        0.319,
-       0.5
+       0.55
       ],
       "color": "#cbcaca",
       "evidence": 0.853,
@@ -127,10 +127,10 @@
      }
     ],
     "fills": {
-     "e": "shell/living-wall-n-paint.jpg",
-     "w": "shell/living-wall-s-paint.jpg",
-     "n": "shell/living-wall-w-paint.jpg",
-     "s": "shell/living-wall-e-paint.jpg",
+     "s": "shell/living-wall-n-paint.jpg",
+     "n": "shell/living-wall-s-paint.jpg",
+     "e": "shell/living-wall-w-paint.jpg",
+     "w": "shell/living-wall-e-paint.jpg",
      "floor": "shell/living-floor-seen.png"
     }
    },
@@ -201,20 +201,20 @@
    "type": "hallway",
    "label": "Hall",
    "center": [
-    1.413,
+    -2.631,
     1.15,
-    6.207
+    -0.704
    ],
    "size": [
-    2.825,
+    1.191,
     2.3,
-    2.383
+    4.521
    ],
    "yaw": 0,
    "offset": [
-    3.1138,
+    -1.1975,
     0.0,
-    4.7735
+    0.9975
    ],
    "confidence": "estimated",
    "views": [
@@ -243,20 +243,20 @@
    "type": "bedroom",
    "label": "Bedroom 1",
    "center": [
-    7.18,
+    -4.987,
     1.15,
-    1.64
+    0.097
    ],
    "size": [
-    2.92,
+    3.28,
     2.3,
-    3.28
+    2.92
    ],
    "yaw": 0,
    "offset": [
-    7.3789,
+    -4.2229,
     0.0,
-    0.8757
+    0.2956
    ],
    "confidence": "measured",
    "views": [
@@ -269,156 +269,24 @@
    "scaleSource": "metric depth",
    "shell": {
     "x": [
-     5.720000000000005,
-     8.640000000000008
+     -6.627188894569711,
+     -3.347188894569708
     ],
     "z": [
-     0.0,
-     3.280000000000003
+     -1.363331309166353,
+     1.5566686908336496
     ],
     "height": 2.3,
-    "surfaces": [
-     {
-      "name": "floor",
-      "origin": [
-       5.72,
-       0.0,
-       3.28
-      ],
-      "u": [
-       2.92,
-       0.0,
-       0.0
-      ],
-      "v": [
-       0.0,
-       0.0,
-       -3.28
-      ],
-      "texture": "shell/bedroom-1-floor.jpg",
-      "seen": "shell/bedroom-1-floor-seen.png",
-      "coverage": 0.176,
-      "detected": true
-     },
-     {
-      "name": "wall-n",
-      "origin": [
-       5.72,
-       2.3,
-       0.0
-      ],
-      "u": [
-       2.92,
-       0.0,
-       0.0
-      ],
-      "v": [
-       0.0,
-       -2.3,
-       0.0
-      ],
-      "texture": "shell/bedroom-1-wall-n.jpg",
-      "seen": "shell/bedroom-1-wall-n-seen.png",
-      "coverage": 0.062,
-      "detected": true
-     },
-     {
-      "name": "wall-s",
-      "origin": [
-       8.64,
-       2.3,
-       3.28
-      ],
-      "u": [
-       -2.92,
-       0.0,
-       0.0
-      ],
-      "v": [
-       0.0,
-       -2.3,
-       0.0
-      ],
-      "texture": "shell/bedroom-1-wall-s.jpg",
-      "seen": "shell/bedroom-1-wall-s-seen.png",
-      "coverage": 0.565,
-      "detected": true
-     },
-     {
-      "name": "wall-w",
-      "origin": [
-       5.72,
-       2.3,
-       3.28
-      ],
-      "u": [
-       0.0,
-       0.0,
-       -3.28
-      ],
-      "v": [
-       0.0,
-       -2.3,
-       0.0
-      ],
-      "texture": "shell/bedroom-1-wall-w.jpg",
-      "seen": "shell/bedroom-1-wall-w-seen.png",
-      "coverage": 0.653,
-      "detected": true
-     },
-     {
-      "name": "wall-e",
-      "origin": [
-       8.64,
-       2.3,
-       0.0
-      ],
-      "u": [
-       0.0,
-       0.0,
-       3.28
-      ],
-      "v": [
-       0.0,
-       -2.3,
-       0.0
-      ],
-      "texture": "shell/bedroom-1-wall-e.jpg",
-      "seen": "shell/bedroom-1-wall-e-seen.png",
-      "coverage": 0.285,
-      "detected": true
-     },
-     {
-      "name": "ceiling",
-      "origin": [
-       5.72,
-       2.3,
-       0.0
-      ],
-      "u": [
-       2.92,
-       0,
-       0
-      ],
-      "v": [
-       0,
-       0,
-       3.28
-      ],
-      "color": "#c5cac6",
-      "coverage": 0,
-      "detected": false
-     }
-    ],
+    "surfaces": [],
     "wallColor": "#c5cac6",
-    "floorTurn": 0
+    "floorTurn": 3
    },
    "model": {
     "walls": {
-     "n": "#e6e5e2",
-     "s": "#1d4ea4",
-     "w": "#d8d4cf",
-     "e": "#dad7d3"
+     "e": "#e6e5e2",
+     "w": "#1d4ea4",
+     "n": "#d8d4cf",
+     "s": "#dad7d3"
     },
     "wallColor": "#bdc2be",
     "floor": {
@@ -429,18 +297,18 @@
     },
     "openings": [
      {
-      "wall": "n",
+      "wall": "e",
       "kind": "window",
-      "from": 5.72,
-      "to": 6.52,
+      "from": -1.363,
+      "to": -0.563,
       "bottom": 0.3,
       "top": 1.75
      },
      {
-      "wall": "e",
+      "wall": "s",
       "kind": "door",
-      "from": 1.2,
-      "to": 1.95,
+      "from": -5.297,
+      "to": -4.547,
       "bottom": 0.0,
       "top": 1.7
      }
@@ -449,14 +317,14 @@
      {
       "kind": "bed",
       "center": [
-       6.735,
+       -5.197,
        0.286,
-       1.85
+       -0.348
       ],
       "size": [
-       2.03,
+       1.52,
        0.572,
-       1.52
+       2.03
       ],
       "color": "#dbd9d4",
       "evidence": 1.0,
@@ -464,10 +332,10 @@
      }
     ],
     "fills": {
-     "n": "shell/bedroom-1-wall-n-paint.jpg",
-     "s": "shell/bedroom-1-wall-s-paint.jpg",
-     "w": "shell/bedroom-1-wall-w-paint.jpg",
-     "e": "shell/bedroom-1-wall-e-paint.jpg",
+     "e": "shell/bedroom-1-wall-n-paint.jpg",
+     "w": "shell/bedroom-1-wall-s-paint.jpg",
+     "n": "shell/bedroom-1-wall-w-paint.jpg",
+     "s": "shell/bedroom-1-wall-e-paint.jpg",
      "floor": "shell/bedroom-1-floor-seen.png"
     }
    },
@@ -513,20 +381,20 @@
    "type": "bathroom",
    "label": "Bathroom",
    "center": [
-    3.985,
+    -2.107,
     1.35,
-    6.136
+    -4.124
    ],
    "size": [
-    2.08,
+    2.24,
     2.7,
-    2.24
+    2.08
    ],
    "yaw": 0,
    "offset": [
-    4.0939,
+    -1.7719,
     0.0,
-    5.8008
+    -4.0154
    ],
    "confidence": "measured",
    "views": [
@@ -537,156 +405,24 @@
    "scaleSource": "metric depth",
    "shell": {
     "x": [
-     2.9453658691526305,
-     5.025365869152632
+     -3.2271265809547884,
+     -0.9871265809547864
     ],
     "z": [
-     5.0160474532662,
-     7.256047453266202
+     -5.163916590150268,
+     -3.083916590150266
     ],
     "height": 2.7,
-    "surfaces": [
-     {
-      "name": "floor",
-      "origin": [
-       2.9454,
-       0.0,
-       7.256
-      ],
-      "u": [
-       2.08,
-       0.0,
-       0.0
-      ],
-      "v": [
-       0.0,
-       0.0,
-       -2.24
-      ],
-      "texture": "shell/bathroom-floor.jpg",
-      "seen": "shell/bathroom-floor-seen.png",
-      "coverage": 0.02,
-      "detected": true
-     },
-     {
-      "name": "wall-n",
-      "origin": [
-       2.9454,
-       2.7,
-       5.016
-      ],
-      "u": [
-       2.08,
-       0.0,
-       0.0
-      ],
-      "v": [
-       0.0,
-       -2.7,
-       0.0
-      ],
-      "texture": "shell/bathroom-wall-n.jpg",
-      "seen": "shell/bathroom-wall-n-seen.png",
-      "coverage": 0.025,
-      "detected": true
-     },
-     {
-      "name": "wall-s",
-      "origin": [
-       5.0254,
-       2.7,
-       7.256
-      ],
-      "u": [
-       -2.08,
-       0.0,
-       0.0
-      ],
-      "v": [
-       0.0,
-       -2.7,
-       0.0
-      ],
-      "texture": "shell/bathroom-wall-s.jpg",
-      "seen": "shell/bathroom-wall-s-seen.png",
-      "coverage": 0.175,
-      "detected": true
-     },
-     {
-      "name": "wall-w",
-      "origin": [
-       2.9454,
-       2.7,
-       7.256
-      ],
-      "u": [
-       0.0,
-       0.0,
-       -2.24
-      ],
-      "v": [
-       0.0,
-       -2.7,
-       0.0
-      ],
-      "texture": "shell/bathroom-wall-w.jpg",
-      "seen": "shell/bathroom-wall-w-seen.png",
-      "coverage": 0.187,
-      "detected": true
-     },
-     {
-      "name": "wall-e",
-      "origin": [
-       5.0254,
-       2.7,
-       5.016
-      ],
-      "u": [
-       0.0,
-       0.0,
-       2.24
-      ],
-      "v": [
-       0.0,
-       -2.7,
-       0.0
-      ],
-      "texture": "shell/bathroom-wall-e.jpg",
-      "seen": "shell/bathroom-wall-e-seen.png",
-      "coverage": 0.003,
-      "detected": true
-     },
-     {
-      "name": "ceiling",
-      "origin": [
-       2.9454,
-       2.7,
-       5.016
-      ],
-      "u": [
-       2.08,
-       0,
-       0
-      ],
-      "v": [
-       0,
-       0,
-       2.24
-      ],
-      "color": "#b7b3ac",
-      "coverage": 0,
-      "detected": false
-     }
-    ],
+    "surfaces": [],
     "wallColor": "#b7b3ac",
-    "floorTurn": 0
+    "floorTurn": 3
    },
    "model": {
     "walls": {
-     "n": "#dad3cc",
-     "s": "#aea9a2",
-     "w": "#b5b3ae",
-     "e": "#cdc1b9"
+     "e": "#dad3cc",
+     "w": "#aea9a2",
+     "n": "#b5b3ae",
+     "s": "#cdc1b9"
     },
     "wallColor": "#b0aca6",
     "floor": {
@@ -699,10 +435,10 @@
     "openings": [],
     "furniture": [],
     "fills": {
-     "n": "shell/bathroom-wall-n-paint.jpg",
-     "s": "shell/bathroom-wall-s-paint.jpg",
-     "w": "shell/bathroom-wall-w-paint.jpg",
-     "e": "shell/bathroom-wall-e-paint.jpg",
+     "e": "shell/bathroom-wall-n-paint.jpg",
+     "w": "shell/bathroom-wall-s-paint.jpg",
+     "n": "shell/bathroom-wall-w-paint.jpg",
+     "s": "shell/bathroom-wall-e-paint.jpg",
      "floor": "shell/bathroom-floor-seen.png"
     }
    },
@@ -738,9 +474,9 @@
    "type": "bedroom",
    "label": "Bedroom 2",
    "center": [
-    10.78,
+    -5.367,
     1.397,
-    2.017
+    -3.487
    ],
    "size": [
     4.04,
@@ -749,9 +485,9 @@
    ],
    "yaw": 0,
    "offset": [
-    10.2317,
+    -5.9155,
     0.0,
-    2.7651
+    -2.7389
    ],
    "confidence": "measured",
    "views": [
@@ -763,12 +499,12 @@
    "scaleSource": "camera height prior",
    "shell": {
     "x": [
-     8.760000000000009,
-     12.800000000000013
+     -7.387158321516074,
+     -3.3471583215160696
     ],
     "z": [
-     0.0,
-     4.033628193320207
+     -5.503988953234382,
+     -1.4703607599141741
     ],
     "height": 2.793444208362795,
     "surfaces": [],
@@ -794,16 +530,16 @@
      {
       "wall": "e",
       "kind": "door",
-      "from": 2.7,
-      "to": 3.85,
+      "from": -2.804,
+      "to": -1.654,
       "bottom": 0.0,
       "top": 2.1
      },
      {
       "wall": "n",
       "kind": "window",
-      "from": 8.915,
-      "to": 12.38,
+      "from": -7.232,
+      "to": -3.767,
       "bottom": 0.068,
       "top": 2.743,
       "source": "appearance"
@@ -813,9 +549,9 @@
      {
       "kind": "bed",
       "center": [
-       10.325,
+       -5.822,
        0.161,
-       2.535
+       -2.969
       ],
       "size": [
        1.93,
@@ -875,15 +611,15 @@
    "source": "photos/01.jpg",
    "room": "living",
    "position": [
-    0.3958,
+    -1.3158,
     0.9782,
-    4.296
+    -2.4081
    ],
    "quaternion": [
-    -0.004858,
-    -0.341585,
-    -0.003629,
-    0.939831
+    0.000869,
+    0.906098,
+    0.006001,
+    -0.423024
    ],
    "fov": 69.739,
    "aspect": 1.4844,
@@ -895,15 +631,15 @@
    "source": "photos/02.jpg",
    "room": "living",
    "position": [
-    2.9914,
+    0.0384,
     1.055,
-    2.9419
+    0.1875
    ],
    "quaternion": [
-    -0.003712,
-    0.438274,
-    -0.002805,
-    0.898829
+    -0.000642,
+    -0.325662,
+    -0.004608,
+    0.945475
    ],
    "fov": 65.182,
    "aspect": 1.4782,
@@ -915,15 +651,15 @@
    "source": "photos/03.jpg",
    "room": "living",
    "position": [
-    4.8235,
+    0.275,
     0.8907,
-    2.7053
+    2.0196
    ],
    "quaternion": [
-    -0.00433,
-    0.354383,
-    -0.000422,
-    0.93509
+    -0.002763,
+    -0.410622,
+    -0.00336,
+    0.911795
    ],
    "fov": 72.299,
    "aspect": 1.4834,
@@ -935,15 +671,15 @@
    "source": "photos/04.jpg",
    "room": "living",
    "position": [
-    1.6809,
+    -0.112,
     1.0084,
-    3.0923
+    -1.1231
    ],
    "quaternion": [
-    -0.00223,
-    0.403034,
-    -0.000917,
-    0.915182
+    -0.000928,
+    -0.362143,
+    -0.002225,
+    0.932119
    ],
    "fov": 68.737,
    "aspect": 1.4811,
@@ -955,15 +691,15 @@
    "source": "photos/05.jpg",
    "room": "living",
    "position": [
-    0.9535,
+    -0.6884,
     1.0188,
-    3.6687
+    -1.8505
    ],
    "quaternion": [
-    0.004124,
-    -0.002042,
-    0.000484,
-    0.999989
+    0.002574,
+    -0.708543,
+    0.003258,
+    0.705655
    ],
    "fov": 64.675,
    "aspect": 1.4817,
@@ -975,15 +711,15 @@
    "source": "photos/06.jpg",
    "room": "living",
    "position": [
-    0.5285,
+    -0.8833,
     0.9778,
-    3.8635
+    -2.2754
    ],
    "quaternion": [
-    0.003424,
-    -0.471328,
-    -0.000465,
-    0.881951
+    -0.00275,
+    0.956913,
+    -0.002093,
+    -0.290354
    ],
    "fov": 69.437,
    "aspect": 1.4832,
@@ -995,15 +731,15 @@
    "source": "photos/07.jpg",
    "room": "living",
    "position": [
-    2.9697,
+    2.3062,
     0.9741,
-    0.6741
+    0.1657
    ],
    "quaternion": [
-    -0.002105,
-    0.922686,
-    0.013338,
-    0.385316
+    -0.01092,
+    0.379978,
+    0.007943,
+    0.924897
    ],
    "fov": 74.217,
    "aspect": 1.4951,
@@ -1015,15 +751,15 @@
    "source": "photos/08.jpg",
    "room": "living",
    "position": [
-    5.0818,
+    1.9722,
     0.851,
-    1.008
+    2.2778
    ],
    "quaternion": [
-    -0.00309,
-    0.860477,
-    0.005516,
-    0.50945
+    -0.006085,
+    0.248214,
+    0.001715,
+    0.968685
    ],
    "fov": 67.9,
    "aspect": 1.4876,
@@ -1035,15 +771,15 @@
    "source": "photos/09.jpg",
    "room": "living",
    "position": [
-    5.1825,
+    1.3033,
     0.8583,
-    1.6769
+    2.3786
    ],
    "quaternion": [
-    -0.003468,
-    0.706796,
-    -0.001745,
-    0.707407
+    -0.001219,
+    -0.000432,
+    -0.003687,
+    0.999992
    ],
    "fov": 72.96,
    "aspect": 1.4938,
@@ -1055,15 +791,15 @@
    "source": "photos/10.jpg",
    "room": "living",
    "position": [
-    2.6164,
+    -0.0384,
     1.0293,
-    3.0187
+    -0.1875
    ],
    "quaternion": [
-    -0.001084,
-    -0.39934,
-    -0.000619,
-    0.916802
+    0.000329,
+    0.930653,
+    0.001204,
+    -0.365901
    ],
    "fov": 65.345,
    "aspect": 1.4817,
@@ -1075,15 +811,15 @@
    "source": "photos/11.jpg",
    "room": "hall",
    "position": [
-    3.1138,
+    -1.1975,
     0.9205,
-    4.7735
+    0.9975
    ],
    "quaternion": [
-    0.000382,
-    0.926282,
-    -2.6e-05,
-    0.37683
+    0.000289,
+    0.388521,
+    0.000252,
+    0.92144
    ],
    "fov": 64.353,
    "aspect": 1.4861,
@@ -1095,15 +831,15 @@
    "source": "photos/12.jpg",
    "room": "bedroom-1",
    "position": [
-    6.312,
+    -2.2752,
     0.9505,
-    -1.072
+    -0.7714
    ],
    "quaternion": [
-    0.004476,
-    0.951726,
-    -0.008526,
-    0.306797
+    0.009193,
+    0.456034,
+    -0.002864,
+    0.88991
    ],
    "fov": 66.211,
    "aspect": 1.4856,
@@ -1115,15 +851,15 @@
    "source": "photos/13.jpg",
    "room": "bedroom-1",
    "position": [
-    6.0339,
+    -3.5227,
     0.941,
-    0.1755
+    -1.0494
    ],
    "quaternion": [
-    0.005714,
-    0.957842,
-    0.005049,
-    -0.287196
+    0.00047,
+    0.880374,
+    0.00761,
+    0.474218
    ],
    "fov": 69.439,
    "aspect": 1.4801,
@@ -1135,15 +871,15 @@
    "source": "photos/14.jpg",
    "room": "bedroom-1",
    "position": [
-    8.2226,
+    -4.5675,
     0.9309,
-    1.2203
+    1.1393
    ],
    "quaternion": [
-    -0.001082,
-    0.8667,
-    -0.000611,
-    0.498828
+    -0.000333,
+    0.260125,
+    -0.001197,
+    0.965574
    ],
    "fov": 70.954,
    "aspect": 1.4841,
@@ -1155,15 +891,15 @@
    "source": "photos/15.jpg",
    "room": "bedroom-1",
    "position": [
-    6.3332,
+    -6.2318,
     0.8805,
-    2.8846
+    -0.7501
    ],
    "quaternion": [
-    0.005128,
-    -0.276835,
-    0.007948,
-    0.960871
+    0.001995,
+    0.87519,
+    -0.009246,
+    -0.483687
    ],
    "fov": 71.597,
    "aspect": 1.4836,
@@ -1175,15 +911,15 @@
    "source": "photos/16.jpg",
    "room": "bedroom-1",
    "position": [
-    6.4079,
+    -6.3984,
     0.7742,
-    3.0512
+    -0.6754
    ],
    "quaternion": [
-    -0.02687,
-    0.489477,
-    0.007133,
-    0.871573
+    -0.024044,
+    -0.270182,
+    -0.013957,
+    0.962408
    ],
    "fov": 66.132,
    "aspect": 1.4926,
@@ -1195,15 +931,15 @@
    "source": "photos/17.jpg",
    "room": "bathroom",
    "position": [
-    4.8545,
+    -2.1967,
     1.0115,
-    6.2257
+    -3.2548
    ],
    "quaternion": [
-    0.006629,
-    0.257796,
-    4e-05,
-    0.966177
+    0.00466,
+    -0.500901,
+    0.004716,
+    0.865479
    ],
    "fov": 66.91,
    "aspect": 1.4873,
@@ -1215,15 +951,15 @@
    "source": "photos/18.jpg",
    "room": "bathroom",
    "position": [
-    4.0905,
+    -1.3881,
     0.9712,
-    5.417
+    -4.0187
    ],
    "quaternion": [
-    -0.003698,
-    0.930725,
-    -0.019977,
-    0.365155
+    0.011511,
+    0.399919,
+    -0.016741,
+    0.916325
    ],
    "fov": 68.503,
    "aspect": 1.4871,
@@ -1235,15 +971,15 @@
    "source": "photos/19.jpg",
    "room": "bathroom",
    "position": [
-    3.9582,
+    -1.7731,
     0.95,
-    5.802
+    -4.1511
    ],
    "quaternion": [
-    0.014322,
-    -0.554484,
-    -0.002906,
-    0.832066
+    -0.012182,
+    0.980439,
+    -0.008073,
+    -0.19628
    ],
    "fov": 67.405,
    "aspect": 1.4865,
@@ -1255,9 +991,9 @@
    "source": "photos/20.jpg",
    "room": "bedroom-2",
    "position": [
-    11.8975,
+    -4.2496,
     0.96,
-    3.4336
+    -2.0704
    ],
    "quaternion": [
     -0.001472,
@@ -1275,9 +1011,9 @@
    "source": "photos/21.jpg",
    "room": "bedroom-2",
    "position": [
-    11.9174,
+    -4.2298,
     0.8202,
-    0.7013
+    -4.8026
    ],
    "quaternion": [
     -0.00445,
@@ -1295,9 +1031,9 @@
    "source": "photos/22.jpg",
    "room": "bedroom-2",
    "position": [
-    8.9804,
+    -7.1668,
     0.9227,
-    3.2224
+    -2.2816
    ],
    "quaternion": [
     0.000572,
@@ -1315,9 +1051,9 @@
    "source": "photos/23.jpg",
    "room": "bedroom-2",
    "position": [
-    9.0677,
+    -7.0795,
     0.9819,
-    3.3082
+    -2.1958
    ],
    "quaternion": [
     -0.006378,
@@ -1332,14 +1068,14 @@
  ],
  "bounds": {
   "min": [
+   -7.387,
    0.0,
-   0.0,
-   0.0
+   -5.504
   ],
   "max": [
-   12.8,
+   2.98,
    2.863,
-   7.399
+   2.796
   ]
  },
  "cameraHeight": 0.922,
