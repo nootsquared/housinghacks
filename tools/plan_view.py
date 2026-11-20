@@ -97,6 +97,10 @@ def render(rooms, doors, solution, out, title=None):
         ax.plot([x0, x1], [z0, z1], color=color, lw=5, alpha=0.8, solid_capstyle="butt")
         for rid in (c["a"], c["b"]):
             ax.plot([centers[rid][0], mid[0]], [centers[rid][1], mid[1]], color=color, lw=1, ls="--")
+    for sl in solution.get("sightlines", []):
+        xs, zs = zip(*sl["path"])
+        ax.plot(xs, zs, color="#c0392b" if sl["cost"] > 0.5 else "#16a085", lw=1.2, ls=":")
+        ax.plot(xs[0], zs[0], marker="o", ms=4, color="#555555")
     ent = solution.get("entrance")
     if ent:
         (x0, z0), (x1, z1) = ent["door"]
@@ -111,7 +115,8 @@ def render(rooms, doors, solution, out, title=None):
     body = "\n".join(", ".join(parts[i:i + 6]) for i in range(0, len(parts), 6))
     ax.set_title(head + "\n" + body, fontsize=8)
     ax.text(0.01, 0.01, "green: matched doors  blue: door into flexible hall  orange: guessed door\n"
-            "red arc: unmatched door  brown dashes: closet  blue wall: window  purple: entry",
+            "red arc: unmatched door  brown dashes: closet  blue wall: window  purple: entry\n"
+            "dotted: photo sight line through a doorway (teal reaches the seen room, red misses)",
             transform=ax.transAxes, fontsize=7, color="#555555")
     fig.tight_layout()
     fig.savefig(out, dpi=110)

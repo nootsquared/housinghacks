@@ -47,6 +47,7 @@ def turn_room(r, k):
     if m:
         m["walls"] = {wall_after(w, k): c for w, c in m["walls"].items()}
         m["fills"] = {(f if f == "floor" else wall_after(f, k)): v for f, v in m.get("fills", {}).items()}
+        m["decals"] = {wall_after(w, k): v for w, v in m.get("decals", {}).items()}
         for o in m["openings"]:
             a = R @ np.array(wall_point(o["wall"], o["from"], old))
             b = R @ np.array(wall_point(o["wall"], o["to"], old))

@@ -5,10 +5,11 @@ from pathlib import Path
 import numpy as np
 from PIL import Image, ImageOps
 
-from fuse import fuse_room, write_mesh
-from layout import turn_room
+from fuse import write_mesh
+from objects import build_objects
+from layout import turn_room, wall_after
 from plan import solve
-from recreate import recreate, wall_fills
+from recreate import recreate, wall_decals, wall_fills
 from shell import Cam, build_shell, ransac_plane
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -312,6 +313,7 @@ def room_from_run(listing_dir, room, out, views, labels):
         raw = shell.pop("_raw")
         model = recreate(raw, rcams, box, room["type"])
         model["fills"] = wall_fills(raw, model["walls"], out / "shell", room["id"])
+        model["decals"] = wall_decals(raw, model["walls"], out / "shell", room["id"])
     else:
         lo, hi = np.quantile(P, 0.03, 0), np.quantile(P, 0.97, 0)
         box = ([float(lo[0]), float(hi[0])], [float(lo[2]), float(hi[2])], ceiling)
@@ -324,7 +326,7 @@ def room_from_run(listing_dir, room, out, views, labels):
         img = np.asarray(Image.open(pv["tex"]).resize(obj.shape[::-1], Image.BILINEAR)).astype(np.float32) / 255
         samples.append((X[sel], img[sel], np.repeat(pv["C"][None], sel.sum(), 0)))
     objects = None
-    fused = fuse_room(rcams, box, structure=shell is not None)
+    fused = build_objects(rcams, box, structure=shell is not None, inspect=ROOT / "pipeline" / "out" / listing_dir.name / "stages" / "1-image3d")
     return {"pending": pending, "shell": shell, "box": box, "ceiling": ceiling, "objects": objects, "model": model, "fused": fused,
             "c_lo": c_lo, "c_hi": c_hi}
 
@@ -376,9 +378,30 @@ def dump_rooms(built, path):
     path.write_text(json.dumps(rooms, indent=1))
 
 
+def add_missing_baths(built, listing):
+    """A 2-bath plan with one photographed bathroom keeps that bathroom and repeats it where the second one belongs."""
+    import copy
+
+    want = int(listing.get("baths") or 0)
+    baths = [r for r in built if r["room"].get("type") == "bathroom" and not r.get("clone_of")]
+    if want <= len(baths) or not baths:
+        return
+    src = max(baths, key=lambda r: (r["box"][0][1] - r["box"][0][0]) * (r["box"][1][1] - r["box"][1][0]))
+    if want - len(baths) >= 1 and len(baths) == 1:
+        src["room"]["label"] = "Bathroom 1"
+    for n in range(len(baths) + 1, want + 1):
+        c = copy.deepcopy(src)
+        rid = f"bathroom-{n}"
+        c["room"] = {**c["room"], "id": rid, "label": f"Bathroom {n}", "clone_of": src["room"]["id"]}
+        c["pending"] = []
+        c["clone_of"] = src["room"]["id"]
+        built.append(c)
+
+
 def arrange(listing_dir, listing, built):
     from doors import detect_doors
 
+    add_missing_baths(built, listing)
     work = ROOT / "pipeline" / "out" / listing["id"]
     dump_rooms(built, work / "rooms_prelayout.json")
     doors = detect_doors(listing_dir, [r["room"]["run"] for r in built], work / "rooms_prelayout.json")
@@ -386,7 +409,9 @@ def arrange(listing_dir, listing, built):
     prior_path = listing_dir / "floorplan_prior.json"
     prior = json.loads(prior_path.read_text()) if prior_path.exists() else None
     rooms = json.loads((work / "rooms_prelayout.json").read_text())
-    sol = solve(rooms, doors, listing.get("sqft"), prior)
+    assoc = work / "associate.json"
+    links = json.loads(assoc.read_text()).get("links") if assoc.exists() else None
+    sol = solve(rooms, doors, listing.get("sqft"), prior, links=links)
     (work / "plan.json").write_text(json.dumps(sol, indent=1))
     offsets = []
     paint = next((r["model"]["wallColor"] for r in built if r.get("model")), "#e8e6e2")
@@ -415,20 +440,26 @@ def apply_surfaces(scene, shell_dir):
     from surfaces import listing_surfaces
 
     rooms = [r for r in scene["rooms"] if r.get("model") and (shell_dir / f"{r['id']}-floor.jpg").exists()]
-    found = listing_surfaces(shell_dir, [r["id"] for r in rooms], [r["type"] for r in rooms], shell_dir)
+    found = listing_surfaces(shell_dir, [r["id"] for r in rooms], {r["id"]: r["type"] for r in rooms}, shell_dir)
     dry = next((v["floor"] for k, v in found.items() if v.get("floor")), None)
     for r in scene["rooms"]:
         m = r.get("model")
         if not m:
+            continue
+        if r.get("cloneOf"):
+            src = next((s for s in scene["rooms"] if s["id"] == r["cloneOf"] and s.get("model")), None)
+            if src:
+                m["floor"] = dict(src["model"]["floor"])
             continue
         got = found.get(r["id"], {})
         floor = got.get("floor") or dry
         if floor:
             m["floor"] = {**m["floor"], "material": floor["material"], "color": floor["color"],
                           "tile": f"shell/{floor['tile']}", "size": floor["size"]}
+        turn = r.get("shell", {}).get("floorTurn", 0)
         for w, paint in got.get("walls", {}).items():
             if paint:
-                m["walls"][w] = paint["color"]
+                m["walls"][wall_after(w, turn)] = paint["color"]
 
 
 def build(listing_dir: Path, rooms: list[dict], out: Path):
@@ -469,8 +500,11 @@ def build(listing_dir: Path, rooms: list[dict], out: Path):
             "id": room["id"], "type": room["type"], "label": room["label"],
             "center": [round((x0 + x1) / 2 + off[0], 3), round(hh / 2, 3), round((z0 + z1) / 2 + off[2], 3)],
             "size": [round(x1 - x0, 3), round(hh, 3), round(z1 - z0, 3)], "yaw": 0, "offset": off.round(4).tolist(),
-            "confidence": "measured" if len(vids) > 1 else "estimated", "views": vids, "scaleSource": room["scale_note"],
+            "confidence": "inferred" if r.get("clone_of") else ("measured" if len(vids) > 1 else "estimated"),
+            "views": vids, "scaleSource": room["scale_note"],
         }
+        if r.get("clone_of"):
+            entry["cloneOf"] = r["clone_of"]
         if r["shell"]:
             entry["shell"] = {**shift_shell(r["shell"], off), "floorTurn": r.get("turn", 0)}
         if r["model"]:

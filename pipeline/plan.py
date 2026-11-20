@@ -1,6 +1,7 @@
 import argparse
 import json
 import math
+from collections import Counter
 from dataclasses import dataclass, field, replace
 from pathlib import Path
 
@@ -42,6 +43,7 @@ W = {
     "door": 1.0, "virtual": 1.2, "blocked": 2.5, "dangling": 0.8, "forbidden": 4.0, "closet": 0.5,
     "fill": 8.0, "concave": 0.6, "void": 0.4, "window": 2.0, "sqft": 3.0, "path": 6.0, "bath_access": 3.0,
     "bath_through": 3.0, "hall_dead_end": 1.5, "entry": 1.5, "prior": 4.0, "flex": 3.0, "kitchen": 1.5, "daylight": 3.0,
+    "sight": 3.0, "entry_hall": 1.0,
 }
 
 
@@ -83,6 +85,7 @@ class Room:
     type: str
     flex: bool
     shapes: dict = field(default_factory=dict)
+    sights: list = field(default_factory=list)
 
 
 @dataclass
@@ -136,16 +139,18 @@ def turned_rect(box, k):
 
 
 def flex_boxes(box):
+    """Size options for a room without a shell: its rough box, corridors of a few widths and lengths, a wider lobby."""
     (x0, x1), (z0, z1), h = box
     cx, cz, wx, wz = (x0 + x1) / 2, (z0 + z1) / 2, x1 - x0, z1 - z0
+    long_x = wx >= wz
+    short, long = min(wx, wz), max(wx, wz)
+    sizes = [(short, long), (short * 1.4, long * 1.4)]
+    sizes += [(w, l) for w in (1.2, 1.5) for l in (long, long * 1.6, long * 2.2)]
     out = []
-    for sx in (0.5, 1.0, 1.6):
-        for sz in (0.5, 1.0, 1.6):
-            nx, nz = max(wx * sx, 1.0), max(wz * sz, 1.0)
-            b = [[cx - nx / 2, cx + nx / 2], [cz - nz / 2, cz + nz / 2], h]
-            if all(abs(b[0][1] - b[0][0] - (o[0][1] - o[0][0])) > 0.05 or abs(b[1][1] - b[1][0] - (o[1][1] - o[1][0])) > 0.05 for o in out):
-                out.append(b)
-    out.sort(key=lambda b: (abs((b[0][1] - b[0][0]) - wx) + abs((b[1][1] - b[1][0]) - wz)))
+    for w, l in sizes:
+        nx, nz = (l, w) if long_x else (w, l)
+        if all(abs(nx - (o[0][1] - o[0][0])) > 0.05 or abs(nz - (o[1][1] - o[1][0])) > 0.05 for o in out):
+            out.append([[cx - nx / 2, cx + nx / 2], [cz - nz / 2, cz + nz / 2], h])
     return out
 
 
@@ -250,8 +255,10 @@ def facing_distance(rect, wall, a, b, others):
     return best
 
 
-def shift_candidates(sa, sb, a_span, b_span):
-    """Offsets t (added to b's along-wall coords) that line a door on A's wall up with one on B's."""
+def shift_candidates(sa, sb, a_span, b_span, anchors=()):
+    """Offsets t (added to b's along-wall coords) that line a door on A's wall up with one on B's.
+
+    anchors are door centres on A's opposite wall, so a new door can sit straight across a corridor."""
     ts = [a_span[0] - b_span[0], a_span[1] - b_span[1], (a_span[0] + a_span[1] - b_span[0] - b_span[1]) / 2]
     if not sa.flexible and not sb.flexible:
         ts.append((sa.a + sa.b - sb.a - sb.b) / 2)
@@ -259,6 +266,10 @@ def shift_candidates(sa, sb, a_span, b_span):
         ts += [sa.a - MARGIN - sb.a, sa.b + MARGIN - sb.b, (sa.a + sa.b - sb.a - sb.b) / 2]
     elif not sb.flexible:
         ts += [sa.a + MARGIN - sb.a, sa.b - MARGIN - sb.b, (sa.a + sa.b - sb.a - sb.b) / 2]
+        ts += [c - (sb.a + sb.b) / 2 for c in anchors]
+    else:
+        for c in anchors:
+            ts += [c - (b_span[0] + b_span[1]) / 2, c - DOOR_W / 2 - MARGIN - b_span[0], c + DOOR_W / 2 + MARGIN - b_span[1]]
     seen, out = set(), []
     for t in ts:
         key = round(t, 3)
@@ -268,12 +279,24 @@ def shift_candidates(sa, sb, a_span, b_span):
     return out
 
 
-def door_fit(sa, sb, t, a_span, b_span):
-    """Door interval and match quality for a given shift, or None if the doors cannot meet."""
+def door_fits(sa, sb, t, a_span, b_span, anchors=()):
+    """Possible door intervals with match quality for a given shift."""
     lo = max(a_span[0], b_span[0] + t)
     hi = min(a_span[1], b_span[1] + t)
     if hi - lo < DOOR_W * 0.8:
-        return None
+        return []
+    if sa.flexible and sb.flexible:
+        fa, fb = max(sa.a, sb.a + t), min(sa.b, sb.b + t)
+        if fb - fa < DOOR_W:
+            return []
+        centres = {round((fa + fb) / 2, 3)} | {round(c, 3) for c in anchors if fa + DOOR_W / 2 <= c <= fb - DOOR_W / 2}
+        virt = int(sa.kind == "virtual") + int(sb.kind == "virtual")
+        return [((c - DOOR_W / 2, c + DOOR_W / 2), 0.5, virt) for c in sorted(centres)]
+    fit = door_fit(sa, sb, t, lo, hi)
+    return [fit] if fit else []
+
+
+def door_fit(sa, sb, t, lo, hi):
     if not sa.flexible and not sb.flexible:
         ov = overlap(sa.a, sa.b, sb.a + t, sb.b + t)
         width = min(sa.b - sa.a, sb.b - sb.a)
@@ -289,11 +312,7 @@ def door_fit(sa, sb, t, a_span, b_span):
         if fixed.a < max(fa, lo) - 0.02 or fixed.b > min(fb, hi) + 0.02:
             return None
         return (fixed.a, fixed.b), fixed.conf, int(flex.kind == "virtual")
-    fa, fb = max(sa.a, sb.a + t), min(sa.b, sb.b + t)
-    if fb - fa < DOOR_W:
-        return None
-    c = (fa + fb) / 2
-    return (c - DOOR_W / 2, c + DOOR_W / 2), 0.5, int(sa.kind == "virtual") + int(sb.kind == "virtual")
+    return None
 
 
 @dataclass
@@ -344,6 +363,8 @@ def expand(state, rooms):
             if not sa.flexible and used_on(state, A.id, sa.wall, sa.a, sa.b):
                 continue
             a_span = wall_span(A.rect, sa.wall)
+            anchors = [(e.door[0] + e.door[1]) / 2 for e in state.edges
+                       if (e.a == A.id and e.wall == OPP[sa.wall]) or (e.b == A.id and e.wall == sa.wall)]
             for B in unplaced:
                 if not allowed(ta, B.type):
                     continue
@@ -353,11 +374,8 @@ def expand(state, rooms):
                             continue
                         b_span = wall_span(shape.rect, sb.wall)
                         perp = wall_pos(A.rect, sa.wall) + (WALL if sa.wall in "es" else -WALL) - wall_pos(shape.rect, sb.wall)
-                        for t in shift_candidates(sa, sb, a_span, b_span):
-                            fit = door_fit(sa, sb, t, a_span, b_span)
-                            if fit is None:
-                                continue
-                            door, q, virt = fit
+                        for t, (door, q, virt) in ((t, f) for t in shift_candidates(sa, sb, a_span, b_span, anchors)
+                                                   for f in door_fits(sa, sb, t, a_span, b_span, anchors)):
                             if sa.flexible and used_on(state, A.id, sa.wall, door[0], door[1], 0.15):
                                 continue
                             off = (t, perp) if sa.wall in "ns" else (perp, t)
@@ -408,7 +426,7 @@ def shape_metrics(rects):
     }
 
 
-def links(state, rooms):
+def connectivity(state, rooms):
     """All connections: tree edges plus doors that happen to line up with a neighbour."""
     graph = {r: set() for r in state.placed}
     for e in state.edges:
@@ -536,9 +554,129 @@ def dihedral(u, v, g, mirror):
     return u, v
 
 
+@dataclass(frozen=True)
+class Sight:
+    photo: str
+    origin: tuple
+    direction: tuple
+    target: str
+    weight: float
+
+
+def sight_rays(rooms, links):
+    """Sight lines from photos that look through a doorway into another room, in the viewing room's frame."""
+    owner, views = {}, {}
+    for r in rooms:
+        for v in r.get("views", []):
+            pid = Path(v["photo"]).stem
+            owner[pid] = r["id"]
+            views[pid] = v
+    rays, seen = {}, set()
+    for link in links or []:
+        pid, other = link["photo"], link.get("match_photo")
+        a, b = owner.get(pid), owner.get(other)
+        if a is None or b is None or a == b or pid not in views:
+            continue
+        v = views[pid]
+        u = (link["region"][0] + link["region"][2]) / 2
+        fx, fz = v["forward"][0], v["forward"][2]
+        n = math.hypot(fx, fz)
+        fx, fz = fx / n, fz / n
+        s = (2 * u - 1) * math.tan(math.radians(v.get("fov", 65)) / 2)
+        dx, dz = fx - s * fz, fz + s * fx
+        n = math.hypot(dx, dz)
+        weight = {"high": 1.0, "medium": 0.6}.get(link.get("confidence"), 0.3)
+        if (pid, b) in seen:
+            continue
+        seen.add((pid, b))
+        rays.setdefault(a, []).append(Sight(pid, (v["C"][0], v["C"][2]), (dx / n, dz / n), b, weight))
+    for a, rs in rays.items():
+        counts = Counter(r.target for r in rs)
+        rays[a] = [replace(r, weight=r.weight / counts[r.target]) for r in rs]
+    return rays
+
+
+def world_rays(P, ray, flex):
+    """World sight lines; a room without a shell has no reliable camera position, so try several along it."""
+    R = rot(P.shape.k)
+    o = R @ np.array([ray.origin[0], 0.0, ray.origin[1]])
+    d = R @ np.array([ray.direction[0], 0.0, ray.direction[1]])
+    x0, x1, z0, z1 = P.rect
+    if not flex:
+        ox = min(max(o[0] + P.off[0], x0 + 0.2), x1 - 0.2)
+        oz = min(max(o[2] + P.off[1], z0 + 0.2), z1 - 0.2)
+        return [((ox, oz), (float(d[0]), float(d[2])))]
+    fs = (0.2, 0.5, 0.8)
+    return [((x0 + (x1 - x0) * u, z0 + (z1 - z0) * v), (float(d[0]), float(d[2]))) for u in fs for v in fs]
+
+
+def exit_point(rect, o, d):
+    x0, x1, z0, z1 = rect
+    best = None
+    for wall, axis, pos in (("w", 0, x0), ("e", 0, x1), ("n", 1, z0), ("s", 1, z1)):
+        if abs(d[axis]) < 1e-9:
+            continue
+        t = (pos - o[axis]) / d[axis]
+        if t > 1e-6 and (best is None or t < best[0]):
+            best = (t, wall)
+    t, wall = best
+    q = (o[0] + t * d[0], o[1] + t * d[1])
+    return wall, q, q[0] if wall in "ns" else q[1]
+
+
+def sight_traces(state, rooms, rid):
+    """(ray, cost, path) for every sight line from this room; lines from one photo share a camera position."""
+    out = []
+    groups = {}
+    for ray in rooms[rid].sights:
+        if ray.target in state.placed:
+            groups.setdefault(ray.photo, []).append(ray)
+    for photo, rays in sorted(groups.items()):
+        lines = [world_rays(state.placed[rid], ray, rooms[rid].flex) for ray in rays]
+        options = [[trace(state, rid, ray, *line[i]) for ray, line in zip(rays, lines)] for i in range(len(lines[0]))]
+        best = min(options, key=lambda opt: sum(ray.weight * c for ray, (c, _) in zip(rays, opt)))
+        out += [(ray, c, path) for ray, (c, path) in zip(rays, best)]
+    return out
+
+
+def trace(state, rid, ray, o, d):
+    """Follow a photo's sight line out through its own doorway; cost 0 if it reaches the seen room within two doorways."""
+    doors = {}
+    for e in state.edges:
+        doors.setdefault(e.a, []).append((e.wall, e.door, e.b))
+        doors.setdefault(e.b, []).append((OPP[e.wall], e.door, e.a))
+    near = {ray.target} | {o for _, _, o in doors.get(ray.target, [])}
+    path, cur, prev = [o], rid, None
+    for hop in range(3):
+        wall, q, t = exit_point(state.placed[cur].rect, o, d)
+        slack = 0.6 if hop == 0 else 0.15
+        hits = sorted((max(dr[0] - t, t - dr[1], 0), dr, nb) for w, dr, nb in doors.get(cur, [])
+                      if w == wall and nb != prev and dr[0] - slack <= t <= dr[1] + slack)
+        if not hits:
+            path.append(q)
+            useful = [dr for w, dr, nb in doors.get(cur, []) if w == wall and nb in near and nb != prev]
+            if hop == 0 or not useful:
+                return 1.0, path
+            miss = min(max(dr[0] - t, t - dr[1], 0) for dr in useful)
+            return min(1.0, 0.25 + miss / 2), path
+        _, dr, nb = hits[0]
+        t = min(max(t, dr[0]), dr[1])
+        p = wall_pos(state.placed[cur].rect, wall) + (WALL + 0.02) * (1 if wall in "es" else -1)
+        q = (t, p) if wall in "ns" else (p, t)
+        path.append(q)
+        if nb == ray.target:
+            return 0.0, path
+        prev, cur, o = cur, nb, q
+    return 1.0, path
+
+
+def sights_cost(state, rooms):
+    return sum(ray.weight * c for rid in state.placed for ray, c, _ in sight_traces(state, rooms, rid)) * W["sight"]
+
+
 def evaluate(state, rooms, sqft=None, prior=None):
     b = {}
-    graph, issues, exits = links(state, rooms)
+    graph, issues, exits = connectivity(state, rooms)
     b["door"] = -sum(e.quality for e in state.edges) * W["door"]
     b["virtual"] = (sum(e.virtual for e in state.edges) + issues["virtual"]) * W["virtual"]
     b["blocked"] = issues["blocked"] * W["blocked"]
@@ -560,6 +698,7 @@ def evaluate(state, rooms, sqft=None, prior=None):
         b["sqft"] = (max(0, m["bbox_area"] / target - 1.15) + max(0, m["area"] / target - 1.0)
                      + max(0, 0.75 - m["area"] / target)) * W["sqft"]
     b["flex"] = flex_cost(state, rooms)
+    b["sight"] = sights_cost(state, rooms)
     hubs = [rid for rid in state.placed if rooms[rid].type in COMMON]
     root = min(hubs, key=lambda r: (HUB_ORDER.index(rooms[r].type), r)) if hubs else sorted(state.placed)[0]
     common = reach(graph, root, lambda v: rooms[v].type in COMMON)
@@ -598,6 +737,9 @@ def evaluate(state, rooms, sqft=None, prior=None):
                 break
         else:
             b["entry"] = W["entry"]
+    halls = [r for r in state.placed if rooms[r].type in ("hall", "entry")]
+    if halls and entry is not None and rooms[entry[0]].type not in ("hall", "entry"):
+        b["entry"] = b.get("entry", 0) + W["entry_hall"]
     for rid in state.placed:
         if rooms[rid].type in ("hall", "entry") and len(graph[rid]) + (entry is not None and entry[0] == rid) < 2:
             b["hall_dead_end"] = b.get("hall_dead_end", 0) + W["hall_dead_end"]
@@ -631,7 +773,7 @@ def partial_cost(state, rooms):
         others = [q.rect for q in state.placed.values() if q.id != rid]
         for s in P.windows():
             cost += W["window"] * max(0.0, (4.0 - facing_distance(P.rect, s.wall, s.a, s.b, others)) / 4.0)
-    return cost + flex_cost(state, rooms)
+    return cost + flex_cost(state, rooms) + sights_cost(state, rooms)
 
 
 def topology(state):
@@ -685,7 +827,7 @@ def search(rooms, sqft=None, prior=None, beam=400, keep=12):
     return out
 
 
-def placement(state, global_turn=0, entry=None):
+def placement(state, global_turn=0, entry=None, rooms=None):
     R = rot(global_turn)
     res = {}
     for rid, P in state.placed.items():
@@ -701,6 +843,13 @@ def placement(state, global_turn=0, entry=None):
         ends = [(R @ np.array([x, 0.0, z]))[[0, 2]].round(4).tolist() for x, z in ends]
         kind = "virtual" if e.virtual else ("wild" if e.slot_a.flexible or e.slot_b.flexible else "door")
         conns.append({"a": e.a, "b": e.b, "door": ends, "kind": kind, "quality": round(e.quality, 3)})
+    sights = []
+    for rid in sorted(state.placed):
+        for ray, cost, path in sight_traces(state, rooms, rid) if rooms else []:
+            pts = [(R @ np.array([x, 0.0, z]))[[0, 2]].round(4).tolist() for x, z in path]
+            sights.append({"from": rid, "to": ray.target, "path": pts, "cost": round(cost, 3)})
+    if sights:
+        res["sightlines"] = sights
     if entry:
         rid, sl = entry
         rect = state.placed[rid].rect
@@ -710,27 +859,31 @@ def placement(state, global_turn=0, entry=None):
     return res, conns
 
 
-def candidates(rooms, doors, sqft=None, prior=None, beam=400, keep=12):
+def candidates(rooms, doors, sqft=None, prior=None, links=None, beam=400, keep=12):
+    rays = sight_rays(rooms, links)
     for relax in (False, True):
         prepared = {r["id"]: prepare(r, doors, relax) for r in rooms}
+        for rid, rs in rays.items():
+            prepared[rid].sights = rs
         ranked = search(prepared, sqft, prior, beam=beam, keep=keep)
         if ranked:
-            return relax, ranked
+            return relax, ranked, prepared
     raise ValueError("no layout satisfies the hard constraints")
 
 
-def solution(state, b, info, total, relaxed):
-    out, conns = placement(state, info["global_turn"], info["entry"])
+def solution(state, b, info, total, relaxed, rooms=None):
+    out, conns = placement(state, info["global_turn"], info["entry"], rooms)
     out["connections"] = conns
     out["relaxed"] = relaxed
     out["score_breakdown"] = {"total": round(total, 3), **{k: round(v, 3) for k, v in b.items()}}
     return out
 
 
-def solve(rooms: list[dict], doors: dict, sqft: float | None = None, prior: dict | None = None, beam: int = 400) -> dict:
-    relaxed, ranked = candidates(rooms, doors, sqft, prior, beam=beam, keep=1)
+def solve(rooms: list[dict], doors: dict, sqft: float | None = None, prior: dict | None = None,
+          links: list | None = None, beam: int = 400) -> dict:
+    relaxed, ranked, prepared = candidates(rooms, doors, sqft, prior, links, beam=beam, keep=1)
     total, state, b, info = ranked[0]
-    return solution(state, b, info, total, relaxed)
+    return solution(state, b, info, total, relaxed, prepared)
 
 
 def load_listing(name, doors_path=None):
@@ -742,7 +895,9 @@ def load_listing(name, doors_path=None):
     listing = json.loads((listing_dir / "listing.json").read_text())
     prior_path = listing_dir / "floorplan_prior.json"
     prior = json.loads(prior_path.read_text()) if prior_path.exists() else None
-    return rooms, doors, listing.get("sqft"), prior
+    assoc = root / "out" / name / "associate.json"
+    links = json.loads(assoc.read_text()).get("links", []) if assoc.exists() else []
+    return rooms, doors, listing.get("sqft"), prior, links
 
 
 if __name__ == "__main__":
@@ -752,10 +907,10 @@ if __name__ == "__main__":
     ap.add_argument("--prior")
     ap.add_argument("--out")
     args = ap.parse_args()
-    rooms, doors, sqft, prior = load_listing(args.listing, args.doors)
+    rooms, doors, sqft, prior, links = load_listing(args.listing, args.doors)
     if args.prior:
         prior = json.loads(Path(args.prior).read_text())
-    text = json.dumps(solve(rooms, doors, sqft, prior), indent=1)
+    text = json.dumps(solve(rooms, doors, sqft, prior, links), indent=1)
     if args.out:
         Path(args.out).write_text(text)
     print(text)

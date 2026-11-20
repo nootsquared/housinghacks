@@ -324,6 +324,45 @@ def wall_fills(raw, walls, out_dir, room_id):
     return files
 
 
+def wall_decals(raw, walls, out_dir, room_id, min_area=0.04):
+    import cv2
+    from shell import PX_PER_M
+
+    files = {}
+    for wall in ("n", "s", "w", "e"):
+        img, mask = raw[f"wall-{wall}"]
+        if mask.sum() < 400:
+            continue
+        paint = np.array([int(walls[wall][i:i + 2], 16) for i in (1, 3, 5)], np.float32)
+        f = img.astype(np.float32)
+        lum = f @ np.array([0.299, 0.587, 0.114], np.float32)
+        near = mask & (np.linalg.norm(f - paint, axis=-1) < 40)
+        num = cv2.GaussianBlur(np.where(near, lum, 0), (0, 0), 25)
+        den = cv2.GaussianBlur(near.astype(np.float32), (0, 0), 25)
+        shading = np.where(den > 0.02, num / np.maximum(den, 1e-3), float(paint @ np.array([0.299, 0.587, 0.114])))
+        gain = float(paint @ np.array([0.299, 0.587, 0.114])) / np.maximum(shading, 20)
+        flat = np.clip(f * gain[..., None], 0, 255)
+        feature = mask & (np.linalg.norm(flat - paint, axis=-1) > 38)
+        m = cv2.morphologyEx(feature.astype(np.uint8), cv2.MORPH_CLOSE, np.ones((9, 9), np.uint8))
+        m = cv2.morphologyEx(m, cv2.MORPH_OPEN, np.ones((5, 5), np.uint8))
+        n, lab, stats, _ = cv2.connectedComponentsWithStats(m, 8)
+        keep = np.zeros_like(m)
+        for i in range(1, n):
+            if stats[i, cv2.CC_STAT_AREA] >= min_area * PX_PER_M ** 2:
+                keep[lab == i] = 1
+        if not keep.any():
+            continue
+        seen = cv2.erode(mask.astype(np.uint8), np.ones((7, 7), np.uint8))
+        keep = cv2.dilate(keep, np.ones((5, 5), np.uint8)) & seen
+        keep = (cv2.GaussianBlur(keep.astype(np.float32), (0, 0), 6) > 0.5).astype(np.float32)
+        alpha = cv2.GaussianBlur(keep, (0, 0), 3)
+        rgba = np.dstack([flat.astype(np.uint8), (alpha * 255).astype(np.uint8)])
+        name = f"{room_id}-wall-{wall}-decal.png"
+        Image.fromarray(rgba, "RGBA").save(out_dir / name, optimize=True)
+        files[wall] = f"shell/{name}"
+    return files
+
+
 def dominant_color(px):
     import cv2
 
