@@ -1,7 +1,7 @@
 import * as THREE from "three"
 import type { View } from "@/lib/types"
 
-export type DepthGrid = { w: number; h: number; depth: Float32Array; conf?: Uint8Array }
+export type DepthGrid = { w: number; h: number; depth: Float32Array; conf?: Uint8Array; object?: Uint8Array }
 
 const gridCache = new Map<string, Promise<DepthGrid>>()
 
@@ -20,15 +20,18 @@ export function loadDepth(url: string): Promise<DepthGrid> {
           for (let i = 0; i < mm.length; i++) depth[i] = mm[i] / 1000
           const confOffset = 4 + w * h * 2
           const conf = buf.byteLength >= confOffset + w * h ? new Uint8Array(buf, confOffset, w * h) : undefined
-          return { w, h, depth, conf }
+          const objOffset = confOffset + w * h
+          const object = buf.byteLength >= objOffset + w * h ? new Uint8Array(buf, objOffset, w * h) : undefined
+          return { w, h, depth, conf, object }
         }),
     )
   }
   return gridCache.get(url)!
 }
 
-export function buildDepthGeometry(view: View, grid: DepthGrid, edgeRatio = 0.06) {
-  const { w, h, depth, conf } = grid
+export function buildDepthGeometry(view: View, grid: DepthGrid, objectsOnly = false) {
+  const edgeRatio = objectsOnly ? 0.06 : 0.3
+  const { w, h, depth, conf, object } = grid
   const t = Math.tan(THREE.MathUtils.degToRad(view.fov) / 2)
   const positions = new Float32Array(w * h * 3)
   const uvs = new Float32Array(w * h * 2)
@@ -46,7 +49,8 @@ export function buildDepthGeometry(view: View, grid: DepthGrid, edgeRatio = 0.06
     }
   }
   const index: number[] = []
-  const ok = (k: number) => depth[k] > 0.05 && (!conf || conf[k] > 20)
+  const ok = (k: number) =>
+    depth[k] > 0.05 && (!objectsOnly || ((!conf || conf[k] > 20) && (!object || object[k] > 0)))
   const close = (a: number, b: number) => Math.abs(depth[a] - depth[b]) < edgeRatio * Math.min(depth[a], depth[b]) * 4
   for (let j = 0; j < h - 1; j++) {
     for (let i = 0; i < w - 1; i++) {

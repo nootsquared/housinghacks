@@ -66,6 +66,24 @@ export type Room = {
   yaw: number
   confidence: "measured" | "estimated" | "inferred"
   views: string[]
+  shell?: Shell
+}
+
+export type Surface = {
+  name: string
+  origin: Vec3
+  u: Vec3
+  v: Vec3
+  texture: string
+  coverage: number
+  detected: boolean
+}
+
+export type Shell = {
+  x: [number, number]
+  z: [number, number]
+  height: number
+  surfaces: Surface[]
 }
 
 export type Scene = {

@@ -5,6 +5,8 @@ from pathlib import Path
 import numpy as np
 from PIL import Image, ImageOps
 
+from shell import Cam, build_shell, ransac_plane
+
 ROOT = Path(__file__).resolve().parent.parent
 WEB = ROOT / "web" / "public" / "data"
 CAM_HEIGHT = 1.4
@@ -85,6 +87,17 @@ def align(cams):
     good = conf >= np.quantile(conf, 0.4)
     P = pts[good] @ A.T
     centers = np.array([-c["R"].T @ c["t"] for c in cams]) @ A.T
+    span = np.ptp(P[:, 1])
+    low = P[P[:, 1] < np.quantile(P[:, 1], 0.02) + span * 0.15]
+    if len(low) > 200:
+        sample = low[np.random.default_rng(0).choice(len(low), min(len(low), 6000), replace=False)]
+        n, _, _ = ransac_plane(sample, tol=span * 0.01)
+        if n[1] < 0:
+            n = -n
+        if n[1] > 0.9:
+            A = rot_between(n, np.array([0, 1, 0])) @ A
+            P = pts[good] @ A.T
+            centers = np.array([-c["R"].T @ c["t"] for c in cams]) @ A.T
     floor = np.quantile(P[:, 1], 0.02)
     cam_h = np.median(centers[:, 1] - floor)
     scale = CAM_HEIGHT / max(cam_h, 1e-6)
@@ -117,34 +130,50 @@ def crop_texture(src: Path, W: int, H: int, dst: Path):
     im.save(dst, "JPEG", quality=85, optimize=True, progressive=True)
 
 
-def room_box(points):
-    lo = np.quantile(points, 0.04, 0)
-    hi = np.quantile(points, 0.96, 0)
-    size = np.maximum(hi - lo, 0.5)
-    size[1] = float(np.clip(np.quantile(points[:, 1], 0.98), 2.2, 3.2))
-    center = (lo + hi) / 2
-    center[1] = size[1] / 2
-    return center, size
+
+
+def normals(P):
+    import open3d as o3d
+
+    pc = o3d.geometry.PointCloud(o3d.utility.Vector3dVector(P))
+    pc.estimate_normals(o3d.geometry.KDTreeSearchParamKNN(24))
+    return np.asarray(pc.normals)
+
+
+def object_mask(d, Rc2w, C, fov, aspect, boxes, margin=0.12):
+    h, w = d.shape
+    t = np.tan(np.radians(fov) / 2)
+    u = (np.arange(w) + 0.5) / w
+    v = (np.arange(h) + 0.5) / h
+    uu, vv = np.meshgrid(u, v)
+    pc = np.stack([(uu * 2 - 1) * t * aspect * d, (1 - vv * 2) * t * d, -d], -1)
+    X = pc.reshape(-1, 3) @ Rc2w.T + C
+    keep = np.zeros(len(X), bool)
+    for (x0, x1), (z0, z1), hh in boxes:
+        inside = (X[:, 0] > x0 + margin) & (X[:, 0] < x1 - margin) & (X[:, 2] > z0 + margin) & (X[:, 2] < z1 - margin)
+        inside &= (X[:, 1] > margin * 0.6) & (X[:, 1] < hh - margin)
+        keep |= inside
+    return keep.reshape(h, w).astype(np.uint8)
 
 
 def build(listing_dir: Path, runs: list[Path], out: Path):
     listing = json.loads((listing_dir / "listing.json").read_text())
     labels = json.loads((listing_dir / "labels.json").read_text()) if (listing_dir / "labels.json").exists() else {}
     out.mkdir(parents=True, exist_ok=True)
-    views, room_pts, room_views = [], {}, {}
-    offset_x = 0.0
+    views, rooms = [], []
+    offset = np.zeros(3)
     all_min, all_max = np.full(3, np.inf), np.full(3, -np.inf)
     for run in runs:
         cams = load_run(run)
         A, origin, scale, c_lo, c_hi = align(cams)
-        run_pts = []
+        room_pts, room_cams, room_views, run_pts, pending = {}, {}, {}, [], []
         for c in cams:
             src = Path(c["file"]).absolute()
             rel = src.relative_to(listing_dir).as_posix() if src.is_relative_to(listing_dir) else f"photos/{src.name}"
             lab = labels.get(rel, {})
             group = lab.get("group") or lab.get("room") or "room"
             Rc2w = A @ c["R"].T @ FLIP
-            C = (A @ (-c["R"].T @ c["t"]) - origin) * scale + np.array([offset_x, 0, 0])
+            C = (A @ (-c["R"].T @ c["t"]) - origin) * scale + offset
             K, H, W = c["K"], c["height"], c["width"]
             fov = float(np.degrees(2 * np.arctan(H / 2 / K[1, 1])))
             aspect = float((W / 2 / K[0, 0]) / (H / 2 / K[1, 1]))
@@ -152,37 +181,52 @@ def build(listing_dir: Path, runs: list[Path], out: Path):
             mm = np.clip(d * 1000, 0, 65535).astype(np.uint16)
             cb = (np.clip((cf - c_lo) / max(c_hi - c_lo, 1e-6), 0, 1) * 255).astype(np.uint8)
             vid = f"v{len(views):02d}"
-            (out / "depth").mkdir(exist_ok=True)
-            with open(out / "depth" / f"{vid}.bin", "wb") as fh:
-                fh.write(np.array([mm.shape[1], mm.shape[0]], np.uint16).tobytes())
-                fh.write(mm.tobytes())
-                fh.write(cb.tobytes())
-            crop_texture(src, W, H, out / "views" / f"{vid}.jpg")
+            pending.append((vid, d, mm, cb, Rc2w, C, fov, aspect))
+            tex = out / "views" / f"{vid}.jpg"
+            crop_texture(src, W, H, tex)
             views.append({
                 "id": vid, "file": f"views/{vid}.jpg", "source": rel, "room": group,
                 "position": C.round(4).tolist(), "quaternion": [round(x, 6) for x in quat(Rc2w)],
                 "fov": round(fov, 3), "aspect": round(aspect, 4), "depth": f"depth/{vid}.bin",
             })
-            p, conf = unproject(c, 6)
-            p = ((p @ A.T) - origin) * scale + np.array([offset_x, 0, 0])
-            p = p[conf >= c_lo]
+            room_cams.setdefault(group, []).append(Cam(
+                vid, Rc2w, C, K, W, H, c["depth"] * scale,
+                np.clip((c["conf"] - c_lo) / max(c_hi - c_lo, 1e-6), 0, 1), np.asarray(Image.open(tex)),
+            ))
+            p, conf = unproject(c, 4)
+            p = ((p @ A.T) - origin) * scale + offset
+            p = p[conf >= np.quantile(c["conf"], 0.45)]
             run_pts.append(p)
             room_pts.setdefault(group, []).append(p)
             room_views.setdefault(group, []).append(vid)
-        rp = np.concatenate(run_pts)
-        lo, hi = np.quantile(rp, 0.02, 0), np.quantile(rp, 0.98, 0)
-        all_min, all_max = np.minimum(all_min, lo), np.maximum(all_max, hi)
-        offset_x = all_max[0] + 1.0
-    rooms = []
-    for g, pts in room_pts.items():
-        center, size = room_box(np.concatenate(pts))
-        n = len(room_views[g])
-        rtype = g.rsplit("-", 1)[0]
-        rooms.append({
-            "id": g, "type": rtype, "label": label(g, room_pts.keys()),
-            "center": center.round(3).tolist(), "size": size.round(3).tolist(), "yaw": 0,
-            "confidence": "measured" if n > 1 else "estimated", "views": room_views[g],
-        })
+        all_cams = sum(room_cams.values(), [])
+        for g, pts in room_pts.items():
+            P = np.concatenate(pts)
+            P = P[np.random.default_rng(0).choice(len(P), min(len(P), 60000), replace=False)]
+            N = normals(P)
+            ceiling = float(np.clip(np.quantile(P[:, 1], 0.995), 2.3, 3.0))
+            shell = build_shell(g, P, N, all_cams, out / "shell", ceiling)
+            n = len(room_views[g])
+            x0, x1 = shell["x"]
+            z0, z1 = shell["z"]
+            rooms.append({
+                "id": g, "type": g.rsplit("-", 1)[0], "label": label(g, room_pts.keys()),
+                "center": [round((x0 + x1) / 2, 3), round(ceiling / 2, 3), round((z0 + z1) / 2, 3)],
+                "size": [round(x1 - x0, 3), round(ceiling, 3), round(z1 - z0, 3)], "yaw": 0,
+                "confidence": "measured" if n > 1 else "estimated", "views": room_views[g], "shell": shell,
+            })
+            all_min = np.minimum(all_min, [x0, 0, z0])
+            all_max = np.maximum(all_max, [x1, ceiling, z1])
+        boxes = [(r["shell"]["x"], r["shell"]["z"], r["shell"]["height"]) for r in rooms[-len(room_pts):]]
+        (out / "depth").mkdir(exist_ok=True)
+        for vid, d, mm, cb, Rc2w, C, fov, aspect in pending:
+            obj = object_mask(d, Rc2w, C, fov, aspect, boxes)
+            with open(out / "depth" / f"{vid}.bin", "wb") as fh:
+                fh.write(np.array([mm.shape[1], mm.shape[0]], np.uint16).tobytes())
+                fh.write(mm.tobytes())
+                fh.write(cb.tobytes())
+                fh.write(obj.tobytes())
+        offset = np.array([all_max[0] + 1.0, 0, 0])
     scene = {
         "id": listing["id"], "units": "m", "rooms": rooms, "views": views,
         "bounds": {"min": all_min.round(3).tolist(), "max": all_max.round(3).tolist()},

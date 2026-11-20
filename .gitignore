@@ -11,3 +11,4 @@ pipeline/weights
 pipeline/.cache
 web/public/data/test-*
 .scratch_test
+tools/node_modules
