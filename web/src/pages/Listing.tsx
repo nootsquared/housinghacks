@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react"
-import { Link, useParams } from "react-router-dom"
+import { Link, useParams, useSearchParams } from "react-router-dom"
 import { ArrowLeft, ExternalLink } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
@@ -13,6 +13,8 @@ import { cn } from "@/lib/utils"
 
 export default function ListingPage() {
   const { id } = useParams()
+  const [search] = useSearchParams()
+  const embed = search.has("embed")
   const { listing, loading } = useListing(id)
   const { data: scene } = useScene(id, listing?.tour === "generated")
   const [mode, setMode] = useState<TourMode>("dollhouse")
@@ -40,6 +42,7 @@ export default function ListingPage() {
 
   if (loading) return null
   if (!listing) return <NotFound />
+  if (embed) return <Embed scene={scene} />
 
   const go = (i: number) => {
     setCurrent(i)
@@ -109,6 +112,17 @@ export default function ListingPage() {
         )}
       </main>
       <Details listing={listing} />
+    </div>
+  )
+}
+
+function Embed({ scene }: { scene: ReturnType<typeof useScene>["data"] }) {
+  const none = () => {}
+  return (
+    <div className="h-full bg-[#efede8]">
+      {scene && (
+        <Tour scene={scene} views={[]} mode="dollhouse" current={0} atPhoto={false} onSelectView={none} onFreeMove={none} onEnterWalk={none} />
+      )}
     </div>
   )
 }
