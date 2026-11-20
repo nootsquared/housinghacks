@@ -494,15 +494,9 @@ def labels_for(rooms):
     return rooms
 
 
-if __name__ == "__main__":
-    ap = argparse.ArgumentParser()
-    ap.add_argument("listing", type=Path)
-    ap.add_argument("runs", nargs="+", type=Path)
-    a = ap.parse_args()
-    lid = json.loads((a.listing / "listing.json").read_text())["id"]
-    spec = json.loads((a.listing / "rooms.json").read_text()) if (a.listing / "rooms.json").exists() else {}
+def room_specs(spec: dict, runs: list[Path]) -> list[dict]:
     rooms = []
-    for r in a.runs:
+    for r in runs:
         meta = spec.get(r.name, {})
         rooms.append({"id": r.name, "type": meta.get("type", r.name.rsplit("-", 1)[0]), "run": r.resolve(),
                       "shell": meta.get("shell", True), "fixed_label": meta.get("label"),
@@ -512,5 +506,15 @@ if __name__ == "__main__":
     for r in rooms:
         if r.get("fixed_label"):
             r["label"] = r["fixed_label"]
-    s = build(a.listing.resolve(), rooms, WEB / lid)
+    return rooms
+
+
+if __name__ == "__main__":
+    ap = argparse.ArgumentParser()
+    ap.add_argument("listing", type=Path)
+    ap.add_argument("runs", nargs="+", type=Path)
+    a = ap.parse_args()
+    lid = json.loads((a.listing / "listing.json").read_text())["id"]
+    spec = json.loads((a.listing / "rooms.json").read_text()) if (a.listing / "rooms.json").exists() else {}
+    s = build(a.listing.resolve(), room_specs(spec, a.runs), WEB / lid)
     print(f"{lid}: {len(s['views'])} views, {len(s['rooms'])} rooms")
