@@ -5,7 +5,9 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "fast-simplification>=0.2.0",
     "huggingface-hub>=2.4.0",
+    "kornia>=0.9.2",
     "matplotlib>=3.11.2",
     "numpy>=1.26.4",
     "open-clip-torch>=4.2.2",
@@ -18,7 +20,9 @@ dependencies = [
     "torch>=2.15.0",
     "torchvision>=0.29.2",
     "transformers>=5.23.0",
+    "trimesh>=5.2.1",
     "vggt",
+    "xatlas>=0.0.11",
 ]
 
 [tool.uv.sources]
