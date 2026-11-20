@@ -69,6 +69,27 @@ export type Room = {
   shell?: Shell
   model?: RoomModel
   mesh?: RoomMesh
+  models?: RoomObject[]
+  staging?: StagedItem[]
+  place?: { position: Vec3; rotation: number }
+  cloneOf?: string
+}
+
+export type StagedItem = {
+  kind: string
+  center: Vec3
+  size: Vec3
+  rot?: number
+  color?: string
+  wall?: boolean
+}
+
+export type RoomObject = {
+  file: string
+  kind: string
+  size: Vec3
+  center: Vec3
+  views: string[]
 }
 
 export type RoomMesh = {
@@ -99,10 +120,13 @@ export type Furniture = {
 }
 
 export type RoomModel = {
+  decals?: Partial<Record<WallId, string>>
   fills?: Partial<Record<WallId | "floor", string>>
+  /** opaque photo texture covering a whole wall or the floor; replaces paint, decals and fills */
+  surfaces?: Partial<Record<WallId | "floor", string>>
   walls: Record<WallId, string>
   wallColor: string
-  floor: { material: "wood" | "carpet" | "tile"; color: string; accent?: string; evidence: number }
+  floor: { material: "wood" | "carpet" | "tile"; color: string; accent?: string; evidence: number; tile?: string; size?: number }
   openings: Opening[]
   furniture: Furniture[]
 }
@@ -133,4 +157,18 @@ export type Scene = {
   points?: string
   mode?: "single" | "multi"
   bounds: { min: Vec3; max: Vec3 }
+  doorways?: Doorway[]
+  cameraHeight?: number
+  floorArea?: number
+}
+
+export type Doorway = {
+  rooms: string[]
+  p0: [number, number]
+  p1: [number, number]
+  bottom: number
+  top: number
+  evidence?: string
+  quality?: number
+  bare?: boolean
 }
