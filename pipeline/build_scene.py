@@ -389,13 +389,26 @@ def arrange(listing_dir, listing, built):
     sol = solve(rooms, doors, listing.get("sqft"), prior)
     (work / "plan.json").write_text(json.dumps(sol, indent=1))
     offsets = []
+    paint = next((r["model"]["wallColor"] for r in built if r.get("model")), "#e8e6e2")
+    floor = next((r["model"]["floor"] for r in built if r.get("model") and r["room"]["type"] != "bathroom"), None)
     for r in built:
         p = sol[r["room"]["id"]]
         if "box" in p:
             r["box"] = p["box"]
+        if not r.get("shell"):
+            (x0, x1), (z0, z1), h = r["box"]
+            r["shell"] = {"x": [x0, x1], "z": [z0, z1], "height": max(h, 2.4), "surfaces": [], "wallColor": paint}
+            r["model"] = {"walls": {w: paint for w in "nswe"}, "wallColor": paint, "floor": floor, "openings": [],
+                          "furniture": [], "fills": {}}
         turn_room(r, p["turn"])
         offsets.append(np.array(p["offset"], float))
-    return offsets
+    doorways = [{"rooms": [c["a"], c["b"]], "p0": c["door"][0], "p1": c["door"][1], "bottom": 0.0, "top": 2.1,
+                 "evidence": c["kind"], "quality": c["quality"]} for c in sol["connections"]]
+    if sol.get("entrance"):
+        e = sol["entrance"]
+        doorways.append({"rooms": [e["room"]], "p0": e["door"][0], "p1": e["door"][1], "bottom": 0.0, "top": 2.1,
+                         "evidence": "entrance", "quality": 0.0})
+    return offsets, doorways
 
 
 def build(listing_dir: Path, rooms: list[dict], out: Path):
@@ -410,7 +423,7 @@ def build(listing_dir: Path, rooms: list[dict], out: Path):
         for pv in r["pending"]:
             views.append(pv)
     infer_floors(built)
-    offsets = arrange(listing_dir, listing, built)
+    offsets, doorways = arrange(listing_dir, listing, built)
     scene_views, scene_rooms = [], []
     all_min, all_max = np.full(3, np.inf), np.full(3, -np.inf)
     (out / "depth").mkdir(exist_ok=True)
@@ -452,6 +465,7 @@ def build(listing_dir: Path, rooms: list[dict], out: Path):
     scene = {
         "id": listing["id"], "units": "m", "rooms": scene_rooms, "views": scene_views,
         "bounds": {"min": all_min.round(3).tolist(), "max": all_max.round(3).tolist()},
+        "doorways": doorways,
         "cameraHeight": round(cam_h, 3),
         "floorArea": round(sum(r["size"][0] * r["size"][2] for r in scene_rooms if r.get("model")) * 10.764),
     }

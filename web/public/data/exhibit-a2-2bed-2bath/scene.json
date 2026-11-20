@@ -221,6 +221,38 @@
     "v10"
    ],
    "scaleSource": "metric depth",
+   "shell": {
+    "x": [
+     -3.2271301507937586,
+     -2.035717103076593
+    ],
+    "z": [
+     -2.9639581378617366,
+     1.5566272527824725
+    ],
+    "height": 2.4,
+    "surfaces": [],
+    "wallColor": "#cfd0d3",
+    "floorTurn": 3
+   },
+   "model": {
+    "walls": {
+     "e": "#cfd0d3",
+     "w": "#cfd0d3",
+     "n": "#cfd0d3",
+     "s": "#cfd0d3"
+    },
+    "wallColor": "#cfd0d3",
+    "floor": {
+     "material": "wood",
+     "color": "#978879",
+     "accent": "#453b33",
+     "evidence": 0.796
+    },
+    "openings": [],
+    "furniture": [],
+    "fills": {}
+   },
    "mesh": {
     "file": "mesh/hall.bin",
     "triangles": 85896,
@@ -1078,6 +1110,97 @@
    2.796
   ]
  },
+ "doorways": [
+  {
+   "rooms": [
+    "living",
+    "hall"
+   ],
+   "p0": [
+    -1.9758,
+    -2.0539
+   ],
+   "p1": [
+    -1.9758,
+    -2.8039
+   ],
+   "bottom": 0.0,
+   "top": 2.1,
+   "evidence": "wild",
+   "quality": 0.17
+  },
+  {
+   "rooms": [
+    "hall",
+    "bedroom-1"
+   ],
+   "p0": [
+    -3.2872,
+    -0.6134
+   ],
+   "p1": [
+    -3.2872,
+    -1.3634
+   ],
+   "bottom": 0.0,
+   "top": 2.1,
+   "evidence": "wild",
+   "quality": 0.76
+  },
+  {
+   "rooms": [
+    "hall",
+    "bedroom-2"
+   ],
+   "p0": [
+    -3.2872,
+    -1.8039
+   ],
+   "p1": [
+    -3.2872,
+    -2.8039
+   ],
+   "bottom": 0.0,
+   "top": 2.1,
+   "evidence": "wild",
+   "quality": 0.67
+  },
+  {
+   "rooms": [
+    "hall",
+    "bathroom"
+   ],
+   "p0": [
+    -2.1815,
+    -3.0239
+   ],
+   "p1": [
+    -3.0815,
+    -3.0239
+   ],
+   "bottom": 0.0,
+   "top": 2.1,
+   "evidence": "virtual",
+   "quality": 0.5
+  },
+  {
+   "rooms": [
+    "hall"
+   ],
+   "p0": [
+    -2.1358,
+    1.5567
+   ],
+   "p1": [
+    -3.0358,
+    1.5567
+   ],
+   "bottom": 0.0,
+   "top": 2.1,
+   "evidence": "entrance",
+   "quality": 0.0
+  }
+ ],
  "cameraHeight": 0.922,
- "floorArea": 624
+ "floorArea": 682
 }
