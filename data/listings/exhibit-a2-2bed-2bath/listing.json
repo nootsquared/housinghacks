@@ -1,0 +1,137 @@
+{
+  "id": "exhibit-a2-2bed-2bath",
+  "name": "Exhibit A2 Apartments",
+  "address": "212 S 4th Ave, Ann Arbor, MI 48104",
+  "lat": 42.2799468,
+  "lng": -83.747463,
+  "area": "Downtown",
+  "unit": "2 bed / 2 bath floorplan (Matterport is unit #506)",
+  "beds": 2,
+  "baths": 2,
+  "sqft": 700,
+  "rent": 3300,
+  "rentBasis": "total",
+  "available": "Available (\"Starting at $3,300/month\")",
+  "leaseTerm": "9 to 12 month",
+  "utilities": [],
+  "amenities": [
+    "in-unit washer & dryer",
+    "dishwasher",
+    "disposal",
+    "microwave",
+    "stainless steel appliances",
+    "stone countertops",
+    "high ceilings",
+    "kitchen island*",
+    "walk-in closets*",
+    "patio or balcony*",
+    "wood-style flooring",
+    "ceiling fans",
+    "smart locks",
+    "linen closet",
+    "cats and dogs allowed (fees)"
+  ],
+  "parking": null,
+  "matterport": "https://my.matterport.com/show/?m=GhioHXRab5a",
+  "floorplan": "floorplan.jpg",
+  "photos": [
+    {
+      "file": "photos/01.jpg",
+      "caption": "Apartment interior with large windows, a sleek kitchen island, and a stylish living area featuring a TV and dining table."
+    },
+    {
+      "file": "photos/02.jpg",
+      "caption": "Kitchen with stainless steel appliances, light color cabinetry, and a large window offering city views."
+    },
+    {
+      "file": "photos/03.jpg",
+      "caption": "Apartment interior with a sleek couch, kitchen area, and large windows showcasing a vibrant sunset."
+    },
+    {
+      "file": "photos/04.jpg",
+      "caption": "Kitchen with stainless steel appliances, including a microwave and refrigerator, and large window with city view."
+    },
+    {
+      "file": "photos/05.jpg",
+      "caption": "Apartment kitchen featuring sleek cabinetry, stainless steel appliances, and large windows with city views."
+    },
+    {
+      "file": "photos/06.jpg",
+      "caption": "Bright apartment with large windows, a stylish sitting area, dining table, and contemporary furnishings."
+    },
+    {
+      "file": "photos/07.jpg",
+      "caption": "Apartment kitchen featuring sleek light color cabinets, stainless steel appliances, and a dining area with yellow chairs."
+    },
+    {
+      "file": "photos/08.jpg",
+      "caption": "Apartment interior featuring a sleek sofa, dining table, and stylish kitchen with contemporary decor."
+    },
+    {
+      "file": "photos/09.jpg",
+      "caption": "Apartment interior featuring a neutral sofa, dining area with yellow chairs, and large windows with city views."
+    },
+    {
+      "file": "photos/10.jpg",
+      "caption": "Apartment living room with large windows, city view, stylish sofa, TV, and contemporary decor."
+    },
+    {
+      "file": "photos/11.jpg",
+      "caption": "Bright apartment interior featuring a laundry area with stacked washer and dryer, leading to a cozy bedroom."
+    },
+    {
+      "file": "photos/12.jpg",
+      "caption": "Bright apartment interior featuring a blue accent wall, furnishings, and a stylish mirror in a welcoming layout."
+    },
+    {
+      "file": "photos/13.jpg",
+      "caption": "Cozy apartment bedroom featuring a blue accent wall, a queen bed, decor, and a stylish mirror and lamp."
+    },
+    {
+      "file": "photos/14.jpg",
+      "caption": "Cozy bedroom featuring a green headboard, colorful bedding, decor, and a vibrant blue accent wall."
+    },
+    {
+      "file": "photos/15.jpg",
+      "caption": "Apartment bedroom featuring a light color bed, bright blue accent walls, and an open closet space."
+    },
+    {
+      "file": "photos/16.jpg",
+      "caption": "Apartment bedroom featuring a bright green upholstered headboard, light color pillows, and stylish dark and light color wall art."
+    },
+    {
+      "file": "photos/17.jpg",
+      "caption": "Bathroom featuring a sleek vanity, backlit mirror, and decor with neutral tones."
+    },
+    {
+      "file": "photos/18.jpg",
+      "caption": "Bathroom featuring a glass shower with marble tiles and freshly hung light color towels."
+    },
+    {
+      "file": "photos/19.jpg",
+      "caption": "Bathroom featuring a glass shower, marble accents, sleek vanity, and ambient lighting for a bright, clean look."
+    },
+    {
+      "file": "photos/20.jpg",
+      "caption": "Bright bedroom with a large window showcasing a view of the city, featuring decor and neutral tones."
+    },
+    {
+      "file": "photos/21.jpg",
+      "caption": "Cozy bedroom with a blue accent wall, a light color bed, and closet doors, featuring decor."
+    },
+    {
+      "file": "photos/22.jpg",
+      "caption": "Bright bedroom featuring a large window with city views, decor, and an open doorway to a bathroom."
+    },
+    {
+      "file": "photos/23.jpg",
+      "caption": "Bright bedroom with large windows showcasing a sunset, featuring decor and an adjoining bathroom view."
+    }
+  ],
+  "source": {
+    "url": "https://www.exhibita2.com/floorplans/two-bedroom/2-bedroom-2bath",
+    "manager": "Cabrio Properties (Exhibit A2 Apartments, RentVision site)",
+    "accessed": "2026-11-20"
+  },
+  "notes": "Floorplan-level listing, not a single unit. The page links a Matterport titled 'Unit #506 - 2 Bed/2 Bath' and describes the gallery as interior photos of the 2-Bedroom/2 Bath floorplan; the photos are probably of the same model unit, but the page does not say so. Square footage: the description says 700 sq ft, the spec line says 700 to 950 sq ft across units. Residents pay electricity, internet ($30/mo per person) and water/sewer ($50/mo per person). Amenities marked * are 'available for select units'. Captions are the site's image alt text. Floorplan is a 3D-rendered diagram with no dimensions."
+}

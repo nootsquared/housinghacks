@@ -1,0 +1,7 @@
+{
+  "living": {"type": "living", "label": "Living and kitchen", "photos": ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10"]},
+  "hall": {"type": "hallway", "photos": ["11"], "shell": false},
+  "bedroom-1": {"type": "bedroom", "photos": ["12", "13", "14", "15", "16"], "outside": ["12"]},
+  "bathroom": {"type": "bathroom", "photos": ["17", "18", "19"]},
+  "bedroom-2": {"type": "bedroom", "photos": ["20", "21", "22", "23"]}
+}

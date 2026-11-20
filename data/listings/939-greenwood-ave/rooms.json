@@ -1,0 +1,19 @@
+{
+  "entry": {"type": "hallway", "photos": ["03", "04"], "shell": false},
+  "bathroom-1": {"type": "bathroom", "photos": ["05"]},
+  "dining": {"type": "dining", "photos": ["01", "06"]},
+  "living": {"type": "living", "photos": ["07", "08"]},
+  "kitchen": {"type": "kitchen", "photos": ["09", "10"]},
+  "stairs": {"type": "hallway", "photos": ["11", "12", "17", "20", "23", "28", "29", "30"], "shell": false},
+  "bedroom-1": {"type": "bedroom", "photos": ["13", "14"]},
+  "bedroom-2": {"type": "bedroom", "photos": ["15", "16"]},
+  "bathroom-2": {"type": "bathroom", "photos": ["18", "19"]},
+  "bedroom-3": {"type": "bedroom", "photos": ["21", "22"]},
+  "bonus": {"type": "living", "photos": ["24", "25"]},
+  "bedroom-4": {"type": "bedroom", "photos": ["26", "27"]},
+  "bathroom-3": {"type": "bathroom", "photos": ["31"]},
+  "bedroom-5": {"type": "bedroom", "photos": ["32", "33"]},
+  "bedroom-6": {"type": "bedroom", "photos": ["34", "35"]},
+  "attic": {"type": "bedroom", "photos": ["36", "37"]},
+  "basement": {"type": "other", "photos": ["38"], "shell": false}
+}

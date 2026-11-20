@@ -1,0 +1,48 @@
+{
+  "id": "1364-geddes-unit-1",
+  "name": "1364 Geddes Ave, Unit 1",
+  "address": "1364 Geddes Ave, Ann Arbor, MI 48104",
+  "lat": 42.2771346,
+  "lng": -83.730789,
+  "area": "Central Campus",
+  "unit": "3 bed / 1 bath apartment, unit 1",
+  "beds": 3,
+  "baths": 1,
+  "sqft": 910,
+  "rent": 4050,
+  "rentBasis": "total",
+  "available": "8/19/27",
+  "leaseTerm": null,
+  "utilities": [
+    "water",
+    "trash",
+    "recycling"
+  ],
+  "amenities": [
+    "furnished",
+    "onsite laundry",
+    "dishwasher",
+    "disposal",
+    "wall unit A/C",
+    "onsite parking"
+  ],
+  "parking": "Onsite parking available",
+  "matterport": null,
+  "floorplan": "floorplan.jpg",
+  "photos": [
+    {
+      "file": "photos/01.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/02.jpg",
+      "caption": null
+    }
+  ],
+  "source": {
+    "url": "https://crmgmtinc.appfolio.com/listings/detail/dab86ba6-f673-4640-be17-3981bb430003",
+    "manager": "Campus Realty (CR Management)",
+    "accessed": "2026-11-20"
+  },
+  "notes": "JUNK / graceful-failure demo. The gallery has 3 images: one exterior, one kitchen and one dimensioned floor plan (saved as floorplan.jpg), so only 2 real photos remain. The page counter says 4; one gallery item is not an image. The listing says the renovated bathroom is 'not pictured, but shown in 3D tour', but no 3D tour link appears on the public page. Tenant pays electric, gas and Wi-Fi."
+}

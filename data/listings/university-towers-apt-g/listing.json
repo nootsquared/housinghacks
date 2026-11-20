@@ -1,0 +1,76 @@
+{
+  "id": "university-towers-apt-g",
+  "name": "University Towers, Apartment G",
+  "address": "536 S Forest Ave, Ann Arbor, MI 48104",
+  "lat": 42.2752587,
+  "lng": -83.7335091,
+  "area": "South Campus",
+  "unit": "Apartment G floorplan, 2 bed / 1 bath (photos of units 802 and 1015)",
+  "beds": 2,
+  "baths": 1,
+  "sqft": null,
+  "rent": 2998,
+  "rentBasis": "total",
+  "available": null,
+  "leaseTerm": null,
+  "utilities": [],
+  "amenities": [
+    "kitchen with breakfast bar",
+    "double-sink vanity"
+  ],
+  "parking": null,
+  "matterport": "https://my.matterport.com/show/?m=1pNEvCqdWLo",
+  "floorplan": "floorplan.jpg",
+  "photos": [
+    {
+      "file": "photos/01.jpg",
+      "caption": "Unit 802 (from filename)"
+    },
+    {
+      "file": "photos/02.jpg",
+      "caption": "Unit 1015 (from filename)"
+    },
+    {
+      "file": "photos/03.jpg",
+      "caption": "Unit 1015 (from filename)"
+    },
+    {
+      "file": "photos/04.jpg",
+      "caption": "Unit 802 (from filename)"
+    },
+    {
+      "file": "photos/05.jpg",
+      "caption": "Unit 802 (from filename)"
+    },
+    {
+      "file": "photos/06.jpg",
+      "caption": "Unit 1015 (from filename)"
+    },
+    {
+      "file": "photos/07.jpg",
+      "caption": "Unit 1015 (from filename)"
+    },
+    {
+      "file": "photos/08.jpg",
+      "caption": "Unit 802 (from filename)"
+    },
+    {
+      "file": "photos/09.jpg",
+      "caption": "Unit 802 (from filename)"
+    },
+    {
+      "file": "photos/10.jpg",
+      "caption": "Unit 1015 (from filename)"
+    },
+    {
+      "file": "photos/11.jpg",
+      "caption": "Unit 802 (from filename)"
+    }
+  ],
+  "source": {
+    "url": "https://u-towers.com/apartment-g-photo-gallery/",
+    "manager": "University Towers (u-towers.com)",
+    "accessed": "2026-11-20"
+  },
+  "notes": "Accuracy cross-check. The site has two Matterport tours for this floorplan: unit 802 (https://my.matterport.com/show/?m=1pNEvCqdWLo, stored above) and unit 1015 (https://my.matterport.com/show/?m=RhxxmG65eUX). The gallery mixes photos of units 802 (6 photos) and 1015 (5 photos); each caption gives the unit from the image filename. For a same-unit comparison, use only the unit 802 photos against the 802 tour. The site's shared lobby and studio stock images were left out. Rent is $2,998/mo for the apartment ($749.50 each for 4 people, $1,499 each for 2), and the site notes that apartments are assigned at management's discretion. Bath count (1, double vanity) is read off floorplan.jpg, an undimensioned furnished diagram from u-towers.com/floor-plans. Building: 536 S Forest Ave (South University area)."
+}

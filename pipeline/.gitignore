@@ -1,0 +1,8 @@
+.venv/
+out/
+data/
+third_party/
+checkpoints/
+__pycache__/
+*.pyc
+.cache/

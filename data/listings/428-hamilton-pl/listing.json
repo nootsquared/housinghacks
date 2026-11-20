@@ -1,0 +1,116 @@
+{
+  "id": "428-hamilton-pl",
+  "name": "428 Hamilton Place",
+  "address": "428 Hamilton Pl, Ann Arbor, MI 48104",
+  "lat": 42.2768765,
+  "lng": -83.745431,
+  "area": "Central Campus",
+  "unit": "9 bed / 3 bath house",
+  "beds": 9,
+  "baths": 3,
+  "sqft": null,
+  "rent": 9990,
+  "rentBasis": "total",
+  "available": "8/27/27 (waitlist only)",
+  "leaseTerm": null,
+  "utilities": [],
+  "amenities": [
+    "three kitchens",
+    "dishwashers (2 kitchens)",
+    "central air conditioning",
+    "washer/dryer in basement",
+    "on-site parking",
+    "cats and small dogs allowed"
+  ],
+  "parking": "On-site parking available",
+  "matterport": null,
+  "floorplan": null,
+  "photos": [
+    {
+      "file": "photos/01.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/02.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/03.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/04.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/05.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/06.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/07.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/08.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/09.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/10.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/11.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/12.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/13.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/14.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/15.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/16.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/17.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/18.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/19.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/20.jpg",
+      "caption": null
+    }
+  ],
+  "source": {
+    "url": "https://oldtownrealty.appfolio.com/listings/detail/d9b3f30e-067b-4eda-83ce-13f0ea24400c",
+    "manager": "Old Town Realty",
+    "accessed": "2026-11-20"
+  },
+  "notes": "Three-story house between Main St and State St, two blocks from the Michigan Union. Maximum occupancy is 12. Security deposit $14,985. Photos are wide-angle, apparently phone shots."
+}

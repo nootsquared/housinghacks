@@ -1,0 +1,190 @@
+{
+  "id": "939-greenwood-ave",
+  "name": "939 Greenwood Ave",
+  "address": "939 Greenwood Ave, Ann Arbor, MI 48104",
+  "lat": 42.2696551,
+  "lng": -83.7370968,
+  "area": "South Campus",
+  "unit": "6 bed / 3 bath house",
+  "beds": 6,
+  "baths": 3,
+  "sqft": null,
+  "rent": 8250,
+  "rentBasis": "total",
+  "available": "8/27/27 (27-28 waitlist only)",
+  "leaseTerm": null,
+  "utilities": [],
+  "amenities": [
+    "dishwasher",
+    "washer/dryer (basement)",
+    "central air conditioning",
+    "off-street parking",
+    "two refrigerators",
+    "bonus room",
+    "furnished as-is",
+    "cats allowed"
+  ],
+  "parking": "Driveway parking for 2 to 3 cars",
+  "matterport": null,
+  "floorplan": "floorplan.jpg",
+  "photos": [
+    {
+      "file": "photos/01.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/02.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/03.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/04.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/05.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/06.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/07.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/08.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/09.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/10.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/11.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/12.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/13.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/14.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/15.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/16.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/17.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/18.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/19.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/20.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/21.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/22.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/23.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/24.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/25.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/26.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/27.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/28.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/29.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/30.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/31.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/32.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/33.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/34.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/35.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/36.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/37.jpg",
+      "caption": null
+    },
+    {
+      "file": "photos/38.jpg",
+      "caption": null
+    }
+  ],
+  "source": {
+    "url": "https://oldtownrealty.appfolio.com/listings/detail/315863b9-0457-4bac-801f-b10d2bc45f8e",
+    "manager": "Old Town Realty",
+    "accessed": "2026-11-20"
+  },
+  "notes": "Three-story house. Gallery image 3 is a dimensioned floor plan (3 floors plus basement), saved as floorplan.jpg and left out of photos. Security deposit $12,375. Listing says the house is furnished as-is."
+}

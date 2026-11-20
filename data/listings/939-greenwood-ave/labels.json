@@ -1,0 +1,229 @@
+{
+ "photos/01.jpg": {
+  "room": "dining",
+  "kind": "interior",
+  "score": 0.996,
+  "group": "dining-1"
+ },
+ "photos/02.jpg": {
+  "room": null,
+  "kind": "exterior",
+  "score": 1.0
+ },
+ "photos/03.jpg": {
+  "room": "hallway",
+  "kind": "interior",
+  "score": 0.997,
+  "group": "hallway-1"
+ },
+ "photos/04.jpg": {
+  "room": "hallway",
+  "kind": "interior",
+  "score": 0.96,
+  "group": "hallway-1"
+ },
+ "photos/05.jpg": {
+  "room": "bathroom",
+  "kind": "interior",
+  "score": 0.995,
+  "group": "bathroom-1"
+ },
+ "photos/06.jpg": {
+  "room": "dining",
+  "kind": "interior",
+  "score": 0.994,
+  "group": "dining-1"
+ },
+ "photos/07.jpg": {
+  "room": "living",
+  "kind": "interior",
+  "score": 0.999,
+  "group": "living-1"
+ },
+ "photos/08.jpg": {
+  "room": "living",
+  "kind": "interior",
+  "score": 1.0,
+  "group": "living-1"
+ },
+ "photos/09.jpg": {
+  "room": "kitchen",
+  "kind": "interior",
+  "score": 1.0,
+  "group": "kitchen-1"
+ },
+ "photos/10.jpg": {
+  "room": "kitchen",
+  "kind": "interior",
+  "score": 1.0,
+  "group": "kitchen-1"
+ },
+ "photos/11.jpg": {
+  "room": "hallway",
+  "kind": "interior",
+  "score": 0.999,
+  "group": "hallway-1"
+ },
+ "photos/12.jpg": {
+  "room": "bedroom",
+  "kind": "interior",
+  "score": 0.621,
+  "group": "bedroom-1"
+ },
+ "photos/13.jpg": {
+  "room": "bedroom",
+  "kind": "interior",
+  "score": 0.999,
+  "group": "bedroom-2"
+ },
+ "photos/14.jpg": {
+  "room": "bedroom",
+  "kind": "interior",
+  "score": 0.999,
+  "group": "bedroom-2"
+ },
+ "photos/15.jpg": {
+  "room": "bedroom",
+  "kind": "interior",
+  "score": 0.999,
+  "group": "bedroom-2"
+ },
+ "photos/16.jpg": {
+  "room": "bedroom",
+  "kind": "interior",
+  "score": 0.994,
+  "group": "bedroom-2"
+ },
+ "photos/17.jpg": {
+  "room": "hallway",
+  "kind": "interior",
+  "score": 0.952,
+  "group": "hallway-1"
+ },
+ "photos/18.jpg": {
+  "room": "bathroom",
+  "kind": "interior",
+  "score": 0.999,
+  "group": "bathroom-1"
+ },
+ "photos/19.jpg": {
+  "room": "bathroom",
+  "kind": "interior",
+  "score": 0.99,
+  "group": "bathroom-1"
+ },
+ "photos/20.jpg": {
+  "room": "hallway",
+  "kind": "interior",
+  "score": 0.998,
+  "group": "hallway-1"
+ },
+ "photos/21.jpg": {
+  "room": "bedroom",
+  "kind": "interior",
+  "score": 0.493,
+  "group": "bedroom-2"
+ },
+ "photos/22.jpg": {
+  "room": "bedroom",
+  "kind": "interior",
+  "score": 0.977,
+  "group": "bedroom-2"
+ },
+ "photos/23.jpg": {
+  "room": "hallway",
+  "kind": "interior",
+  "score": 0.833,
+  "group": "hallway-1"
+ },
+ "photos/24.jpg": {
+  "room": "living",
+  "kind": "interior",
+  "score": 0.99,
+  "group": "living-1"
+ },
+ "photos/25.jpg": {
+  "room": "living",
+  "kind": "interior",
+  "score": 0.986,
+  "group": "living-1"
+ },
+ "photos/26.jpg": {
+  "room": "bedroom",
+  "kind": "interior",
+  "score": 0.998,
+  "group": "bedroom-2"
+ },
+ "photos/27.jpg": {
+  "room": "bedroom",
+  "kind": "interior",
+  "score": 0.997,
+  "group": "bedroom-2"
+ },
+ "photos/28.jpg": {
+  "room": "hallway",
+  "kind": "interior",
+  "score": 0.998,
+  "group": "hallway-1"
+ },
+ "photos/29.jpg": {
+  "room": "hallway",
+  "kind": "interior",
+  "score": 0.997,
+  "group": "hallway-1"
+ },
+ "photos/30.jpg": {
+  "room": "hallway",
+  "kind": "interior",
+  "score": 0.812,
+  "group": "hallway-1"
+ },
+ "photos/31.jpg": {
+  "room": "bathroom",
+  "kind": "interior",
+  "score": 0.999,
+  "group": "bathroom-1"
+ },
+ "photos/32.jpg": {
+  "room": "bedroom",
+  "kind": "interior",
+  "score": 1.0,
+  "group": "bedroom-2"
+ },
+ "photos/33.jpg": {
+  "room": "bedroom",
+  "kind": "interior",
+  "score": 0.999,
+  "group": "bedroom-2"
+ },
+ "photos/34.jpg": {
+  "room": "bedroom",
+  "kind": "interior",
+  "score": 0.97,
+  "group": "bedroom-2"
+ },
+ "photos/35.jpg": {
+  "room": "bedroom",
+  "kind": "interior",
+  "score": 0.999,
+  "group": "bedroom-2"
+ },
+ "photos/36.jpg": {
+  "room": "bedroom",
+  "kind": "interior",
+  "score": 0.992,
+  "group": "bedroom-2"
+ },
+ "photos/37.jpg": {
+  "room": "bedroom",
+  "kind": "interior",
+  "score": 0.968,
+  "group": "bedroom-2"
+ },
+ "photos/38.jpg": {
+  "room": "bathroom",
+  "kind": "interior",
+  "score": 0.754,
+  "group": "bathroom-2"
+ }
+}
